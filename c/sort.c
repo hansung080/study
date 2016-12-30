@@ -72,9 +72,10 @@ void print_arr(const int* arr, int len){
 	for(i = 0; i < len; i++){
 		if(i == (len - 1)){
 			printf("%d\n", arr[i]);
-		}
 
-		printf("%d ", arr[i]);
+		}else{
+			printf("%d ", arr[i]);
+		}
 	}
 }
 
