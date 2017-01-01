@@ -3,7 +3,7 @@
 
 #define SWAP(x, y, t) ((t)=(x)), ((x)=(y)), ((y)=(t))
 
-int get_strlen(const char* str);
+int strlen_hs(const char* str);
 void reverse_string(char* str);
 
 int main(int argc, const char** argv){
@@ -12,7 +12,7 @@ int main(int argc, const char** argv){
 		return 1;
 	}	
 	
-	int len = get_strlen(argv[1]);
+	int len = strlen_hs(argv[1]);
 	char str[len+1];
 	
 	memset(str, 0, len+1);
@@ -25,7 +25,7 @@ int main(int argc, const char** argv){
 	return 0;
 }
 
-int get_strlen(const char* str){
+int strlen_hs(const char* str){
 	int i;
 	
 	for(i = 0; str[i] != '\0'; i++){
@@ -36,7 +36,7 @@ int get_strlen(const char* str){
 }
 
 void reverse_string(char* str){
-	int len = get_strlen(str);	
+	int len = strlen_hs(str);	
 	int i;
 	int temp;
 	

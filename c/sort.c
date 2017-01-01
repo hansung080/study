@@ -24,7 +24,7 @@ int partition(int* arr, int left, int right);
 
 int main(int argc, const char** argv){
 	if(argc < 2){
-		fprintf(stderr, "Usage: sort 912 20 1 100 4 55 ...\n");
+		fprintf(stderr, "Usage: sort <array>\n");
 		return 1;
 	}
 
