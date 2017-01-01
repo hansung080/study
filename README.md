@@ -4,7 +4,7 @@ Algorithms and Data Structures
   - c
 
 @ algorithms :: c
-  - sort : bubble sort
+  - sort : bubble sort, insertion sort, quick sort
   - reverse
 
 @ data structures :: c

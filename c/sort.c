@@ -8,6 +8,7 @@
 #define INVALID_TYPE   0
 #define BUBBLE_SORT    1
 #define INSERTION_SORT 2
+#define QUICK_SORT     3
 
 #define SWAP(x, y, t) ((t)=(x)), ((x)=(y)), ((y)=(t))
 
@@ -18,6 +19,8 @@ void print_arr(const int* arr, int len);
 
 void proc_bubble_sort(int* arr, int len);
 void proc_insertion_sort(int* arr, int len);
+void proc_quick_sort(int* arr, int left, int right);
+int partition(int* arr, int left, int right);
 
 int main(int argc, const char** argv){
 	if(argc < 2){
@@ -30,7 +33,7 @@ int main(int argc, const char** argv){
 
 	init_arr(arr, argv, len);	
 
-	sort_arr(arr, len, INSERTION_SORT);
+	sort_arr(arr, len, QUICK_SORT);
 
 	print_arr(arr, len);
 
@@ -65,6 +68,10 @@ void sort_arr(int* arr, int len, SORT_TYPE type){
 	
 	case INSERTION_SORT:
 		proc_insertion_sort(arr, len);
+		break;
+
+	case QUICK_SORT:
+		proc_quick_sort(arr, 0, len - 1);
 		break;
 
 	default:
@@ -119,5 +126,38 @@ void proc_insertion_sort(int* arr, int len){
 
 		arr[j+1] = key;
 	}
+}
+
+void proc_quick_sort(int* arr, int left, int right){
+	if(left <= right){
+		int pivot = partition(arr, left, right);
+		proc_quick_sort(arr, left, pivot - 1);
+		proc_quick_sort(arr, pivot + 1, right);
+	}
+}
+
+int partition(int* arr, int left, int right){
+	int pivot = left;
+	int low = left + 1;
+	int high = right;
+	int temp;
+
+	while(low <= high){
+		while(arr[low] <= arr[pivot] && low <= right){
+			low++;
+		}
+		
+		while(arr[high] >= arr[pivot] && high >= left + 1){
+			high--;
+		}
+
+		if(low <= high){
+			SWAP(arr[low], arr[high], temp);
+		}
+	}
+	
+	SWAP(arr[pivot], arr[high], temp);
+
+	return high;
 }
 
