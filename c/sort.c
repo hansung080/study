@@ -1,11 +1,10 @@
 #include <stdio.h>
 
-#define BOOL  unsigned char
+typedef unsigned char BOOL;
 #define TRUE  1
 #define FALSE 0
 
-#define SORT_TYPE      unsigned char
-#define INVALID_TYPE   0
+typedef unsigned char SORT_TYPE;
 #define BUBBLE_SORT    1
 #define INSERTION_SORT 2
 #define QUICK_SORT     3

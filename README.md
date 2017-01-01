@@ -6,7 +6,7 @@ Algorithms and Data Structures
 @ algorithms :: c
   - sort : bubble sort, insertion sort, quick sort
   - reverse
-  - rank : linear search
+  - rank : linear search, binary search, binary search recursive
 
 @ data structures :: c
   - anyfi-test : array list, hash map 
