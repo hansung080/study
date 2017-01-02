@@ -1,5 +1,4 @@
-#include <stdio.h>
-#include <string.h>
+#include "pyramid.h"
 
 int main(int argc, const char** argv){
 
@@ -8,5 +7,17 @@ int main(int argc, const char** argv){
 		return 1;
 	}
 
+	char pyramid[PY_BUF_LEN] = {0, };
+
+	if(argc == 2 || strncmp(argv[2], "r", 1) != 0){
+		make_pyramid(pyramid, atoi_hs(argv[1]));	
+
+	}else{
+		make_pyramid_rev(pyramid, atoi_hs(argv[1]));	
+	}
+
+	printf("%s", pyramid);
+
 	return 0;
 }
+
