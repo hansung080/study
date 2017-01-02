@@ -58,6 +58,7 @@ dkms.conf
 
 # Other files
 anyfi-test
+test
 sort
 reverse
 rank
