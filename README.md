@@ -15,6 +15,7 @@
   - rank : linear search, binary search, binary search(r)
   - pyramid
   - calc
+  - thread : count-thread, count-thread-mutex
 
 # data structures :: c
   - anyfi-test : array list, hash map 

@@ -153,7 +153,7 @@ ENV/
 
 # End of https://www.gitignore.io/api/python
 
-# Created by hs.kwon
+# Added by hs.kwon
 
 # Mac
 .DS_Store
@@ -167,6 +167,8 @@ rank
 pyramid
 calc
 anyfi-test
+count-thread
+count-thread-mutex
 
 # Other files
 *.dep
