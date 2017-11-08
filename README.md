@@ -16,6 +16,7 @@
   - pyramid
   - calc
   - thread : count-thread, count-thread-mutex
+  - socket : echo-server, echo-client
 
 # data structures :: c
   - anyfi-test : array list, hash map 

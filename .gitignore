@@ -169,6 +169,8 @@ calc
 anyfi-test
 count-thread
 count-thread-mutex
+echo-server
+echo-client
 
 # Other files
 *.dep
