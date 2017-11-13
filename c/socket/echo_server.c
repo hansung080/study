@@ -45,7 +45,7 @@ int main(int argc, const char** argv) {
 			continue;
 		}
 
-		printf("accept client: %s\n", inet_ntoa(client_addr.sin_addr));		
+		printf("accept client: %s, %d\n", inet_ntoa(client_addr.sin_addr), ntohs(client_addr.sin_port));		
 
 		if (read(client_sockfd, buf, sizeof(buf)) <= 0) {
 			close(client_sockfd);
