@@ -16,7 +16,7 @@ int main(int argc, const char** argv) {
 	char buf[MAX_BUF];
 
 	if ((sockfd = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0) {
-		perror("socket failed");
+		perror("socket fail");
 		return 1;
 	}
 
@@ -26,26 +26,28 @@ int main(int argc, const char** argv) {
 	server_addr.sin_port = htons(SERVER_PORT);
 
 	if (connect(sockfd, (struct sockaddr*)&server_addr, sizeof(server_addr)) < 0) {
-		perror("connect failed");
+		perror("connect fail");
 		return 1;
 	}
 
 	while (1) {	
+		printf("input: ");
 		memset(buf, 0, sizeof(buf));
-		read(STD_IN, buf, MAX_BUF);
+		//read(STD_IN, buf, sizeof(buf));
+		fgets(buf, sizeof(buf), stdin);
 		if (strncmp(buf, "quit", 4) == 0) {
 			printf("good bye...\n");
 			return 0;
 		}
 
 		if (write(sockfd, buf, sizeof(buf)) <= 0) {
-			perror("write failed");
+			perror("write fail");
 			return 1;
 		}
 
 		memset(buf, 0, sizeof(buf));
 		if (read(sockfd, buf, sizeof(buf)) <= 0) {
-			perror("read failed");
+			perror("read fail");
 			return 1;
 		}
 

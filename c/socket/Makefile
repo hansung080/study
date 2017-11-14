@@ -15,7 +15,7 @@ $(OBJS): $(SRCS)
 	$(CC) -c $^
 
 $(TARGET1): echo_server.o
-	$(CC) -o $@ $^
+	$(CC) -o $@ $^ -lpthread
 
 $(TARGET2): echo_client.o
 	$(CC) -o $@ $^
