@@ -6,7 +6,7 @@
 #include <unistd.h>
 
 #define MAX_BUF 1024 // same as the client.
-#define SERVER_PORT 9990
+#define SERVER_PORT 9900
 #define BACK_LOG 5
 
 int main(int argc, const char** argv) {
