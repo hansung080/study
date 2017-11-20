@@ -4,7 +4,7 @@
   - c
   - python
 
-# algorithms :: c
+# algorithms : c
   - test
   - type
   - array
@@ -18,9 +18,10 @@
   - thread : count-thread, count-thread-mutex
   - socket : echo-server, echo-client
 
-# data structures :: c
+# data structures : c
   - anyfi-test : array list, hash map 
 
-# algorithms :: python
+# algorithms : python
   - calc
+  - thread : process, thread, whoami
 
