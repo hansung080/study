@@ -25,4 +25,5 @@
   - calc
   - thread : process, thread, whoami
   - gen : generator
+  - design_patterns : singleton
 
