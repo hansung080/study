@@ -24,4 +24,5 @@
 # algorithms : python
   - calc
   - thread : process, thread, whoami
+  - gen : generator
 
