@@ -23,7 +23,7 @@
 
 # algorithms : python
   - calc
-  - thread : process, thread, whoami
+  - thread : process, thread, thread2, whoami
   - gen : generator
   - design_patterns : singleton
 
