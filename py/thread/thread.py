@@ -1,5 +1,9 @@
-import threading, queue
+import threading
 import time
+try:
+    import Queue as queue
+except ImportError:
+    import queue
 
 def washer(dishes, dish_queue):
     for dish in dishes:
