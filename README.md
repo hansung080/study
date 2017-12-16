@@ -27,3 +27,5 @@
   - gen : generator
   - design_patterns : singleton
 
+# algorithms : go
+  - concurrency: goroutine, channel, int_generator, fibonacci_generator, pipeline
