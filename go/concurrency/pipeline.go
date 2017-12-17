@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-func PlusOne(in <-chan int) <-chan int {
+func PlusOne(in <-chan int) <-chan int { // a kind of IntPipe
 	out := make(chan int)
 	go func() {
 		defer close(out)
