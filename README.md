@@ -3,6 +3,7 @@
 # languages
   - c
   - python
+  - go
 
 # algorithms : c
   - test
