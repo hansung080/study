@@ -5,18 +5,6 @@ import (
 	"sync"
 )
 
-func Send(idx int) <-chan int {
-	in := make(chan int)
-	go func(idx int) {
-		defer close(in)
-		for i := 1; i <= 5; i++ {
-			in <- idx * 100 + i
-		}
-	}(idx)
-
-	return in
-}
-
 func FanIn(ins ...<-chan int) <-chan int {
 	out := make(chan int)
 	var wg sync.WaitGroup
@@ -38,14 +26,20 @@ func FanIn(ins ...<-chan int) <-chan int {
 	return out
 }
 
-funcø main() {
-	in1 := Send(1)
-	in2 := Send(2)
-	in3 := Send(3)
-	out := FanIn(in1, in2, in3)
+func main() {
+	in1, in2, in3 := make(chan int), make(chan int), make(chan int)
+	send := func(c chan<- int, begin, end int) {
+		defer close(c)
+		for i := begin; i < end; i++ {
+			c <- i
+		}
+	}
 
-	for num := range out {
+	go send(in1, 100, 105)
+	go send(in2, 200, 205)
+	go send(in3, 300, 305)
+
+	for num := range FanIn(in1, in2, in3) {
 		fmt.Println(num)
 	}
 }
-

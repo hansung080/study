@@ -29,4 +29,6 @@
   - design_patterns : singleton
 
 # algorithms : go
-  - concurrency: goroutine, channel, int_generator, fibonacci_generator, pipeline, fan_out, fan_in, distribute, select
+  - concurrency: goroutine, channel, int_generator, fibonacci_generator, pipeline, fan_out, fan_in, distribute, 
+                 select, fan_in_select, channel_non_blocking, channel_timeout, break_pipeline_ng, break_pipeline_ok_donechannel, break_pipeline_ok_context, request_response_mapping, prime_generator
+                 atomic, once
