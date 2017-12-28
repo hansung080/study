@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+	function Rectangle(width, height) {
+		var _width = width;
+		var _height = height;
+
+		this.width = function() {
+			return _width;
+		};
+
+		this.setWidth = function(width) {
+			_width = width;
+		};
+
+		this.height = function() {
+			return _height;
+		};
+
+		this.setHeight = function(height) {
+			_height = height;
+		};
+	}
+
+	Rectangle.prototype.area = function() {
+		return this.width() * this.height();
+	};
+
+	function Square(length) {
+		this.base = Rectangle;
+		this.base(length, length)
+	}
+
+	Square.prototype = Rectangle.prototype;
+	Square.prototype.constructor = Square;
+
+	var r = new Rectangle(5, 7);
+	var s = new Square(5, 5);
+
+	alert('rectangle area: '+r.area()+'\nsquare aread: '+s.area())
+
+</script>
+</head>
+<body>
+</body>
+</html>

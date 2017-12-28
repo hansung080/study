@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+	function makeStudent(name, korean, english, math, science) {
+		return {
+			name: name,
+			korean: korean,
+			english: english,
+			math: math,
+			science: science,
+
+			sum: function() {
+				return this.korean + this.english + this.math + this.science;
+			},
+
+			average: function() {
+				return this.sum() / 4;
+			},
+
+			toString: function() {
+				return this.name + '\t' + this.sum() + '\t' + this.average();
+			}
+		};
+	}
+
+	var students = [];
+	students.push(makeStudent('kwon', 60, 70, 80, 91));
+	students.push(makeStudent('kang', 61, 71, 81, 92));
+	students.push(makeStudent('hwang', 62, 72, 82, 93));
+	students.push(makeStudent('jeong', 63, 73, 83, 94));
+
+	var output = 'name\tsum\tavg\n';
+	for (var i in students) {
+		output += students[i].toString() + '\n';
+	}
+
+	alert(output)
+
+</script>
+</head>
+<body>
+</body>
+</html>
