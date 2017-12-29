@@ -6,9 +6,9 @@
 		return Math.round(Math.random() * max);
 	}
 
-	var randomAlphabet = function() {
+	var randomAlphabet = function () {
 		var alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-		return function() {
+		return function () {
 			return alphabet.charAt(randomInt(25));
 		}
 	}()
@@ -35,7 +35,7 @@
 		document.body.appendChild(this.text)
 	} 
 
-	MovingText.prototype.move = function() {
+	MovingText.prototype.move = function () {
 		if (this.x < 0 || this.x > canvasWidth) {
 			this.vx *= -1;
 		}
@@ -51,13 +51,13 @@
 		this.text.style.top = this.y + 'px';
 	};
 
-	window.onload = function() {
+	window.onload = function () {
 		var movingTexts = [];
 		for (var i = 0; i < 26; i++) {
 			movingTexts.push(new MovingText());
 		}
 
-		setInterval(function() {
+		setInterval(function () {
 			for (var i in movingTexts) {
 				movingTexts[i].move()
 			}

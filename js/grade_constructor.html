@@ -10,15 +10,15 @@
 		this.science = science;
 	}
 
-	Student.prototype.sum = function() {
+	Student.prototype.sum = function () {
 		return this.korean + this.english + this.math + this.science;
 	};
 
-	Student.prototype.average = function() {
+	Student.prototype.average = function () {
 		return this.sum() / 4;
 	};
 
-	Student.prototype.toString = function() {
+	Student.prototype.toString = function () {
 		return this.name + '\t' + this.sum() + '\t' + this.average();
 	};
 
