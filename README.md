@@ -40,4 +40,8 @@
 
 # algorithms: node.js
   - ticker
-  
+  - hello_server
+  - cookie
+  - method_get
+  - method_post
+
