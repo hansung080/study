@@ -1,0 +1,13 @@
+doctype html
+html
+	head
+		title Profile
+	body
+		// jade string
+		h1 My name is #{name}.
+		h2= desc
+		hr
+		- for (var i = 0; i < 10; i++) {
+			p
+				a(href="http://www.naver.com") go to naver #{i}
+		- }

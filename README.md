@@ -44,4 +44,6 @@
   - cookie
   - method_get
   - method_post
+  - ejs
+  - jade
 
