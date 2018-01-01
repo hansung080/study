@@ -213,6 +213,9 @@ prime_generator
 atomic
 once
 
+# Node.js Dependency directories
+node_modules/
+
 # Other files
 *.dep
 *.stackdump
