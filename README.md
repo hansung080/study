@@ -4,6 +4,8 @@
   - c
   - python
   - go
+  - javascript
+  - node.js
 
 # algorithms: c
   - test
@@ -46,4 +48,5 @@
   - method_post
   - ejs
   - jade
+  - express: login, file_upload, session, rest
 
