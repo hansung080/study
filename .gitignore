@@ -189,6 +189,7 @@ calc
 anyfi-test
 count-thread
 count-thread-mutex
+calc-multi-cond
 echo-server
 echo-client
 

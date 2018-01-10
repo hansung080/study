@@ -18,7 +18,7 @@
   - rank: linear search, binary search, binary search(r)
   - pyramid
   - calc
-  - thread: count-thread, count-thread-mutex
+  - thread: count-thread, count-thread-mutex, calc-multi-cond
   - socket: echo-server, echo-client
 
 # data structures : c
