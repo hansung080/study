@@ -2,6 +2,7 @@
 
 # languages
   - c
+  - c++
   - python
   - go
   - javascript
@@ -20,6 +21,9 @@
   - calc
   - thread: count-thread, count-thread-mutex, calc-multi-cond
   - socket: echo-server, echo-client
+
+# algorithms: c++
+  - thread: count-thread
 
 # data structures : c
   - anyfi-test: array list, hash map 

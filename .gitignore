@@ -193,6 +193,9 @@ calc-multi-cond
 echo-server
 echo-client
 
+# C++ Executable files
+count-thread
+
 # Go Executable files
 goroutine
 channel
