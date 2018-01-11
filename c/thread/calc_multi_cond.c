@@ -43,7 +43,7 @@ int main(int argc, const char** argv) {
 	struct data data;
 	pthread_t threads[THREAD_NUM];
 
-	if ((datas = malloc(sizeof(int) * ARRAY_SIZE)) == NULL) {
+	if ((datas = (int*)malloc(sizeof(int) * ARRAY_SIZE)) == NULL) {
 		perror("malloc fail");
 		return 1;
 	}
