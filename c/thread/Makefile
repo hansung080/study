@@ -13,7 +13,7 @@ dep:
 	$(CC) -MM $(SRCS) > Dependency.dep
 
 $(OBJS): $(SRCS)
-	$(CC) -c $^
+	$(CC) -c $^ -pthread
 
 $(TARGET1): count_thread.o
 	$(CC) -o $@ $^ -lpthread

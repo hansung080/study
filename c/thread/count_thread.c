@@ -17,7 +17,6 @@ void* t_func(void* data) {
 	pthread_t thread_id = pthread_self();
 
 	while (1) {
-		//(*count)++;
 		increase(count);
 		printf("worker thread : %lu, %d\n", thread_id, *count);
 		sleep(1);
@@ -36,7 +35,6 @@ int main(int argc, const char** argv) {
 
 	pthread_t main_thread_id = pthread_self();
 	while (1) {
-		//count++;
 		increase(&count);
 		printf("main thread   : %lu, %d\n", main_thread_id, count);
 		sleep(2);

@@ -14,7 +14,7 @@ $(OBJS): $(SRCS)
 	$(CXX) -c $^ -pthread -std=c++11
 
 $(TARGET1): count_thread.o
-	$(CXX) -o $@ $^ -lpthread
+	$(CXX) -o $@ $^ -lpthread 
 
 clean:
 	rm -f Dependency.dep
