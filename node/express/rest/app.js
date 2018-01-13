@@ -19,14 +19,41 @@ app.post('/user', function (request, response) {
 	var name = request.param('name');
 	var age = request.param('age');
 
-	response.send(db.insert({
-		name: name,
-		age: age
-	}));
+	if (name && age) {
+		response.send(db.insert({
+			name: name,
+			age: age
+		}));
+
+	} else {
+		//throw new Error('bad request');
+		response.send(400, 'bad request');
+	}
 });
 
-app.put('/user/:id', function (request, response) {});
-app.delete('/user/:id', function (request, response) {});
+app.put('/user/:id', function (request, response) {
+	var id = request.param('id');
+	var name = request.param('name');
+	var age = request.param('age');
+
+	if (name || age) {
+		response.send(db.update({
+			id: id,
+			name: name,
+			age: age	
+		}));
+	} else {
+		//throw new Error('bad request');
+		response.send(400, 'bad request');
+	}
+
+});
+
+app.delete('/user/:id', function (request, response) {
+	var id = request.param('id');
+
+	response.send(db.delete(id));
+});
 
 http.createServer(app).listen(52273, function () {
 	console.log('server is running at 52273');

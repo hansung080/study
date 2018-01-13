@@ -1,51 +1,58 @@
 exports.db = function () {
 	var db = {};
-	var storage = [];
+	var users = [];
 	var count = 0;
 
 	db.select = function (id) {
 		if (id) {
 			id = (typeof(id) == 'string') ? Number(id) : id;
 
-			for (var i in storage) {
-				if (storage[i].id == id) {
-					return storage[i];
+			for (var i in users) {
+				if (users[i].id == id) {
+					return users[i];
 				}
 			}
 
 		} else {
-			return storage;	
+			return users;	
 		}
 	};
 
-	db.insert = function (data) {
-		data.id = ++count;
-		storage.push(data);
-		return data;
+	db.insert = function (user) {
+		user.id = ++count;
+		users.push(user);
+		return user;
 	};
 
-	db.update = function (data) {
-		id = (typeof(data.id) == 'string') ? Number(data.id) : data.id;
-		for (var i in storage) {
-			if (storage[i].id == id) {
-				storage[i] == data;
-				return true;
+	db.update = function (user) {
+		id = (typeof(user.id) == 'string') ? Number(user.id) : user.id;
+		for (var i in users) {
+			if (users[i].id == id) {
+				if (user.name) {
+					users[i].name = user.name;
+				}
+
+				if (user.age) {
+					users[i].age = user.age;
+				}
+
+				return users[i];
 			}
 		}
 
-		return false;
+		return {};
 	};
 
 	db.delete = function (id) {
 		id = (typeof(id) == 'string') ? Number(id) : id;
-		for (var i in storage) {
-			if (storage[i].id == id) {
-				storage.splice(i, 1);
-				return true;
+		for (var i in users) {
+			if (users[i].id == id) {
+				users.splice(i, 1);
+				return users;
 			}
 		}
 
-		return false;
+		return userss;
 	};
 
 	return db;
