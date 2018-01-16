@@ -1,12 +1,13 @@
 # Makefile
 
-SRCS=count_thread.cc count_thread_mutex.cc
-OBJS=count_thread.o count_thread_mutex.o
+SRCS=count_thread.cc count_thread_mutex.cc calc_multi_cond.cc
+OBJS=count_thread.o count_thread_mutex.o calc_multi_cond.o
 TARGET1=count-thread
 TARGET2=count-thread-mutex
+TARGET3=calc-multi-cond
 CXX=g++
 
-all: $(TARGET1) $(TARGET2) 
+all: $(TARGET1) $(TARGET2) $(TARGET3)
 
 dep:
 	$(CXX) -MM $(SRCS) > Dependency.dep
@@ -20,6 +21,9 @@ $(TARGET1): count_thread.o
 $(TARGET2): count_thread_mutex.o
 	$(CXX) -o $@ $^ -lpthread 
 
+$(TARGET3): calc_multi_cond.o
+	$(CXX) -o $@ $^ -lpthread -pthread
+
 clean:
 	rm -f Dependency.dep
 	rm -f *.pch
@@ -28,6 +32,7 @@ clean:
 	rm -f *.o
 	rm -f $(TARGET1)
 	rm -f $(TARGET2)
+	rm -f $(TARGET3)
 	
 ifeq (Dependency.dep, $(wildcard Dependency.dep))
 include Dependency.dep
