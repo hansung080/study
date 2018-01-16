@@ -29,6 +29,7 @@ void t_func(struct data* arg) {
 	
 	std::unique_lock<std::mutex> lock(mutex);
 	cond.wait(lock);
+	//lock.unlock(); // It's not necessary, because unlock() is invoked inside wait().
 
 	for (i = 0; i < 25; i++) {
 		sum += data.arr[data.idx * 25 + i];
