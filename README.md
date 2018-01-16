@@ -23,7 +23,7 @@
   - socket: echo-server, echo-client
 
 # algorithms: c++
-  - thread: count-thread
+  - thread: count-thread, count-thread-mutex
 
 # data structures : c
   - anyfi-test: array list, hash map 

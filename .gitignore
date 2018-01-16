@@ -195,6 +195,7 @@ echo-client
 
 # C++ Executable files
 count-thread
+count-thread-mutex
 
 # Go Executable files
 goroutine

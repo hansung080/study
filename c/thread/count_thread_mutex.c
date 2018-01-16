@@ -5,15 +5,15 @@
 
 #define MAX_THREAD 2
 
-pthread_mutex_t m_lock;
+pthread_mutex_t mutex;
 
 void increase(int* count) {
-	pthread_mutex_lock(&m_lock);
+	pthread_mutex_lock(&mutex);
 	int tmp = *count;
 	tmp++;
 	sleep(1); // sleep to cause a race condition.
 	*count = tmp;
-	pthread_mutex_unlock(&m_lock);
+	pthread_mutex_unlock(&mutex);
 }
 
 void* t_func(void* data) {
@@ -32,7 +32,7 @@ int main(int argc, const char** argv) {
 	int i = 0;
 	int count = 0;
 
-	if (pthread_mutex_init(&m_lock, NULL) != 0) {
+	if (pthread_mutex_init(&mutex, NULL) != 0) {
 		perror("mutex init failed.");
 		return 1;
 	}
