@@ -53,4 +53,6 @@
   - ejs
   - jade
   - express: login, file_upload, session, rest
+  - mysql
+
 
