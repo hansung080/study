@@ -54,5 +54,4 @@
   - jade
   - express: login, file_upload, session, rest
   - mysql
-
-
+  - express_framework: crud

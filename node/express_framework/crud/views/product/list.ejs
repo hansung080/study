@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Product List Page</title>
+	<link rel="stylesheet" href="/stylesheets/style.css"/>
+</head>
+<body>
+	<h1>Product List Page</h1>
+	<a href="/product/insert">INSERT DATA</a>
+	<hr/>
+	<table width="100%" border="1">
+		<tr>
+			<th>EDIT</th>
+			<th>DELETE</th>
+			<th>ID</th>
+			<th>Name</th>
+			<th>Model Number</th>
+			<th>Series</th>
+		</tr>
+		<% data.forEach(function (item, index) { %>
+		<tr>
+			<td><a href='/product/edit/<%=item.id%>'>EDIT</a></td>
+			<td><a href='/product/delete/<%=item.id%>'>DELETE</a></td>
+			<td><%=item.id%></td>
+			<td><%=item.name%></td>
+			<td><%=item.modelnumber%></td>
+			<td><%=item.series%></td>
+		</tr>
+		<% }); %>
+	</table>
+</body>
+</html>
