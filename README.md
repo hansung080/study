@@ -55,3 +55,6 @@
   - express: login, file_upload, session, rest
   - mysql
   - express_framework: crud
+  - socket_io: web_chat
+
+
