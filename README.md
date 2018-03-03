@@ -56,5 +56,3 @@
   - mysql
   - express_framework: crud
   - socket_io: web_chat
-
-

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Web Chat</title>
+	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
+	<script>
+		$(document).ready(function () {
+			var socket = io.connect();
+
+			socket.on('message', function (message) {
+				var output = '';
+				output += '<li>';
+				output += '  <h3>'+message.name+'</h3>'
+				output += '  <p>'+message.message+'</p>'
+				output += '  <p>'+message.date+'</p>'
+				output += '</li>';
+
+				$(output).prependTo('#content');
+			});
+
+			$('button').click(function () {
+				socket.emit('message', {
+					name: $('#name').val(),
+					message: $('#message').val(),
+					date: new Date().toUTCString()
+				});
+			});
+		});
+	</script>
+</head>
+<body>
+	<h1>Socket.io Web Chat</h1>
+	<p>Chat with Node.js</p>
+	<hr/>
+	<input id="name"/>
+	<input id="message"/>
+	<button>Button</button>
+	<ul id="content"></ul>
+</body>
+</html>
