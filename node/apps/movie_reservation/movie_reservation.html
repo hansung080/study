@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Movie Reservation</title>
+	<style>
+		.line { overflow: hidden; }
+		.seat {
+			margin: 2px; float: left;
+			width: 30px; height: 30px;
+			border-radius: 3px;
+		}
+		.enable { background: gray; }
+		.enable:hover { background: black; }
+		.disable { background: red }
+	</style>
+	<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
+	<script>
+		var socket = io.connect();
+		socket.on('reserve', function (pos) {
+			var $target = $('div[pos-x='+pos.x+'][pos-y='+pos.y+']');
+			$target.removeClass('enable');
+			$target.addClass('disable');
+		});
+
+		$(document).ready(function () {
+			var onClickSeat = function () {
+				var x = $(this).attr('pos-x');
+				var y = $(this).attr('pos-y');
+
+				if (confirm('Do you want to make a reservation of this seat?')) {
+					$(this).off('click');
+					socket.emit('reserve', {
+						x: x,
+						y: y
+					});
+				} else {
+					alert('canceled.');
+				}
+			};
+
+			$.getJSON('seats', { dummy: new Date().getTime() }, function (seats) {
+				$.each(seats, function (y, line) {
+					var $line = $('<div></div>').addClass('line');
+					$.each(line, function (x, seat) {
+						var $seat = $('<div></div>', {
+							'class': 'seat',
+							'pos-x': x,
+							'pos-y': y
+						}).appendTo($line);
+
+						if (seat == 1) {
+							$seat.addClass('enable').on('click', onClickSeat);
+						} else if (seat == 2) {
+							$seat.addClass('disable');
+						}
+					});
+
+					$line.appendTo('body');
+				});
+			});	
+		});
+
+	</script>
+</head>
+<body>
+</body>
+</html>
