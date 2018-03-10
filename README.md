@@ -57,4 +57,4 @@
   - express_framework: crud
   - socket_io: web_chat
   - apps: movie_reservation
-  - net: tcp2echo
+  - net: tcp2echo, tcp2http
