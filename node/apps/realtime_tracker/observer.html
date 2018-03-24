@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Observer</title>
+	<meta charset="utf8"/>
+	<meta name="veiwport" content="width=divice-width, initial-scale=1, user-scalable=no"/>
+	<style>
+		* { margin: 0px; padding: 0px }
+		html, body, #map { height: 100% }
+	</style>
+	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+	<scritp src="http://maps.google.com/maps/api/js?sensor=false"></scritp>
+	<script src="/socket.io/socket.io.js">
+		$(document).ready(function () {
+			function setMarker(latitude, longitude) {
+				var marker = new google.maps.Marker({
+					position: new google.maps.LatLng(latitude, longitude),
+					map: map
+				});
+			}
+
+			var name = prompt('Enter your name', 'name');
+			var socket = io.connect();
+			socket.emit('join', name);
+
+			var $map = document.getElementById('map');
+			var map = new google.maps.Map($map, {
+				zoom: 6,
+				center: new google.maps.LatLng(37, 126),
+				mapTypeId: google.maps.MapTypeId.LOADMAP
+			});
+
+			$.getJSON('/showdata', { name: name }, function (locations) {
+				$.each(locations, function (index, loc) {
+					setMarker(loc.latitude, loc.longitude);
+				});
+			});
+
+			socket.on('receive', function (loc) {
+				setMarker(loc.latitude, loc.longitude);
+			});
+		});
+	</script>
+</head>
+<body>
+	<div id="map"></div>
+</body>
+</html>

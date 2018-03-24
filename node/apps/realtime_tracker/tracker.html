@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Tracker</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.css"/>
+	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.js"></script>
+	<script src="/socket.io/socket.io.js">
+		$(document).ready(function () {
+			$('a').click(function () {
+				var socket = io.connect();
+				var name = $('#name');
+
+				socket.emit('join', name);
+
+				socket.on('receive', function (loc) {
+					var output = '';
+					output += '<h3>latitude: '+loc.latitude+'</h3>';
+					output += '<h3>longitude: '+loc.longitude+'</h3>';
+					output += '<p>'+loc.date+'</p>';
+
+					$('<li></li>').append(output).prependTo('#listview');
+
+					var content = $('#content');
+					if (content.children().length > 7) {
+						content.children().last().remove();
+					}
+
+					$('#listview').listview('refresh');
+				});
+
+				navigator.geolocation.watchPosition(function (pos) {
+					socket.emit('location', {
+						name: name,
+						latitude: pos.coords.latitude,
+						longitude: pos.coords.longitude
+					});
+
+				}, function (error) {
+					alert(error.message);
+				});
+			});
+		});
+	</script>
+</head>
+<body>
+	<div data-role="page">
+		<div data-role="header">
+			<h1>Location Tracker</h1>
+		</div>
+		<div data-role="content">
+			<div data-role="fieldcontain">
+				<lable for="name">Name</lable>
+				<input type="text" id="name"/>
+			</div>
+			<a data-role="button" href="#tracker">Start Track</a>
+		</div>
+	</div>
+
+	<div data-role="page" id="tracker">
+		<div data-role="header">
+			<h1>Location Tracker</h1>
+		</div>
+		<div data-role="content">
+			<ul data-role="listview" data-inset="true" id="listview"></ul>
+		</div>
+	</div>
+</body>
+</html>
