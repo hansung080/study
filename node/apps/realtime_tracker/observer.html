@@ -3,14 +3,15 @@
 <head>
 	<title>Observer</title>
 	<meta charset="utf8"/>
-	<meta name="veiwport" content="width=divice-width, initial-scale=1, user-scalable=no"/>
+	<meta name="viewport" content="width=divice-width, initial-scale=1, user-scalable=no"/>
 	<style>
 		* { margin: 0px; padding: 0px }
 		html, body, #map { height: 100% }
 	</style>
 	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-	<scritp src="http://maps.google.com/maps/api/js?sensor=false"></scritp>
-	<script src="/socket.io/socket.io.js">
+	<script src="http://maps.google.com/maps/api/js?sensor=false"></script>
+	<script src="/socket.io/socket.io.js"></script>
+	<script>
 		$(document).ready(function () {
 			function setMarker(latitude, longitude) {
 				var marker = new google.maps.Marker({
@@ -19,7 +20,7 @@
 				});
 			}
 
-			var name = prompt('Enter your name', 'name');
+			var name = prompt('Enter your name.', 'name');
 			var socket = io.connect();
 			socket.emit('join', name);
 

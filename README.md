@@ -56,5 +56,5 @@
   - mysql
   - express_framework: crud
   - socket_io: web_chat
-  - apps: movie_reservation, realtime_purchase, realtime_tracker
+  - apps: movie_reservation, realtime_purchase, realtime_tracker, realtime_canvas
   - net: tcp2echo, tcp2http, tcp2ws

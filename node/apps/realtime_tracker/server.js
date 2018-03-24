@@ -50,7 +50,7 @@ io.sockets.on('connection', function (socket) {
 		io.sockets.in(loc.name).emit('receive', {
 			latitude: loc.latitude,
 			longitude: loc.longitude,
-			date: Date.now()
+			date: new Date()
 		});
 	});
 });
