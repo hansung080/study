@@ -1,4 +1,4 @@
-### Study ###
+# Study
   - Study is for algorithms and data structures of each languages.
 
 # languages
