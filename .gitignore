@@ -218,6 +218,7 @@ request_response_mapping
 prime_generator
 atomic
 once
+taskman_server
 
 # Node.js Dependency directories
 node_modules/

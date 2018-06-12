@@ -1,4 +1,5 @@
-### Algorithms and Data Structures
+### Study ###
+  - Study is for algorithms and data structures of each languages.
 
 # languages
   - c
@@ -8,7 +9,7 @@
   - javascript
   - node.js
 
-# algorithms: c
+# c
   - test
   - type
   - array
@@ -21,30 +22,29 @@
   - calc
   - thread: count-thread, count-thread-mutex, calc-multi-cond
   - socket: echo-server, echo-client
+  - ds: anyfi_test: array list, hash map
 
-# algorithms: c++
+# c++
   - thread: count-thread, count-thread-mutex, calc-multi-cond 
 
-# data structures : c
-  - anyfi-test: array list, hash map 
-
-# algorithms: python
+# python
   - calc
   - thread: process, thread, thread2, whoami
   - gen: generator
   - design_patterns: singleton
 
-# algorithms: go
+# go
   - concurrency: goroutine, channel, int_generator, fibonacci_generator, pipeline, fan_out, fan_in, distribute, select, fan_in_select, channel_non_blocking, channel_timeout, break_pipeline_ng, break_pipeline_ok_donechannel, break_pipeline_ok_context, request_response_mapping, prime_generator, atomic, once
+  - taskman_server
 
-# algorithms: javascript
+# javascript
   - pyramid
   - grade_object
   - grade_constructor
   - inheritance
   - moving_text
 
-# algorithms: node.js
+# node.js
   - ticker
   - hello_server
   - cookie
