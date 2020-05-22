@@ -1,5 +1,11 @@
-# Mac
+# MacOS
 .DS_Store
+.AppleDouble
+.LSOverride
+
+# VS Code
+.vscode/
 
 # Rust
 target/
+
