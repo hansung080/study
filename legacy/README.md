@@ -1,5 +1,5 @@
 # Study
-study on data structures and algorithms of each languages.
+study on data structures and algorithms of each languages
 
 # Languages
 - C 
