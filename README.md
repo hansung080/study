@@ -1,5 +1,5 @@
 # Study
-study on languages, data structures, and algorithms
+Study on languages, data structures, and algorithms
 
 # Rust
 - Guessing Game

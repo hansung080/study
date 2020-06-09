@@ -1,5 +1,5 @@
-# Study
-study on data structures and algorithms of each languages
+# Legacy Study
+Legacy code of study on languages, data structures, and algorithms
 
 # Languages
 - C 
