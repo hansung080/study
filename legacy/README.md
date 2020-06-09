@@ -1,4 +1,4 @@
-# Legacy Study
+# Legacy of Study
 Legacy code of study on languages, data structures, and algorithms
 
 # Languages
