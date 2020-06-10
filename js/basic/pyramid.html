@@ -1,0 +1,33 @@
+<script>
+    function halfPyramid(height) {
+        var result = '';
+
+        for (var i = 1; i <= height; ++i) {
+            for (var j = 0; j < i; ++j) {
+                result += '*';
+            }
+            result += '\n';
+        }
+
+        return result;
+    }
+
+    function pyramid(height) {
+        var result = '';
+
+        for (var i = 1; i <= height; ++i) {
+            for (var j = 0; j < height - i; ++j) {
+                result += ' ';
+            }
+            for (var k = 0; k < i * 2 - 1; ++k) {
+                result += '*';
+            } 
+            result += '\n';
+        }
+
+        return result;
+    }
+
+    alert(halfPyramid(10));
+    alert(pyramid(10));
+</script>
