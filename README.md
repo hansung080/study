@@ -6,5 +6,5 @@ Study on languages, data structures, and algorithms
 - Minigrep
 
 # JavaScript
-- Basic - Hello, Pyramid
+- Basic - Hello, Pyramid, Constructor
 

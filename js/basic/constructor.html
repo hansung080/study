@@ -1,0 +1,40 @@
+<script>
+    function Student(name, korean, english, math, science) {
+        this.name = name;
+        this.korean = korean;
+        this.english = english;
+        this.math = math;
+        this.science = science;
+    }
+
+    Student.prototype.getSum = function () {
+            return this.korean + this.english + this.math + this.science;
+    };
+
+    Student.prototype.getAverage = function () {
+        return this.getSum() / 4;
+    },
+
+    Student.prototype.toString = function () {
+        return this.name + '\t' + this.getSum() + '\t' + this.getAverage();
+    }
+    
+    var students = [];
+    students.push(new Student('Choi', 50, 61, 72, 83));
+    students.push(new Student('Jang', 51, 62, 73, 84));
+    students.push(new Student('Jeong', 52, 63, 74, 85));
+    students.push(new Student('Kang', 53, 64, 75, 86));
+    students.push(new Student('Kim', 54, 65, 76, 87));
+    students.push(new Student('Kwon', 55, 66, 77, 88));
+    students.push(new Student('Lee', 56, 67, 78, 89));
+    students.push(new Student('Park', 57, 68, 79, 90));
+    students.push(new Student('Yoo', 58, 69, 80, 91));
+    students.push(new Student('Yoon', 59, 70, 81, 92));
+
+    var output = 'Name\tSum\tAverage\n';
+    for (var i in students) {
+        output += students[i].toString() + '\n';
+    }
+
+    alert(output);
+</script>
