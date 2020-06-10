@@ -1,0 +1,33 @@
+<script>
+    function Rectangle(width, height) {
+        var _width = width;
+        var _height = height;
+
+        this.getWidth = function() { return _width; };
+        this.setWidth = function(width) {
+            if (width < 0) throw 'Width cannot be a negative number';
+            _width = width;
+        };
+        this.getHeight = function () { return _height; };
+        this.setHeight = function (height) {
+            if (height < 0) throw 'Height cannot be a negative number';
+            _height = height;
+        };
+    }
+
+    Rectangle.prototype.getArea = function() {
+        return this.getWidth() * this.getHeight();
+    };
+
+    function Square(length) {
+        this.base = Rectangle;
+        this.base(length, length);
+    }
+
+    Square.prototype = Rectangle.prototype;
+    Square.prototype.constructor = Square
+
+    var rectangle = new Rectangle(5, 7);
+    var square = new Square(5);
+    alert('rectangle: ' + rectangle.getArea() + ', square: ' + square.getArea());
+</script>
