@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Revolution</title>
+    <script>
+        window.onload = function () {
+            var sun = document.getElementById('sun');
+            var earth = document.getElementById('earth');
+            var moon = document.getElementById('moon');
+            var sunX = window.innerWidth / 2;
+            var sunY = (window.innerHeight / 2) - 100;
+
+            sun.style.position = 'absolute';
+            sun.style.left = sunX + 'px';
+            sun.style.top = sunY + 'px';
+            earth.style.position = 'absolute';
+            moon.style.position = 'absolute';
+
+            // Get x coordinate of a point on a circle.
+            function getXCoordinate(originX, radius, angle) {
+                return radius * Math.cos(angle) + originX;
+            }
+
+            // Get y coordinate of a point on a circle. 
+            function getYCoordinate(originY, radius, angle) {
+                return radius * Math.sin(angle) + originY;
+            }
+
+            var earthAngle = 0.0;
+            var moonAngle = 0.0;
+
+            setInterval(function () {
+                var earthX = getXCoordinate(sunX, 150, earthAngle);
+                var earthY = getYCoordinate(sunY, 150, earthAngle);
+                var moonX = getXCoordinate(earthX, 50, moonAngle);
+                var moonY = getYCoordinate(earthY, 50, moonAngle);
+
+                earth.style.left = earthX + 'px';
+                earth.style.top = earthY + 'px';
+                moon.style.left = moonX + 'px';
+                moon.style.top = moonY + 'px';
+
+                earthAngle += 0.01;
+                moonAngle += 0.1;
+            }, 1000 / 30);
+        };
+
+    </script>
+</head>
+<body>
+    <h1 id="sun">@</h1>
+    <h1 id="earth">o</h1>
+    <h1 id="moon">*</h1>
+</body>
+</html>
