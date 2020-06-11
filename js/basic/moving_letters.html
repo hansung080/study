@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moving Letters</title>
+    <script>
+        function randomInteger(max) {
+            return Math.round(Math.random() * max);
+        }
+
+        function randomSpeed(max) {
+            return Math.random() * max - Math.random() * max;
+        }
+
+        var randomAlphabet = (function () {
+            var alphabets = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            return function () {
+                return alphabets.charAt(randomInteger(alphabets.length - 1));
+            }
+        })();
+
+        var nextAlphabet = (function () {
+            var alphabets = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            var index = -1;
+            return function () {
+                index = (index + 1) % alphabets.length;
+                return alphabets.charAt(index);
+            }
+        })();
+
+
+        var canvasWidth = window.innerWidth;
+        var canvasHeight = window.innerHeight;
+
+        function MovingLetter() {
+            this.x = randomInteger(canvasWidth - 1);
+            this.y = randomInteger(canvasHeight - 1);
+            this.dx = randomSpeed(5);
+            this.dy = randomSpeed(5);
+
+            this.letter = document.createElement('h1');
+            //this.letter.innerHTML = randomAlphabet();
+            this.letter.innerHTML = nextAlphabet();
+            this.letter.style.position = 'absolute';
+            this.letter.style.left = this.x + 'px';
+            this.letter.style.top = this.y + 'px';
+            document.body.appendChild(this.letter);
+        }
+
+        MovingLetter.prototype.move = function () {
+            this.x += this.dx;
+            this.y += this.dy;
+
+            if (this.x < 0) {
+                this.x = 0;
+                this.dx *= -1;
+            } else if (this.x >= canvasWidth) {
+                this.x = canvasWidth - 1;
+                this.dx *= -1;
+            }
+
+            if (this.y < 0) {
+                this.y = 0;
+                this.dy *= -1;
+            } else if (this.y >= canvasHeight) {
+                this.y = canvasHeight - 1;
+                this.dy *= -1;
+            }
+
+            this.letter.style.left = this.x + 'px';
+            this.letter.style.top = this.y + 'px';
+        }
+
+        window.onload = function () {
+            var letters = [];
+            for (i = 0; i < 26; i++) {
+                letters.push(new MovingLetter());
+            }
+
+            setInterval(function () {
+                for (var i in letters) {
+                    letters[i].move();
+                }
+            }, 1000 / 60);
+        };
+    </script>
+</head>
+<body>    
+</body>
+</html>
