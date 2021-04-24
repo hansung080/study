@@ -9,3 +9,9 @@
 # Rust
 target/
 
+# C
+*.dep
+*.pch
+*.gch
+*.stackdump
+*.o
