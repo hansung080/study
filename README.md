@@ -1,13 +1,13 @@
 # Study
 Study on languages, data structures, and algorithms
 
-# Rust
+## Rust
 - Guessing Game
 - Minigrep
 - State Pattern
 
-# JavaScript
+## JavaScript
 - Basic - Hello, Hello5, Pyramid, Constructor, Inheritance, Revolution, Moving Letters
 
-# Data Structures
+## Data Structures
 - Binary Tree
