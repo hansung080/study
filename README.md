@@ -10,4 +10,4 @@ Study on languages, data structures, and algorithms
 - Basic - Hello, Hello5, Pyramid, Constructor, Inheritance, Revolution, Moving Letters
 
 ## Data Structures
-- Binary Tree
+- Tree - Binary Tree, Binary Search Tree

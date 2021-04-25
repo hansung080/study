@@ -1,9 +1,13 @@
 #ifndef __BINARY_TREE_H__
 #define __BINARY_TREE_H__
 
-typedef int bt_data;
-
 #pragma pack(push, 1)
+
+// bt_data represents a node's data.
+typedef struct _bt_data {
+    int key;
+    int value;
+} bt_data;
 
 // bt_node represents a binary tree's node and a binary tree itself.
 typedef struct _bt_node {
@@ -16,13 +20,13 @@ typedef struct _bt_node {
 
 /* Basic Functions */
 bt_node* bt_create_node(void);
-void bt_delete_node(bt_node* node);
+void bt_delete(bt_node* node);
 void bt_set_data(bt_node* node, bt_data data);
-bt_data bt_get_data(bt_node* node);
+bt_data bt_get_data(const bt_node* node);
 void bt_set_left_node(bt_node* node, bt_node* left);
 void bt_set_right_node(bt_node* node, bt_node* right);
-bt_node* bt_get_left_node(bt_node* node);
-bt_node* bt_get_right_node(bt_node* node);
+bt_node* bt_get_left_node(const bt_node* node);
+bt_node* bt_get_right_node(const bt_node* node);
 
 /* Traverse Functions */
 typedef void bt_action(bt_node* node);
