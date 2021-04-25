@@ -17,13 +17,13 @@ int main(int argc, const char** argv) {
     bt_data data3 = {3, 103};
     bt_data data5 = {5, 105};
 
-    bst_insert_data(&root, data9);
-    bst_insert_data(&root, data1);
-    bst_insert_data(&root, data6);
-    bst_insert_data(&root, data2);
-    bst_insert_data(&root, data8);
-    bst_insert_data(&root, data3);
-    bst_insert_data(&root, data5);
+    bst_insert_node(&root, data9);
+    bst_insert_node(&root, data1);
+    bst_insert_node(&root, data6);
+    bst_insert_node(&root, data2);
+    bst_insert_node(&root, data8);
+    bst_insert_node(&root, data3);
+    bst_insert_node(&root, data5);
 
     /* Find node from Binary Search Tree */
     bt_data data4 = {4, 104};

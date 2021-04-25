@@ -77,6 +77,6 @@ int main(int argc, const char** argv) {
     printf(" %c\n\n", bt_get_data(bt_get_left_node(bt_get_right_node(node1))).value);
 
     /* Delete Binary Tree */
-    bt_delete(node1);
+    bt_delete_node(node1);
     return 0;
 }
