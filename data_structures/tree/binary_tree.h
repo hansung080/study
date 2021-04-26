@@ -22,17 +22,17 @@ typedef struct _bt_node {
 bt_node* bt_create_node(void);
 void bt_set_data(bt_node* node, bt_data data);
 bt_data bt_get_data(const bt_node* node);
-void bt_set_left_node(bt_node* node, bt_node* left);
-void bt_set_right_node(bt_node* node, bt_node* right);
-void bt_change_left_node(bt_node* node, bt_node* left);
-void bt_change_right_node(bt_node* node, bt_node* right);
-bt_node* bt_get_left_node(const bt_node* node);
-bt_node* bt_get_right_node(const bt_node* node);
-bt_node* bt_remove_left_node(bt_node* node);
-bt_node* bt_remove_right_node(bt_node* node);
-void bt_delete_left_node(bt_node* node);
-void bt_delete_right_node(bt_node* node);
-void bt_delete_node(bt_node* node);
+void bt_set_left(bt_node* node, bt_node* left);
+void bt_set_right(bt_node* node, bt_node* right);
+void bt_change_left(bt_node* node, bt_node* left);
+void bt_change_right(bt_node* node, bt_node* right);
+bt_node* bt_get_left(const bt_node* node);
+bt_node* bt_get_right(const bt_node* node);
+bt_node* bt_remove_left(bt_node* node);
+bt_node* bt_remove_right(bt_node* node);
+void bt_delete_left(bt_node* node);
+void bt_delete_right(bt_node* node);
+void bt_delete_all(bt_node* node);
 
 /* Traverse Functions */
 typedef void bt_action(bt_node* node);

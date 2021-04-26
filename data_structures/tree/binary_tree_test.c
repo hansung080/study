@@ -28,22 +28,22 @@ int main(int argc, const char** argv) {
     bt_set_data(node5, data5);
     bt_set_data(node6, data6);
 
-    bt_set_left_node(node1, node2);
-    bt_set_right_node(node1, node3);
-    bt_set_left_node(node2, node4);
-    bt_set_right_node(node2, node5);
-    bt_set_left_node(node3, node6);
+    bt_set_left(node1, node2);
+    bt_set_right(node1, node3);
+    bt_set_left(node2, node4);
+    bt_set_right(node2, node5);
+    bt_set_left(node3, node6);
 
     /* Print Binary Tree (Key) */
     printf("### Binary Tree Test ###\n");
 
     printf("Binary Tree (Key) \n");
     printf("   %d\n", bt_get_data(node1).key);
-    printf(" %d", bt_get_data(bt_get_left_node(node1)).key);
-    printf("   %d\n", bt_get_data(bt_get_right_node(node1)).key);
-    printf("%d", bt_get_data(bt_get_left_node(bt_get_left_node(node1))).key);
-    printf(" %d", bt_get_data(bt_get_right_node(bt_get_left_node(node1))).key);
-    printf(" %d\n\n", bt_get_data(bt_get_left_node(bt_get_right_node(node1))).key);
+    printf(" %d", bt_get_data(bt_get_left(node1)).key);
+    printf("   %d\n", bt_get_data(bt_get_right(node1)).key);
+    printf("%d", bt_get_data(bt_get_left(bt_get_left(node1))).key);
+    printf(" %d", bt_get_data(bt_get_right(bt_get_left(node1))).key);
+    printf(" %d\n\n", bt_get_data(bt_get_left(bt_get_right(node1))).key);
 
     /* Traverse Binary Tree (Key) */
     printf("- preorder traverse:  ");
@@ -61,14 +61,14 @@ int main(int argc, const char** argv) {
     /* Print Binary Tree (Value) */
     printf("Binary Tree (Value) \n");
     printf("   %c\n", bt_get_data(node1).value);
-    printf(" %c", bt_get_data(bt_get_left_node(node1)).value);
-    printf("   %c\n", bt_get_data(bt_get_right_node(node1)).value);
-    printf("%c", bt_get_data(bt_get_left_node(bt_get_left_node(node1))).value);
-    printf(" %c", bt_get_data(bt_get_right_node(bt_get_left_node(node1))).value);
-    printf(" %c\n\n", bt_get_data(bt_get_left_node(bt_get_right_node(node1))).value);
+    printf(" %c", bt_get_data(bt_get_left(node1)).value);
+    printf("   %c\n", bt_get_data(bt_get_right(node1)).value);
+    printf("%c", bt_get_data(bt_get_left(bt_get_left(node1))).value);
+    printf(" %c", bt_get_data(bt_get_right(bt_get_left(node1))).value);
+    printf(" %c\n\n", bt_get_data(bt_get_left(bt_get_right(node1))).value);
 
     /* Delete Binary Tree */
-    bt_delete_node(node1);
+    bt_delete_all(node1);
     return 0;
 }
 
