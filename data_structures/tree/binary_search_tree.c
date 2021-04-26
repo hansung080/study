@@ -141,10 +141,11 @@ bt_node* bst_remove_node(bt_node** root, bt_data data) {
     return remove;
 }
 
-static void action_print_data(bt_node* node) {
+static void action_print_key(bt_node* node) {
     printf("%d ", node->data.key);
 }
 
-void bst_print_data(bt_node* node) {
-    bt_visit_in(node, action_print_data);
+void bst_print_key(bt_node* root) {
+    bt_visit_in(root, action_print_key);
+    printf("\n");
 }

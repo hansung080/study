@@ -8,6 +8,6 @@ void bst_insert_node(bt_node** root, bt_data data);
 bt_node* bst_find_node(bt_node* root, bt_data data);
 bt_data bst_get_data(bt_node* node);
 bt_node* bst_remove_node(bt_node** root, bt_data data);
-void bst_print_data(bt_node* node);
+void bst_print_key(bt_node* root);
 
 #endif // __BINARY_SEARCH_TREE_H__

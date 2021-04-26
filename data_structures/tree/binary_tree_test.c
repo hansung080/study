@@ -1,18 +1,7 @@
 #include <stdio.h>
 #include "binary_tree.h"
 
-/*
-    Binary Tree (Key)
-       1
-     2   3
-    4 5 6
-
-    - preorder traverse:  1 2 4 5 3 6
-    - inorder traverse:   4 2 5 1 6 3
-    - postorder traverse: 4 5 2 6 3 1
-*/
-
-void action_print_data(bt_node* node) {
+static void action_print_key(bt_node* node) {
     printf("%d ", node->data.key);
 }
 
@@ -46,6 +35,8 @@ int main(int argc, const char** argv) {
     bt_set_left_node(node3, node6);
 
     /* Print Binary Tree (Key) */
+    printf("### Binary Tree Test ###\n");
+
     printf("Binary Tree (Key) \n");
     printf("   %d\n", bt_get_data(node1).key);
     printf(" %d", bt_get_data(bt_get_left_node(node1)).key);
@@ -56,15 +47,15 @@ int main(int argc, const char** argv) {
 
     /* Traverse Binary Tree (Key) */
     printf("- preorder traverse:  ");
-    bt_visit_pre(node1, action_print_data);
+    bt_visit_pre(node1, action_print_key);
     printf("\n");
 
     printf("- inorder traverse:   ");
-    bt_visit_in(node1, action_print_data);
+    bt_visit_in(node1, action_print_key);
     printf("\n");
 
     printf("- postorder traverse: ");
-    bt_visit_post(node1, action_print_data);
+    bt_visit_post(node1, action_print_key);
     printf("\n\n");
 
     /* Print Binary Tree (Value) */
@@ -80,3 +71,20 @@ int main(int argc, const char** argv) {
     bt_delete_node(node1);
     return 0;
 }
+
+/*
+    ### Binary Tree Test ###
+    Binary Tree (Key)
+       1
+     2   3
+    4 5 6
+
+    - preorder traverse:  1 2 4 5 3 6
+    - inorder traverse:   4 2 5 1 6 3
+    - postorder traverse: 4 5 2 6 3 1
+
+    Binary Tree (Value)
+       a
+     b   c
+    d e f
+*/
