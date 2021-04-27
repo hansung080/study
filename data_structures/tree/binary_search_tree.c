@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "binary_search_tree.h"
+#include "avl_rebalance.h"
 
 void bst_init(bt_node** root) {
     *root = NULL;
@@ -40,6 +41,8 @@ void bst_insert(bt_node** root, bt_data data) {
     } else {
         *root = new;
     }
+
+    avl_rebalance(root);
 }
 
 bt_node* bst_find(bt_node* root, bt_data data) {
@@ -60,7 +63,7 @@ bt_node* bst_find(bt_node* root, bt_data data) {
     return NULL;  
 }
 
-bt_data bst_get_data(bt_node* node) {
+bt_data bst_get_data(const bt_node* node) {
     return bt_get_data(node);
 }
 
@@ -138,6 +141,7 @@ bt_node* bst_remove(bt_node** root, bt_data data) {
         *root = bt_get_right(virtual);
     
     free(virtual);
+    avl_rebalance(root);
     return remove;
 }
 
