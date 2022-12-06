@@ -7,7 +7,7 @@
   },
   "dependencies": {
     "ejs": "*",
-    "express": "3.4.7",
+    "express": "4.17.3",
     "mysql": "^2.15.0"
   }
 }
