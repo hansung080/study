@@ -2,8 +2,8 @@
 Study on languages, data structures, and algorithms.
 
 ## Rust
-- Restaurant
 - Guessing Game
+- Restaurant
 - Minigrep
 - State Pattern
 
