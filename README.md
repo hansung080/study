@@ -5,6 +5,7 @@ Study on languages, data structures, and algorithms.
 - Guessing Game
 - Restaurant
 - Minigrep
+- Add
 - State Pattern
 
 ## JavaScript
