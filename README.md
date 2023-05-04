@@ -2,11 +2,7 @@
 Study on languages, data structures, and algorithms.
 
 ## Rust
-- Guessing Game
-- Restaurant
-- Minigrep
-- Add
-- State Pattern
+- TRPL (The Rust Programming Language): Guessing Game, Restaurant, Minigrep, Add
 
 ## JavaScript
 - Basic - Hello, Hello5, Pyramid, Constructor, Inheritance, Revolution, Moving Letters

@@ -1,7 +1,0 @@
-[package]
-name = "state-pattern"
-version = "0.1.0"
-authors = ["hansung <hansung080@hanmail.net>"]
-edition = "2018"
-
-[dependencies]
