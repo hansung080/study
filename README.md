@@ -2,12 +2,12 @@
 Study on languages, data structures, and algorithms.
 
 ## Rust
-- TRPL (The Rust Programming Language) - Guessing Game, Restaurant (Module Example), Minigrep, Add (Workspace Example), Derive Macro Example, Web Server
-- HORP (Hands-On Rust Programming) - Chat, Hello Actix Web
+- trpl (The Rust Programming Language) - guessing-game, restaurant (module example), minigrep, add (workspace example), derive-macro-example, web-server
+- horp (Hands-On Rust Programming) - chat, hello-actix-web
 
 ## JavaScript
-- Basic - Hello, Hello5, Pyramid, Constructor, Inheritance, Revolution, Moving Letters
+- basic - hello, hello5, pyramid, constructor, inheritance, revolution, moving_letters
 
 ## C
 ### Data Structures
-- Tree - Binary Tree, Binary Search Tree, AVL Tree
+- tree - binary_tree, binary_search_tree, avl_tree
