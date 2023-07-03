@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>BMI-Actix-Web</title>
+  <script>
+    function submitBy(method) {
+        const form = document.getElementById("bmi");
+        form.action = "calc";
+        form.method = method;
+        form.submit();
+    }
+  </script>
+</head>
+<body>
+  <h1>BMI Calculation & Obesity Determination</h1>
+  <form id="bmi">
+    <div>Height: <span><label><input name="height" value="" placeholder="Enter your height (cm)..."/></label></span></div>
+    <div>Weight: <span><label><input name="weight" value="" placeholder="Enter your weight (kg)..."/></label></span></div>
+    <br/><div><button onclick="submitBy('get');">GET</button> <button onclick="submitBy('post');">POST</button></div>
+  </form>
+</body>
+</html>
