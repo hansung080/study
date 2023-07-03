@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Greeter-Tide</title>
+  <script>
+    function submitBy(method) {
+      const form = document.getElementById("user");
+      form.action = "hello";
+      form.method = method;
+      form.submit();
+    }
+  </script>
+</head>
+
+<body>
+  <form id="user">
+    <h1>Greeter-Tide</h1>
+    <span class=""><label for="name">Name:</label> <input id="name" name="name" value="" placeholder="Enter your name..."/></span>
+    <span class=""><button onclick="submitBy('get');">GET</button> <button onclick="submitBy('post');">POST</button></span>
+  </form>
+</body>
+</html>
