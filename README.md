@@ -10,5 +10,5 @@ Study on languages, data structures, and algorithms.
 
 ## C
 - examples - hello-make
-- ypds (Yoon seong-wu's Passionate Data Structures) 
+- ypds (Yoon seong-wu's Passionate Data Structure) 
     - tree - binary_tree, binary_search_tree, avl_tree
