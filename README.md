@@ -9,5 +9,6 @@ Study on languages, data structures, and algorithms.
 - basic - hello, hello5, pyramid, constructor, inheritance, revolution, moving_letters
 
 ## C
-### Data Structures
-- tree - binary_tree, binary_search_tree, avl_tree
+- examples - hello-make
+- ypds (Yoon seong-wu's Passionate Data Structures) 
+    - tree - binary_tree, binary_search_tree, avl_tree
