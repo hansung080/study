@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "apple.h": "c",
+        "stdio.h": "c",
+        "test.h": "c",
+        "alice.h": "c"
+    }
+}

@@ -1,6 +1,5 @@
-#include <stdio.h>
 #include "alice.h"
 
-void alice() {
-    printf("alice\n");
+bool alice(bool arg) {
+    return arg;
 }

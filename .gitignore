@@ -181,6 +181,9 @@ GitHub.sublime-settings
 !.vscode/extensions.json
 !.vscode/*.code-snippets
 
+# Added by hansung
+!.vscode/c_cpp_properties.json
+
 # Local History for Visual Studio Code
 .history/
 
