@@ -1,5 +1,17 @@
 # Makefile
 
+# Variables for Color
+C_RED=\033[0;31m
+C_GREEN=\033[0;32m
+C_BLUE=\033[0;34m
+C_YELLOW=\033[1;33m
+C_RESET=\033[0m
+
+red="$(C_RED)$(1)$(C_RESET)"
+green="$(C_GREEN)$(1)$(C_RESET)"
+blue="$(C_BLUE)$(1)$(C_RESET)"
+yellow="$(C_YELLOW)$(1)$(C_RESET)"
+
 # Variables & Rules for src
 SRC_ROOT=src
 BUILD_DIR=build
@@ -16,17 +28,6 @@ OBJS=$(patsubst $(SRC_ROOT)/%.c,$(OBJ_ROOT)/%.o,$(SRCS))
 TARGET=$(BIN_DIR)/hello-make
 DEP=$(DEP_DIR)/dependencies.dep
 CC=gcc
-
-C_RED=\033[0;31m
-C_GREEN=\033[0;32m
-C_BLUE=\033[0;34m
-C_YELLOW=\033[1;33m
-C_RESET=\033[0m
-
-red="$(C_RED)$(1)$(C_RESET)"
-green="$(C_GREEN)$(1)$(C_RESET)"
-blue="$(C_BLUE)$(1)$(C_RESET)"
-yellow="$(C_YELLOW)$(1)$(C_RESET)"
 
 build: prepare dep $(TARGET)
 
