@@ -1,5 +1,3 @@
-# Makefile
-
 # Variables for Color
 C_RED=\033[0;31m
 C_GREEN=\033[0;32m
