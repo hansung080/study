@@ -13,5 +13,8 @@ Study on languages, data structures, and algorithms.
 
 ## C
 - examples - hello-make
+- ac1 (Algorithm with C 1)
+    - util - string
+    - etc - mul
 - ypds (Yoon Seong-woo's Passionate Data Structure) 
     - tree - binary_tree, binary_search_tree, avl_tree

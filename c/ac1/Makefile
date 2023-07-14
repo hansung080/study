@@ -23,7 +23,7 @@ OBJ_DIRS=$(call src2obj,$(SRC_DIRS))
 
 SRCS=$(wildcard $(patsubst %,%/*.c,$(SRC_DIRS)))
 OBJS=$(patsubst $(SRC_ROOT)/%.c,$(OBJ_ROOT)/%.o,$(SRCS))
-TARGET=$(BIN_DIR)/ac
+TARGET=$(BIN_DIR)/ac1
 DEP=$(DEP_DIR)/dependencies.dep
 CC=gcc
 
