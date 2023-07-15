@@ -23,7 +23,7 @@ OBJ_DIRS=$(call src2obj,$(SRC_DIRS))
 
 SRCS=$(wildcard $(patsubst %,%/*.c,$(SRC_DIRS)))
 OBJS=$(patsubst $(SRC_ROOT)/%.c,$(OBJ_ROOT)/%.o,$(SRCS))
-TARGET=$(BIN_DIR)/hello-make
+TARGET=$(BIN_DIR)/make-sample
 DEP=$(DEP_DIR)/dependencies.dep
 CC=gcc
 

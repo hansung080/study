@@ -12,7 +12,7 @@ Study on languages, data structures, and algorithms.
     - hello, hello5, pyramid, constructor, inheritance, revolution, moving_letters
 
 ## C
-- examples - hello-make
+- examples - make-sample
 - ac1 (Algorithm with C 1)
     - util - string
     - etc - mul
