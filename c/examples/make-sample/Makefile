@@ -46,7 +46,7 @@ $(TARGET): $(OBJS)
 run: build
 	@echo
 	@printf '> '$(call blue,RUN)': '
-	./$(TARGET) $(args)
+	./$(TARGET) $(__args)
 
 # Variables & Rules for test
 TEST_ROOT=test
@@ -78,7 +78,7 @@ $(TEST_TARGET): $(subst $(OBJ_ROOT)/main.o,,$(OBJS)) $(TOBJS)
 test: test-build
 	@echo
 	@printf '> '$(call blue,TEST START)': '
-	./$(TEST_TARGET) $(args)
+	./$(TEST_TARGET) $(__args)
 
 # Rules for src & test
 clean:
