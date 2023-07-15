@@ -5,13 +5,13 @@
 
 void init_util__string(test t[], int* n) {
     int i = *n;
-    t[i++] = new_test("test/util/string/test_atob", test_atob);
-    t[i++] = new_test("test/util/string/test_btoa", test_btoa);
+    t[i++] = new_test("test/util/string/test_stob", test_stob);
+    t[i++] = new_test("test/util/string/test_btos", test_btos);
     t[i++] = new_test("test/util/string/test_contains", test_contains);
     *n = i;
 }
 
-bool test_atob() {
+bool test_stob() {
     struct case_ {
         const char* s;
         bool want;
@@ -26,9 +26,9 @@ bool test_atob() {
     int len = sizeof(cases) / sizeof(struct case_);
     for (int i = 0; i < len; ++i) {
         struct case_ c = cases[i];
-        bool got = atob(c.s);
+        bool got = stob(c.s);
         if (got != c.want) {
-            fprintf(stderr, C_RED"FAILED"C_RESET": atob(%s) => %d, want %d\n", c.s, got, c.want);
+            fprintf(stderr, C_RED"FAILED"C_RESET": stob(%s) => %d, want %d\n", c.s, got, c.want);
             return false;
         }
     }    
@@ -36,7 +36,7 @@ bool test_atob() {
     return true;
 }
 
-bool test_btoa() {
+bool test_btos() {
     struct case_ {
         bool b;
         const char* want;
@@ -51,9 +51,9 @@ bool test_btoa() {
     int len = sizeof(cases) / sizeof(struct case_);
     for (int i = 0; i < len; ++i) {
         struct case_ c = cases[i];
-        const char* got = btoa(c.b);
+        const char* got = btos(c.b);
         if (strcmp(got, c.want) != 0) {
-            fprintf(stderr, C_RED"FAILED"C_RESET": btoa(%d) => %s, want %s\n", c.b, got, c.want);
+            fprintf(stderr, C_RED"FAILED"C_RESET": btos(%d) => %s, want %s\n", c.b, got, c.want);
             return false;
         }
     }
@@ -83,7 +83,7 @@ bool test_contains() {
         struct case_ c = cases[i];
         bool got = contains(c.s, c.keyword);
         if (got != c.want) {
-            fprintf(stderr, C_RED"FAILED"C_RESET": contains('%s', '%s') => %s, want %s\n", c.s, c.keyword, btoa(got), btoa(c.want));
+            fprintf(stderr, C_RED"FAILED"C_RESET": contains('%s', '%s') => %s, want %s\n", c.s, c.keyword, btos(got), btos(c.want));
             return false;
         }
 

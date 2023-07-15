@@ -1,14 +1,14 @@
 #include <string.h>
 #include "string.h"
 
-bool atob(const char* s) {
+bool stob(const char* s) {
     if (strcmp(s, "true") == 0) return true;
-    else return false;
+    return false;
 }
 
-const char* btoa(bool b) {
+const char* btos(bool b) {
     if (b == false) return "false";
-    else return "true";
+    return "true";
 }
 
 bool contains(const char* s, const char* keyword) {
