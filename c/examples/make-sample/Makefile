@@ -27,12 +27,20 @@ TARGET=$(BIN_DIR)/make-sample
 DEP=$(DEP_DIR)/dependencies.dep
 CC=gcc
 
-build: prepare dep $(TARGET)
+build:
+ifeq ($(__verbose),)
+	@make src-build > /dev/null
+	@echo $(call blue,QUIET BUILD COMPLETE): $(TARGET)
+else
+	make src-build
+endif
 
-prepare:
+src-build: src-prepare src-dep $(TARGET)
+
+src-prepare:
 	mkdir -p $(OBJ_DIRS) $(BIN_DIR) $(DEP_DIR)
 
-dep:
+src-dep:
 	rm -f $(DEP)
 	$(foreach dir,$(SRC_DIRS),$(CC) -MM $(wildcard $(dir)/*.c) | sed "s,^\(.*\)\.o:,$(call src2obj,$(dir))/\1.o:,g" >> $(DEP);)
 
@@ -45,10 +53,10 @@ $(TARGET): $(OBJS)
 
 run:
 ifeq ($(__verbose),)
-	@make build > /dev/null
+	@make src-build > /dev/null
 	@./$(TARGET) $(__args)
 else
-	make build
+	make src-build
 	@echo
 	@printf '> '$(call blue,RUN)': '
 	./$(TARGET) $(__args)
@@ -66,7 +74,7 @@ TESTS=$(wildcard $(patsubst %,%/*.c,$(TEST_DIRS)))
 TOBJS=$(patsubst $(TEST_ROOT)/%.c,$(TOBJ_ROOT)/%.o,$(TESTS))
 TEST_TARGET=$(TARGET)-test
 
-test-build: build test-prepare test-dep $(TEST_TARGET)
+test-build: src-build test-prepare test-dep $(TEST_TARGET)
 
 test-prepare:
 	mkdir -p $(TOBJ_DIRS)
@@ -123,7 +131,7 @@ env:
 	@echo __args=$(__args)
 	@echo __verbose=$(__verbose)
 
-.PHONY: build prepare dep run test-build test-prepare test-dep test clean var env
+.PHONY: build src-build src-prepare src-dep run test-build test-prepare test-dep test clean var env
 
 ifeq ($(DEP),$(wildcard $(DEP)))
 include $(DEP)
