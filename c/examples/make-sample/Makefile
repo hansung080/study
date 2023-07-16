@@ -30,7 +30,7 @@ CC=gcc
 build:
 ifeq ($(__verbose),)
 	@make src-build > /dev/null
-	@echo $(call blue,QUIET BUILD COMPLETE): $(TARGET)
+	@echo $(call blue,BUILD COMPLETE): $(TARGET)
 else
 	make src-build
 endif
@@ -49,7 +49,7 @@ $(OBJ_ROOT)/%.o: $(SRC_ROOT)/%.c
 
 $(TARGET): $(OBJS)
 	$(CC) -o $@ $^
-	@echo $(call blue,BUILD COMPLETE): $@
+	@echo $(call blue,SRC BUILD COMPLETE): $@
 
 run:
 ifeq ($(__verbose),)
