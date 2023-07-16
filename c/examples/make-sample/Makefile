@@ -43,10 +43,16 @@ $(TARGET): $(OBJS)
 	$(CC) -o $@ $^
 	@echo $(call blue,BUILD COMPLETE): $@
 
-run: build
+run:
+ifeq ($(__verbose),)
+	@make build > /dev/null
+	@./$(TARGET) $(__args)
+else
+	make build
 	@echo
 	@printf '> '$(call blue,RUN)': '
 	./$(TARGET) $(__args)
+endif
 
 # Variables & Rules for test
 TEST_ROOT=test
@@ -75,10 +81,16 @@ $(TEST_TARGET): $(subst $(OBJ_ROOT)/main.o,,$(OBJS)) $(TOBJS)
 	$(CC) -o $@ $^
 	@echo $(call blue,TEST BUILD COMPLETE): $@
 
-test: test-build
+test:
+ifeq ($(__verbose),)
+	@make test-build > /dev/null
+	@./$(TEST_TARGET) $(__args)
+else
+	make test-build
 	@echo
 	@printf '> '$(call blue,TEST START)': '
 	./$(TEST_TARGET) $(__args)
+endif
 
 # Rules for src & test
 clean:
@@ -106,6 +118,12 @@ var:
 	@echo TESTS=$(TESTS)
 	@echo TOBJS=$(TOBJS)
 	@echo TEST_TARGET=$(TEST_TARGET)
+
+env:
+	@echo __args=$(__args)
+	@echo __verbose=$(__verbose)
+
+.PHONY: build prepare dep run test-build test-prepare test-dep test clean var env
 
 ifeq ($(DEP),$(wildcard $(DEP)))
 include $(DEP)

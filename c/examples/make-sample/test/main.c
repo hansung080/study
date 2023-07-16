@@ -44,7 +44,7 @@ int main(int argc, char* argv[]) {
         if (argc < 2 || contains(t.name, argv[1])) {
             ++n_tests;
             bool ok = t.func();
-            printf("==>> %s - %s\n", t.name, ok ? C_GREEN"ok"C_RESET : C_RED"FAILED"C_RESET);
+            printf("# %d. %s - %s\n", i + 1, t.name, ok ? C_GREEN"ok"C_RESET : C_RED"FAILED"C_RESET);
             if (ok) ++passed;
             else return 2;
         }        
