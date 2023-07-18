@@ -1,4 +1,6 @@
-# Variables for Color
+# Makefile for a binary project
+
+# Common Variables
 C_RED=\033[0;31m
 C_GREEN=\033[0;32m
 C_BLUE=\033[0;34m
@@ -24,7 +26,7 @@ OBJ_DIRS=$(call src2obj,$(SRC_DIRS))
 SRCS=$(wildcard $(patsubst %,%/*.c,$(SRC_DIRS)))
 OBJS=$(patsubst $(SRC_ROOT)/%.c,$(OBJ_ROOT)/%.o,$(SRCS))
 TARGET=$(BIN_DIR)/make-sample
-DEP=$(DEP_DIR)/dependencies.dep
+DEP=$(DEP_DIR)/dependencies.mk
 CC=gcc
 
 build:
