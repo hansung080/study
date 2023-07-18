@@ -1,34 +1,35 @@
 # Makefile for a binary project
 
 # Common Variables
-C_RED=\033[0;31m
-C_GREEN=\033[0;32m
-C_BLUE=\033[0;34m
-C_YELLOW=\033[1;33m
-C_RESET=\033[0m
+C_RED := \033[0;31m
+C_GREEN := \033[0;32m
+C_BLUE := \033[0;34m
+C_YELLOW := \033[1;33m
+C_RESET := \033[0m
 
-red="$(C_RED)$(1)$(C_RESET)"
-green="$(C_GREEN)$(1)$(C_RESET)"
-blue="$(C_BLUE)$(1)$(C_RESET)"
-yellow="$(C_YELLOW)$(1)$(C_RESET)"
+red = "$(C_RED)$(1)$(C_RESET)"
+green = "$(C_GREEN)$(1)$(C_RESET)"
+blue = "$(C_BLUE)$(1)$(C_RESET)"
+yellow = "$(C_YELLOW)$(1)$(C_RESET)"
 
 # Variables & Rules for src
-SRC_ROOT=src
-BUILD_DIR=build
-OBJ_ROOT=$(BUILD_DIR)/obj
-BIN_DIR=$(BUILD_DIR)/bin
-DEP_DIR=$(BUILD_DIR)/dep
+SRC_ROOT := src
+BUILD_DIR := build
+OBJ_ROOT := $(BUILD_DIR)/obj
+BIN_DIR := $(BUILD_DIR)/bin
+DEP_DIR := $(BUILD_DIR)/dep
 
-SRC_DIRS=$(shell find $(SRC_ROOT) -type d)
-src2obj=$(patsubst $(SRC_ROOT)%,$(OBJ_ROOT)%,$(1))
-OBJ_DIRS=$(call src2obj,$(SRC_DIRS))
+SRC_DIRS := $(shell find $(SRC_ROOT) -type d)
+src2obj = $(patsubst $(SRC_ROOT)%,$(OBJ_ROOT)%,$(1))
+OBJ_DIRS := $(call src2obj,$(SRC_DIRS))
 
-SRCS=$(wildcard $(patsubst %,%/*.c,$(SRC_DIRS)))
-OBJS=$(patsubst $(SRC_ROOT)/%.c,$(OBJ_ROOT)/%.o,$(SRCS))
-TARGET=$(BIN_DIR)/make-sample
-DEP=$(DEP_DIR)/dependencies.mk
-CC=gcc
+SRCS := $(wildcard $(patsubst %,%/*.c,$(SRC_DIRS)))
+OBJS := $(patsubst $(SRC_ROOT)/%.c,$(OBJ_ROOT)/%.o,$(SRCS))
+TARGET := $(BIN_DIR)/make-sample
+DEP := $(DEP_DIR)/dependencies.mk
+CC := gcc
 
+.PHONY: build
 build:
 ifeq ($(__verbose),)
 	@make src-build > /dev/null
@@ -37,11 +38,14 @@ else
 	make src-build
 endif
 
+.PHONY: src-build
 src-build: src-prepare src-dep $(TARGET)
 
+.PHONY: src-prepare
 src-prepare:
 	mkdir -p $(OBJ_DIRS) $(BIN_DIR) $(DEP_DIR)
 
+.PHONY: src-dep
 src-dep:
 	rm -f $(DEP)
 	$(foreach dir,$(SRC_DIRS),$(CC) -MM $(wildcard $(dir)/*.c) | sed "s,^\(.*\)\.o:,$(call src2obj,$(dir))/\1.o:,g" >> $(DEP);)
@@ -53,6 +57,7 @@ $(TARGET): $(OBJS)
 	$(CC) -o $@ $^
 	@echo $(call blue,SRC BUILD COMPLETE): $@
 
+.PHONY: run
 run:
 ifeq ($(__verbose),)
 	@make src-build > /dev/null
@@ -65,22 +70,25 @@ else
 endif
 
 # Variables & Rules for test
-TEST_ROOT=test
-TOBJ_ROOT=$(BUILD_DIR)/tobj
+TEST_ROOT := test
+TOBJ_ROOT := $(BUILD_DIR)/tobj
 
-TEST_DIRS=$(shell find $(TEST_ROOT) -type d)
-test2obj=$(patsubst $(TEST_ROOT)%,$(TOBJ_ROOT)%,$(1))
-TOBJ_DIRS=$(call test2obj,$(TEST_DIRS))
+TEST_DIRS := $(shell find $(TEST_ROOT) -type d)
+test2obj = $(patsubst $(TEST_ROOT)%,$(TOBJ_ROOT)%,$(1))
+TOBJ_DIRS := $(call test2obj,$(TEST_DIRS))
 
-TESTS=$(wildcard $(patsubst %,%/*.c,$(TEST_DIRS)))
-TOBJS=$(patsubst $(TEST_ROOT)/%.c,$(TOBJ_ROOT)/%.o,$(TESTS))
-TEST_TARGET=$(TARGET)-test
+TESTS := $(wildcard $(patsubst %,%/*.c,$(TEST_DIRS)))
+TOBJS := $(patsubst $(TEST_ROOT)/%.c,$(TOBJ_ROOT)/%.o,$(TESTS))
+TEST_TARGET := $(TARGET)-test
 
+.PHONY: test-build
 test-build: src-build test-prepare test-dep $(TEST_TARGET)
 
+.PHONY: test-prepare
 test-prepare:
 	mkdir -p $(TOBJ_DIRS)
 
+.PHONY: test-dep
 test-dep:
 	$(foreach dir,$(TEST_DIRS),$(CC) -MM $(wildcard $(dir)/*.c) | sed "s,^\(.*\)\.o:,$(call test2obj,$(dir))/\1.o:,g" >> $(DEP);)
 
@@ -91,6 +99,7 @@ $(TEST_TARGET): $(subst $(OBJ_ROOT)/main.o,,$(OBJS)) $(TOBJS)
 	$(CC) -o $@ $^
 	@echo $(call blue,TEST BUILD COMPLETE): $@
 
+.PHONY: test
 test:
 ifeq ($(__verbose),)
 	@make test-build > /dev/null
@@ -103,37 +112,38 @@ else
 endif
 
 # Rules for src & test
+.PHONY: clean
 clean:
 	rm -rf $(BUILD_DIR)
 	find $(SRC_ROOT) -name "*.pch" -o -name "*.gch" -o -name "*.stackdump" | xargs rm -f
 	find $(TEST_ROOT) -name "*.pch" -o -name "*.gch" -o -name "*.stackdump" | xargs rm -f
 
+.PHONY: var
 var:
-	@echo SRC_ROOT=$(SRC_ROOT)
-	@echo BUILD_DIR=$(BUILD_DIR)
-	@echo OBJ_ROOT=$(OBJ_ROOT)
-	@echo BIN_DIR=$(BIN_DIR)
-	@echo DEP_DIR=$(DEP_DIR)
-	@echo SRC_DIRS=$(SRC_DIRS)
-	@echo OBJ_DIRS=$(OBJ_DIRS)
-	@echo SRCS=$(SRCS)
-	@echo OBJS=$(OBJS)
-	@echo TARGET=$(TARGET)
-	@echo DEP=$(DEP)
-	@echo CC=$(CC)
-	@echo TEST_ROOT=$(TEST_ROOT)
-	@echo TOBJ_ROOT=$(TOBJ_ROOT)
-	@echo TEST_DIRS=$(TEST_DIRS)
-	@echo TOBJ_DIRS=$(TOBJ_DIRS)
-	@echo TESTS=$(TESTS)
-	@echo TOBJS=$(TOBJS)
-	@echo TEST_TARGET=$(TEST_TARGET)
+	@echo SRC_ROOT=$(SRC_ROOT)';'
+	@echo BUILD_DIR=$(BUILD_DIR)';'
+	@echo OBJ_ROOT=$(OBJ_ROOT)';'
+	@echo BIN_DIR=$(BIN_DIR)';'
+	@echo DEP_DIR=$(DEP_DIR)';'
+	@echo SRC_DIRS=$(SRC_DIRS)';'
+	@echo OBJ_DIRS=$(OBJ_DIRS)';'
+	@echo SRCS=$(SRCS)';'
+	@echo OBJS=$(OBJS)';'
+	@echo TARGET=$(TARGET)';'
+	@echo DEP=$(DEP)';'
+	@echo CC=$(CC)';'
+	@echo TEST_ROOT=$(TEST_ROOT)';'
+	@echo TOBJ_ROOT=$(TOBJ_ROOT)';'
+	@echo TEST_DIRS=$(TEST_DIRS)';'
+	@echo TOBJ_DIRS=$(TOBJ_DIRS)';'
+	@echo TESTS=$(TESTS)';'
+	@echo TOBJS=$(TOBJS)';'
+	@echo TEST_TARGET=$(TEST_TARGET)';'
 
+.PHONY: env
 env:
 	@echo __args=$(__args)
 	@echo __verbose=$(__verbose)
-
-.PHONY: build src-build src-prepare src-dep run test-build test-prepare test-dep test clean var env
 
 ifeq ($(DEP),$(wildcard $(DEP)))
 include $(DEP)
