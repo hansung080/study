@@ -12,9 +12,12 @@ green = "$(C_GREEN)$(1)$(C_RESET)"
 blue = "$(C_BLUE)$(1)$(C_RESET)"
 yellow = "$(C_YELLOW)$(1)$(C_RESET)"
 
+SELF := $(firstword $(MAKEFILE_LIST))
+PROJECT_ROOT := $(patsubst %/,%,$(dir $(SELF)))
+
 # Variables & Rules for src
-SRC_ROOT := src
-BUILD_DIR := build
+SRC_ROOT := $(PROJECT_ROOT)/src
+BUILD_DIR := $(PROJECT_ROOT)/build
 OBJ_ROOT := $(BUILD_DIR)/obj
 BIN_DIR := $(BUILD_DIR)/bin
 DEP_DIR := $(BUILD_DIR)/dep
@@ -28,14 +31,15 @@ OBJS := $(patsubst $(SRC_ROOT)/%.c,$(OBJ_ROOT)/%.o,$(SRCS))
 TARGET := $(BIN_DIR)/make-sample
 DEP := $(DEP_DIR)/dependencies.mk
 CC := gcc
+MAKE_REC := make -f $(SELF) $(MFLAGS) $(MAKEOVERRIDES)
 
 .PHONY: build
 build:
 ifeq ($(__verbose),)
-	@make src-build > /dev/null
+	@$(MAKE_REC) src-build > /dev/null
 	@echo $(call blue,BUILD COMPLETE): $(TARGET)
 else
-	make src-build
+	$(MAKE_REC) src-build
 endif
 
 .PHONY: src-build
@@ -60,17 +64,17 @@ $(TARGET): $(OBJS)
 .PHONY: run
 run:
 ifeq ($(__verbose),)
-	@make src-build > /dev/null
-	@./$(TARGET) $(__args)
+	@$(MAKE_REC) src-build > /dev/null
+	@$(TARGET) $(__args)
 else
-	make src-build
+	$(MAKE_REC) src-build
 	@echo
 	@printf '> '$(call blue,RUN)': '
-	./$(TARGET) $(__args)
+	$(TARGET) $(__args)
 endif
 
 # Variables & Rules for test
-TEST_ROOT := test
+TEST_ROOT := $(PROJECT_ROOT)/test
 TOBJ_ROOT := $(BUILD_DIR)/tobj
 
 TEST_DIRS := $(shell find $(TEST_ROOT) -type d)
@@ -102,13 +106,13 @@ $(TEST_TARGET): $(subst $(OBJ_ROOT)/main.o,,$(OBJS)) $(TOBJS)
 .PHONY: test
 test:
 ifeq ($(__verbose),)
-	@make test-build > /dev/null
-	@./$(TEST_TARGET) $(__args)
+	@$(MAKE_REC) test-build > /dev/null
+	@$(TEST_TARGET) $(__args)
 else
-	make test-build
+	$(MAKE_REC) test-build
 	@echo
 	@printf '> '$(call blue,TEST START)': '
-	./$(TEST_TARGET) $(__args)
+	$(TEST_TARGET) $(__args)
 endif
 
 # Rules for src & test
@@ -120,6 +124,9 @@ clean:
 
 .PHONY: var
 var:
+	@echo $(call blue,# User-defined Variables)
+	@echo SELF=$(SELF)';'
+	@echo PROJECT_ROOT=$(PROJECT_ROOT)';'
 	@echo SRC_ROOT=$(SRC_ROOT)';'
 	@echo BUILD_DIR=$(BUILD_DIR)';'
 	@echo OBJ_ROOT=$(OBJ_ROOT)';'
@@ -132,6 +139,7 @@ var:
 	@echo TARGET=$(TARGET)';'
 	@echo DEP=$(DEP)';'
 	@echo CC=$(CC)';'
+	@echo MAKE_REC=$(MAKE_REC)';'
 	@echo TEST_ROOT=$(TEST_ROOT)';'
 	@echo TOBJ_ROOT=$(TOBJ_ROOT)';'
 	@echo TEST_DIRS=$(TEST_DIRS)';'
@@ -139,11 +147,18 @@ var:
 	@echo TESTS=$(TESTS)';'
 	@echo TOBJS=$(TOBJS)';'
 	@echo TEST_TARGET=$(TEST_TARGET)';'
+	@echo $(call blue,# Built-in Variables)
+	@echo MAKE=$(MAKE)';'
+	@echo MAKEFLAGS=$(MAKEFLAGS)';'
+	@echo MFLAGS=$(MFLAGS)';'
+	@echo MAKEOVERRIDES=$(MAKEOVERRIDES)';'
+	@echo MAKEFILE_LIST=$(MAKEFILE_LIST)';'
 
 .PHONY: env
 env:
-	@echo __args=$(__args)
-	@echo __verbose=$(__verbose)
+	@echo $(call blue,# Environment Variables)
+	@echo __args=$(__args)';'
+	@echo __verbose=$(__verbose)';'
 
 ifeq ($(DEP),$(wildcard $(DEP)))
 include $(DEP)
