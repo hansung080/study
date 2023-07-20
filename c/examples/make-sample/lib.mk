@@ -51,13 +51,13 @@ MAKE_REC := make -f $(SELF) $(MFLAGS) $(MAKEOVERRIDES)
 build:
 ifeq ($(__verbose),)
 	@$(MAKE_REC) src-build > /dev/null
-	@echo $(call blue,BUILD COMPLETE): $(A_TARGET) $(SO_TARGET)
+	@echo $(call blue,BUILD COMPLETE): $(if $(__static),$(A_TARGET),$(SO_TARGET))
 else
 	$(MAKE_REC) src-build
 endif
 
 .PHONY: src-build
-src-build: src-prepare src-dep $(A_TARGET) $(SO_TARGET)
+src-build: src-prepare src-dep $(if $(__static),$(A_TARGET),$(SO_TARGET))
 
 .PHONY: src-prepare
 src-prepare:
@@ -65,7 +65,7 @@ src-prepare:
 
 .PHONY: src-dep
 src-dep:
-	$(CC) -MM $(SRCS) | sed "s,\(^.*\.o: $(patsubst ./%,%,$(SRC_ROOT))\)\(.*\)\(/.*\.c\),$(AOBJ_ROOT)\2/\1\2\3," > $(DEP)
+	$(CC) -MM $(SRCS) | sed "s,\(^.*\.o: $(patsubst ./%,%,$(SRC_ROOT))\)\(.*\)\(/.*\.c\),$(if $(__static),$(AOBJ_ROOT),$(SOBJ_ROOT))\2/\1\2\3," > $(DEP)
 
 $(AOBJ_ROOT)/%.o: $(SRC_ROOT)/%.c
 	$(CC) -c -o $@ $<
@@ -186,6 +186,7 @@ var:
 env:
 	@echo $(call blue,# Environment Variables)
 	@echo __args=$(__args)';'
+	@echo __static=$(__static)';'
 	@echo __verbose=$(__verbose)';'
 
 ifeq ($(DEP),$(wildcard $(DEP)))
