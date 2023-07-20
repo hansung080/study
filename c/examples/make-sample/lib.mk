@@ -101,7 +101,7 @@ TOBJ_DIRS := $(call test2obj,$(TEST_DIRS))
 
 TESTS := $(wildcard $(patsubst %,%/*.c,$(TEST_DIRS)))
 TOBJS := $(patsubst $(TEST_ROOT)/%.c,$(TOBJ_ROOT)/%.o,$(TESTS))
-TEST_TARGET := $(BIN_DIR)/$(TARGET_NAME)-test
+TEST_TARGET := $(BIN_DIR)/test-$(TARGET_NAME)
 
 .PHONY: test-build
 test-build: src-build test-prepare test-dep $(TEST_TARGET)

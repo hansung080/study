@@ -28,7 +28,8 @@ OBJ_DIRS := $(call src2obj,$(SRC_DIRS))
 
 SRCS := $(wildcard $(patsubst %,%/*.c,$(SRC_DIRS)))
 OBJS := $(patsubst $(SRC_ROOT)/%.c,$(OBJ_ROOT)/%.o,$(SRCS))
-TARGET := $(BIN_DIR)/make-sample
+TARGET_NAME := make-sample
+TARGET := $(BIN_DIR)/$(TARGET_NAME)
 DEP := $(DEP_DIR)/dependencies.mk
 CC := gcc
 MAKE_REC := make -f $(SELF) $(MFLAGS) $(MAKEOVERRIDES)
@@ -83,7 +84,7 @@ TOBJ_DIRS := $(call test2obj,$(TEST_DIRS))
 
 TESTS := $(wildcard $(patsubst %,%/*.c,$(TEST_DIRS)))
 TOBJS := $(patsubst $(TEST_ROOT)/%.c,$(TOBJ_ROOT)/%.o,$(TESTS))
-TEST_TARGET := $(TARGET)-test
+TEST_TARGET := $(BIN_DIR)/test-$(TARGET_NAME)
 
 .PHONY: test-build
 test-build: src-build test-prepare test-dep $(TEST_TARGET)
