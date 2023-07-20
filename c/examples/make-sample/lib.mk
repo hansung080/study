@@ -24,10 +24,8 @@ LIB_DIR := $(BUILD_DIR)/lib
 DEP_DIR := $(BUILD_DIR)/dep
 
 SRC_DIRS := $(shell find $(SRC_ROOT) -type d)
-src2aobj = $(patsubst $(SRC_ROOT)%,$(AOBJ_ROOT)%,$(1))
-AOBJ_DIRS := $(call src2aobj,$(SRC_DIRS))
-src2sobj = $(patsubst $(SRC_ROOT)%,$(SOBJ_ROOT)%,$(1))
-SOBJ_DIRS := $(call src2sobj,$(SRC_DIRS))
+AOBJ_DIRS := $(patsubst $(SRC_ROOT)%,$(AOBJ_ROOT)%,$(SRC_DIRS))
+SOBJ_DIRS := $(patsubst $(SRC_ROOT)%,$(SOBJ_ROOT)%,$(SRC_DIRS))
 
 SRCS := $(subst $(SRC_ROOT)/main.c,,$(wildcard $(patsubst %,%/*.c,$(SRC_DIRS))))
 AOBJS := $(patsubst $(SRC_ROOT)/%.c,$(AOBJ_ROOT)/%.o,$(SRCS))
@@ -67,8 +65,7 @@ src-prepare:
 
 .PHONY: src-dep
 src-dep:
-	rm -f $(DEP)
-	$(foreach dir,$(SRC_DIRS),$(CC) -MM $(wildcard $(dir)/*.c) | sed "s,^\(.*\)\.o:,$(call src2aobj,$(dir))/\1.o:,g" >> $(DEP);)
+	$(CC) -MM $(SRCS) | sed "s,\(^.*\.o: $(patsubst ./%,%,$(SRC_ROOT))\)\(.*\)\(/.*\.c\),$(AOBJ_ROOT)\2/\1\2\3," > $(DEP)
 
 $(AOBJ_ROOT)/%.o: $(SRC_ROOT)/%.c
 	$(CC) -c -o $@ $<
@@ -102,6 +99,7 @@ TOBJ_DIRS := $(call test2obj,$(TEST_DIRS))
 TESTS := $(wildcard $(patsubst %,%/*.c,$(TEST_DIRS)))
 TOBJS := $(patsubst $(TEST_ROOT)/%.c,$(TOBJ_ROOT)/%.o,$(TESTS))
 TEST_TARGET := $(BIN_DIR)/test-$(TARGET_NAME)
+TEST_DEP := $(DEP_DIR)/test_dependencies.mk
 
 .PHONY: test-build
 test-build: src-build test-prepare test-dep $(TEST_TARGET)
@@ -112,7 +110,7 @@ test-prepare:
 
 .PHONY: test-dep
 test-dep:
-	$(foreach dir,$(TEST_DIRS),$(CC) -MM $(wildcard $(dir)/*.c) | sed "s,^\(.*\)\.o:,$(call test2obj,$(dir))/\1.o:,g" >> $(DEP);)
+	$(CC) -MM $(TESTS) | sed "s,\(^.*\.o: $(patsubst ./%,%,$(TEST_ROOT))\)\(.*\)\(/.*\.c\),$(TOBJ_ROOT)\2/\1\2\3," > $(TEST_DEP)
 
 $(TOBJ_ROOT)/%.o: $(TEST_ROOT)/%.c
 	$(CC) -c -o $@ $<
@@ -177,6 +175,7 @@ var:
 	@echo TESTS=$(TESTS)';'
 	@echo TOBJS=$(TOBJS)';'
 	@echo TEST_TARGET=$(TEST_TARGET)';'
+	@echo TEST_DEP=$(TEST_DEP)';'
 	@echo $(call blue,# Built-in Variables)
 	@echo MAKE=$(MAKE)';'
 	@echo MAKEFLAGS=$(MAKEFLAGS)';'
