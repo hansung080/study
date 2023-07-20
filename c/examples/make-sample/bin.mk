@@ -77,8 +77,7 @@ TEST_ROOT := $(PROJECT_ROOT)/test
 TOBJ_ROOT := $(BUILD_DIR)/tobj
 
 TEST_DIRS := $(shell find $(TEST_ROOT) -type d)
-test2obj = $(patsubst $(TEST_ROOT)%,$(TOBJ_ROOT)%,$(1))
-TOBJ_DIRS := $(call test2obj,$(TEST_DIRS))
+TOBJ_DIRS := $(patsubst $(TEST_ROOT)%,$(TOBJ_ROOT)%,$(TEST_DIRS))
 
 TESTS := $(wildcard $(patsubst %,%/*.c,$(TEST_DIRS)))
 TOBJS := $(patsubst $(TEST_ROOT)/%.c,$(TOBJ_ROOT)/%.o,$(TESTS))
