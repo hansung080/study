@@ -6,7 +6,6 @@ C_GREEN := \033[0;32m
 C_BLUE := \033[0;34m
 C_YELLOW := \033[1;33m
 C_RESET := \033[0m
-
 red = "$(C_RED)$(1)$(C_RESET)"
 green = "$(C_GREEN)$(1)$(C_RESET)"
 blue = "$(C_BLUE)$(1)$(C_RESET)"
@@ -46,7 +45,7 @@ TARGET := $(if $(__static),$(ST_TARGET),$(DY_TARGET))
 DEP := $(DEP_DIR)/dependencies.mk
 CC := gcc
 CFLAGS :=
-LDFLAGS :=
+DY_FLAGS :=
 AR := ar
 MAKE_REC := make -f $(SELF)
 
@@ -81,7 +80,7 @@ $(DY_OBJ_ROOT)/%.o: $(SRC_ROOT)/%.c
 	$(CC) -c -fPIC -o $@ $(CFLAGS) $<
 
 $(DY_TARGET): $(DY_OBJS)
-	$(CC) -shared -Wl,$(DYNAME_FLAG),$(DY_LIB_NAME).$(DY_MAJOR) -o $@ $(LDFLAGS) $^
+	$(CC) -shared -Wl,$(DYNAME_FLAG),$(DY_LIB_NAME).$(DY_MAJOR) -o $@ $(DY_FLAGS) $^
 	ln -sf $@ $(DY_LIB).$(DY_MAJOR)
 	ln -sf $(DY_LIB).$(DY_MAJOR) $(DY_LIB)
 	@echo $(call blue,BUILD COMPLETE): $@
@@ -181,7 +180,7 @@ var:
 	@echo DEP=$(DEP)';'
 	@echo CC=$(CC)';'
 	@echo CFLAGS=$(CFLAGS)';'
-	@echo LDFLAGS=$(LDFLAGS)';'
+	@echo DY_FLAGS=$(DY_FLAGS)';'
 	@echo AR=$(AR)';'
 	@echo MAKE_REC=$(MAKE_REC)';'
 	@echo TEST_SRC_ROOT=$(TEST_SRC_ROOT)';'

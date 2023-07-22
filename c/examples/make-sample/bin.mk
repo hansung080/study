@@ -6,7 +6,6 @@ C_GREEN := \033[0;32m
 C_BLUE := \033[0;34m
 C_YELLOW := \033[1;33m
 C_RESET := \033[0m
-
 red = "$(C_RED)$(1)$(C_RESET)"
 green = "$(C_GREEN)$(1)$(C_RESET)"
 blue = "$(C_BLUE)$(1)$(C_RESET)"
@@ -31,6 +30,8 @@ TARGET_NAME := make-sample
 TARGET := $(BIN_DIR)/$(TARGET_NAME)
 DEP := $(DEP_DIR)/dependencies.mk
 CC := gcc
+CFLAGS :=
+LDFLAGS :=
 MAKE_REC := make -f $(SELF)
 
 .PHONY: build
@@ -51,13 +52,13 @@ src-prepare:
 
 .PHONY: src-dep
 src-dep:
-	$(CC) -MM $(SRCS) | sed "s,\(^.*\.o: $(patsubst ./%,%,$(SRC_ROOT))\)\(.*\)\(/.*\.c\),$(OBJ_ROOT)\2/\1\2\3," > $(DEP)
+	$(CC) -MM $(CFLAGS) $(SRCS) | sed "s,\(^.*\.o: $(patsubst ./%,%,$(SRC_ROOT))\)\(.*\)\(/.*\.c\),$(OBJ_ROOT)\2/\1\2\3," > $(DEP)
 
 $(OBJ_ROOT)/%.o: $(SRC_ROOT)/%.c
-	$(CC) -c -o $@ $<
+	$(CC) -c -o $@ $(CFLAGS) $<
 
 $(TARGET): $(OBJS)
-	$(CC) -o $@ $^
+	$(CC) -o $@ $(LDFLAGS) $^
 	@echo $(call blue,BUILD COMPLETE): $@
 
 .PHONY: run
@@ -82,6 +83,8 @@ TEST_SRCS := $(wildcard $(patsubst %,%/*.c,$(TEST_SRC_DIRS)))
 TEST_OBJS := $(patsubst $(TEST_SRC_ROOT)/%.c,$(TEST_OBJ_ROOT)/%.o,$(TEST_SRCS))
 TEST_TARGET := $(BIN_DIR)/test-$(TARGET_NAME)
 TEST_DEP := $(DEP_DIR)/test_dependencies.mk
+TEST_CFLAGS :=
+TEST_LDFLAGS :=
 
 .PHONY: test-build
 test-build: src-build test-prepare test-dep $(TEST_TARGET)
@@ -92,13 +95,13 @@ test-prepare:
 
 .PHONY: test-dep
 test-dep:
-	$(CC) -MM $(TEST_SRCS) | sed "s,\(^.*\.o: $(patsubst ./%,%,$(TEST_SRC_ROOT))\)\(.*\)\(/.*\.c\),$(TEST_OBJ_ROOT)\2/\1\2\3," > $(TEST_DEP)
+	$(CC) -MM $(TEST_CFLAGS) $(TEST_SRCS) | sed "s,\(^.*\.o: $(patsubst ./%,%,$(TEST_SRC_ROOT))\)\(.*\)\(/.*\.c\),$(TEST_OBJ_ROOT)\2/\1\2\3," > $(TEST_DEP)
 
 $(TEST_OBJ_ROOT)/%.o: $(TEST_SRC_ROOT)/%.c
-	$(CC) -c -o $@ $<
+	$(CC) -c -o $@ $(TEST_CFLAGS) $<
 
 $(TEST_TARGET): $(subst $(OBJ_ROOT)/main.o,,$(OBJS)) $(TEST_OBJS)
-	$(CC) -o $@ $^
+	$(CC) -o $@ $(TEST_LDFLAGS) $^
 	@echo $(call blue,TEST BUILD COMPLETE): $@
 
 .PHONY: test
@@ -143,6 +146,8 @@ var:
 	@echo TARGET=$(TARGET)';'
 	@echo DEP=$(DEP)';'
 	@echo CC=$(CC)';'
+	@echo CFLAGS=$(CFLAGS)';'
+	@echo LDFLAGS=$(LDFLAGS)';'
 	@echo MAKE_REC=$(MAKE_REC)';'
 	@echo TEST_SRC_ROOT=$(TEST_SRC_ROOT)';'
 	@echo TEST_OBJ_ROOT=$(TEST_OBJ_ROOT)';'
@@ -152,6 +157,8 @@ var:
 	@echo TEST_OBJS=$(TEST_OBJS)';'
 	@echo TEST_TARGET=$(TEST_TARGET)';'
 	@echo TEST_DEP=$(TEST_DEP)';'
+	@echo TEST_CFLAGS=$(TEST_CFLAGS)';'
+	@echo TEST_LDFLAGS=$(TEST_LDFLAGS)';'
 	@echo $(call blue,# Built-in Variables)
 	@echo MAKE=$(MAKE)';'
 	@echo MAKEFLAGS=$(MAKEFLAGS)';'
