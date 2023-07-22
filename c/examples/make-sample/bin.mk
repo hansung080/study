@@ -11,6 +11,11 @@ green = "$(C_GREEN)$(1)$(C_RESET)"
 blue = "$(C_BLUE)$(1)$(C_RESET)"
 yellow = "$(C_YELLOW)$(1)$(C_RESET)"
 
+ifeq ($(shell uname -s),Darwin)
+IS_MAC := true
+else
+IS_MAC :=
+endif
 VERSION := 1.0
 SELF := $(firstword $(MAKEFILE_LIST))
 PROJECT_ROOT := $(patsubst %/,%,$(dir $(SELF)))
@@ -32,7 +37,11 @@ DEP := $(DEP_DIR)/dependencies.mk
 CC := gcc
 CFLAGS :=
 LDFLAGS :=
+ifeq ($(IS_MAC),true)
 DYLD_LIBRARY_PATH :=
+else
+LD_LIBRARY_PATH :=
+endif
 MAKE_REC := make -f $(SELF)
 
 .PHONY: build
@@ -86,7 +95,11 @@ TEST_TARGET := $(BIN_DIR)/test-$(TARGET_NAME)
 TEST_DEP := $(DEP_DIR)/test_dependencies.mk
 TEST_CFLAGS :=
 TEST_LDFLAGS :=
+ifeq ($(IS_MAC),true)
 DYLD_LIBRARY_PATH :=
+else
+LD_LIBRARY_PATH :=
+endif
 
 .PHONY: test-build
 test-build: src-build test-prepare test-dep $(TEST_TARGET)
@@ -173,6 +186,7 @@ env:
 	@echo $(call blue,# Environment Variables)
 	@echo __args=$(__args)';'
 	@echo __verbose=$(__verbose)';'
+	@echo LD_LIBRARY_PATH=$(LD_LIBRARY_PATH)';'
 	@echo DYLD_LIBRARY_PATH=$(DYLD_LIBRARY_PATH)';'
 
 ifeq ($(DEP),$(wildcard $(DEP)))

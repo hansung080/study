@@ -11,6 +11,11 @@ green = "$(C_GREEN)$(1)$(C_RESET)"
 blue = "$(C_BLUE)$(1)$(C_RESET)"
 yellow = "$(C_YELLOW)$(1)$(C_RESET)"
 
+ifeq ($(shell uname -s),Darwin)
+IS_MAC := true
+else
+IS_MAC :=
+endif
 VERSION := 1.0
 SELF := $(firstword $(MAKEFILE_LIST))
 PROJECT_ROOT := $(patsubst %/,%,$(dir $(SELF)))
@@ -33,15 +38,10 @@ TARGET_NAME := make-sample
 ST_TARGET := $(LIB_DIR)/lib$(TARGET_NAME).a
 DY_LIB_NAME := lib$(TARGET_NAME)
 DY_LIB := $(LIB_DIR)/$(DY_LIB_NAME)
-DY_EXT := so
+DY_EXT := $(if $(IS_MAC),dylib,so)
 DY_MAJOR := 0
 DY_VERSION := $(DY_MAJOR).1.0
-DY_TARGET := $(DY_LIB).$(DY_EXT).$(DY_VERSION)
-ifeq ($(shell uname -s),Darwin)
-DYNAME_FLAG := -install_name
-else
-DYNAME_FLAG := -soname
-endif
+DY_TARGET := $(if $(IS_MAC),$(DY_LIB).$(DY_VERSION).$(DY_EXT),$(DY_LIB).$(DY_EXT).$(DY_VERSION))
 TARGET := $(if $(__static),$(ST_TARGET),$(DY_TARGET))
 DEP := $(DEP_DIR)/dependencies.mk
 CC := gcc
@@ -81,10 +81,17 @@ $(DY_OBJ_ROOT)/%.o: $(SRC_ROOT)/%.c
 	$(CC) -c -fPIC -o $@ $(CFLAGS) $<
 
 $(DY_TARGET): $(DY_OBJS)
-	$(CC) -shared -Wl,$(DYNAME_FLAG),$(DY_LIB_NAME).$(DY_EXT).$(DY_MAJOR) -o $@ $(DY_FLAGS) $^
+ifeq ($(IS_MAC),true)
+	$(CC) -dynamiclib -Wl,-install_name,$(DY_LIB_NAME).$(DY_MAJOR).$(DY_EXT) -o $@ $(DY_FLAGS) $^
+	ln -sf $(DY_LIB_NAME).$(DY_VERSION).$(DY_EXT) $(DY_LIB).$(DY_MAJOR).$(DY_EXT)
+	ln -sf $(DY_LIB_NAME).$(DY_MAJOR).$(DY_EXT) $(DY_LIB).$(DY_EXT)
+	@echo $(call blue,BUILD COMPLETE): $@
+else
+	$(CC) -shared -Wl,-soname,$(DY_LIB_NAME).$(DY_EXT).$(DY_MAJOR) -o $@ $(DY_FLAGS) $^
 	ln -sf $(DY_LIB_NAME).$(DY_EXT).$(DY_VERSION) $(DY_LIB).$(DY_EXT).$(DY_MAJOR)
 	ln -sf $(DY_LIB_NAME).$(DY_EXT).$(DY_MAJOR) $(DY_LIB).$(DY_EXT)
 	@echo $(call blue,BUILD COMPLETE): $@
+endif
 
 .PHONY: run
 run:
@@ -105,7 +112,11 @@ TEST_TARGET := $(if $(__static),$(ST_TEST_TARGET),$(DY_TEST_TARGET))
 TEST_DEP := $(DEP_DIR)/test_dependencies.mk
 TEST_CFLAGS :=
 TEST_LDFLAGS := -L$(LIB_DIR) -l$(patsubst lib%,%,$(DY_LIB_NAME))
+ifeq ($(IS_MAC),true)
 DYLD_LIBRARY_PATH := $(LIB_DIR)
+else
+LD_LIBRARY_PATH := $(LIB_DIR)
+endif
 
 .PHONY: test-build
 test-build: src-build test-prepare test-dep $(TEST_TARGET)
@@ -122,7 +133,7 @@ $(TEST_OBJ_ROOT)/%.o: $(TEST_SRC_ROOT)/%.c
 	$(CC) -c -o $@ $(TEST_CFLAGS) $<
 
 $(ST_TEST_TARGET): $(TEST_OBJS)
-	$(CC) -static -o $@ $(TEST_LDFLAGS) $^
+	$(CC) $(if $(IS_MAC),,-static) -o $@ $(TEST_LDFLAGS) $^
 	@echo $(call blue,TEST BUILD COMPLETE): $@
 
 $(DY_TEST_TARGET): $(TEST_OBJS)
@@ -155,6 +166,7 @@ version:
 .PHONY: var
 var:
 	@echo $(call blue,# User-defined Variables)
+	@echo IS_MAC=$(IS_MAC)';'
 	@echo VERSION=$(VERSION)';'
 	@echo SELF=$(SELF)';'
 	@echo PROJECT_ROOT=$(PROJECT_ROOT)';'
@@ -178,7 +190,6 @@ var:
 	@echo DY_MAJOR=$(DY_MAJOR)';'
 	@echo DY_VERSION=$(DY_VERSION)';'
 	@echo DY_TARGET=$(DY_TARGET)';'
-	@echo DYNAME_FLAG=$(DYNAME_FLAG)';'
 	@echo TARGET=$(TARGET)';'
 	@echo DEP=$(DEP)';'
 	@echo CC=$(CC)';'
@@ -212,6 +223,7 @@ env:
 	@echo __args=$(__args)';'
 	@echo __static=$(__static)';'
 	@echo __verbose=$(__verbose)';'
+	@echo LD_LIBRARY_PATH=$(LD_LIBRARY_PATH)';'
 	@echo DYLD_LIBRARY_PATH=$(DYLD_LIBRARY_PATH)';'
 
 ifeq ($(DEP),$(wildcard $(DEP)))
