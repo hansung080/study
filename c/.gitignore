@@ -59,3 +59,4 @@ dkms.conf
 
 # Added by hansung
 *.stackdump
+**/.vscode/settings.json
