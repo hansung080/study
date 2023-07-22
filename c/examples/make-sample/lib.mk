@@ -12,110 +12,120 @@ green = "$(C_GREEN)$(1)$(C_RESET)"
 blue = "$(C_BLUE)$(1)$(C_RESET)"
 yellow = "$(C_YELLOW)$(1)$(C_RESET)"
 
+VERSION := 1.0
 SELF := $(firstword $(MAKEFILE_LIST))
 PROJECT_ROOT := $(patsubst %/,%,$(dir $(SELF)))
 
 # Variables & Rules for src
 SRC_ROOT := $(PROJECT_ROOT)/src
 BUILD_DIR := $(PROJECT_ROOT)/build
-AOBJ_ROOT := $(BUILD_DIR)/aobj
-SOBJ_ROOT := $(BUILD_DIR)/sobj
+ST_OBJ_ROOT := $(BUILD_DIR)/sobj
+DY_OBJ_ROOT := $(BUILD_DIR)/dobj
 LIB_DIR := $(BUILD_DIR)/lib
 DEP_DIR := $(BUILD_DIR)/dep
-
 SRC_DIRS := $(shell find $(SRC_ROOT) -type d)
-AOBJ_DIRS := $(patsubst $(SRC_ROOT)%,$(AOBJ_ROOT)%,$(SRC_DIRS))
-SOBJ_DIRS := $(patsubst $(SRC_ROOT)%,$(SOBJ_ROOT)%,$(SRC_DIRS))
+ST_OBJ_DIRS := $(patsubst $(SRC_ROOT)%,$(ST_OBJ_ROOT)%,$(SRC_DIRS))
+DY_OBJ_DIRS := $(patsubst $(SRC_ROOT)%,$(DY_OBJ_ROOT)%,$(SRC_DIRS))
 
 SRCS := $(subst $(SRC_ROOT)/main.c,,$(wildcard $(patsubst %,%/*.c,$(SRC_DIRS))))
-AOBJS := $(patsubst $(SRC_ROOT)/%.c,$(AOBJ_ROOT)/%.o,$(SRCS))
-SOBJS := $(patsubst $(SRC_ROOT)/%.c,$(SOBJ_ROOT)/%.o,$(SRCS))
+ST_OBJS := $(patsubst $(SRC_ROOT)/%.c,$(ST_OBJ_ROOT)/%.o,$(SRCS))
+DY_OBJS := $(patsubst $(SRC_ROOT)/%.c,$(DY_OBJ_ROOT)/%.o,$(SRCS))
 TARGET_NAME := make-sample
-A_TARGET := $(LIB_DIR)/lib$(TARGET_NAME).a
-SO_NAME := lib$(TARGET_NAME).so
-SO_FILE := $(LIB_DIR)/$(SO_NAME)
-SO_MAJOR := 0
-SO_VERSION := $(SO_MAJOR).1.0
-SO_TARGET := $(SO_FILE).$(SO_VERSION)
+ST_TARGET := $(LIB_DIR)/lib$(TARGET_NAME).a
+DY_LIB_NAME := lib$(TARGET_NAME).so
+DY_LIB := $(LIB_DIR)/$(DY_LIB_NAME)
+DY_MAJOR := 0
+DY_VERSION := $(DY_MAJOR).1.0
+DY_TARGET := $(DY_LIB).$(DY_VERSION)
 ifeq ($(shell uname -s),Darwin)
-SO_FLAGS := -install_name
+DYNAME_FLAG := -install_name
 else
-SO_FLAGS := -soname
+DYNAME_FLAG := -soname
 endif
+TARGET := $(if $(__static),$(ST_TARGET),$(DY_TARGET))
 DEP := $(DEP_DIR)/dependencies.mk
 CC := gcc
+CFLAGS :=
+LDFLAGS :=
 AR := ar
-MAKE_REC := make -f $(SELF) $(MFLAGS) $(MAKEOVERRIDES)
+MAKE_REC := make -f $(SELF)
 
 .PHONY: build
 build:
 ifeq ($(__verbose),)
 	@$(MAKE_REC) src-build > /dev/null
-	@echo $(call blue,BUILD COMPLETE): $(if $(__static),$(A_TARGET),$(SO_TARGET))
+	@echo $(call blue,BUILD COMPLETE): $(TARGET)
 else
 	$(MAKE_REC) src-build
 endif
 
 .PHONY: src-build
-src-build: src-prepare src-dep $(if $(__static),$(A_TARGET),$(SO_TARGET))
+src-build: src-prepare src-dep $(TARGET)
 
 .PHONY: src-prepare
 src-prepare:
-	mkdir -p $(AOBJ_DIRS) $(SOBJ_DIRS) $(LIB_DIR) $(DEP_DIR)
+	mkdir -p $(if $(__static),$(ST_OBJ_DIRS),$(DY_OBJ_DIRS)) $(LIB_DIR) $(DEP_DIR)
 
 .PHONY: src-dep
 src-dep:
-	$(CC) -MM $(SRCS) | sed "s,\(^.*\.o: $(patsubst ./%,%,$(SRC_ROOT))\)\(.*\)\(/.*\.c\),$(if $(__static),$(AOBJ_ROOT),$(SOBJ_ROOT))\2/\1\2\3," > $(DEP)
+	$(CC) -MM $(CFLAGS) $(SRCS) | sed "s,\(^.*\.o: $(patsubst ./%,%,$(SRC_ROOT))\)\(.*\)\(/.*\.c\),$(if $(__static),$(ST_OBJ_ROOT),$(DY_OBJ_ROOT))\2/\1\2\3," > $(DEP)
 
-$(AOBJ_ROOT)/%.o: $(SRC_ROOT)/%.c
-	$(CC) -c -o $@ $<
+$(ST_OBJ_ROOT)/%.o: $(SRC_ROOT)/%.c
+	$(CC) -c -o $@ $(CFLAGS) $<
 
-$(A_TARGET): $(AOBJS)
-	$(AR) cr $@ $^
-	@echo $(call blue,A BUILD COMPLETE): $@
+$(ST_TARGET): $(ST_OBJS)
+	$(AR) crs $@ $^
+	@echo $(call blue,BUILD COMPLETE): $@
 
-$(SOBJ_ROOT)/%.o: $(SRC_ROOT)/%.c
-	$(CC) -c -fPIC -o $@ $<
+$(DY_OBJ_ROOT)/%.o: $(SRC_ROOT)/%.c
+	$(CC) -c -fPIC -o $@ $(CFLAGS) $<
 
-$(SO_TARGET): $(SOBJS)
-	$(CC) -shared -Wl,$(SO_FLAGS),$(SO_NAME).$(SO_MAJOR) -o $@ $^
-	ln -sf $@ $(SO_FILE).$(SO_MAJOR)
-	ln -sf $(SO_FILE).$(SO_MAJOR) $(SO_FILE)
-	@echo $(call blue,SO BUILD COMPLETE): $@
+$(DY_TARGET): $(DY_OBJS)
+	$(CC) -shared -Wl,$(DYNAME_FLAG),$(DY_LIB_NAME).$(DY_MAJOR) -o $@ $(LDFLAGS) $^
+	ln -sf $@ $(DY_LIB).$(DY_MAJOR)
+	ln -sf $(DY_LIB).$(DY_MAJOR) $(DY_LIB)
+	@echo $(call blue,BUILD COMPLETE): $@
 
 .PHONY: run
 run:
 	@echo cannot run a library project
 
 # Variables & Rules for test
-TEST_ROOT := $(PROJECT_ROOT)/test
-TOBJ_ROOT := $(BUILD_DIR)/tobj
+TEST_SRC_ROOT := $(PROJECT_ROOT)/test
+TEST_OBJ_ROOT := $(BUILD_DIR)/tobj
 BIN_DIR := $(BUILD_DIR)/bin
+TEST_SRC_DIRS := $(shell find $(TEST_SRC_ROOT) -type d)
+TEST_OBJ_DIRS := $(patsubst $(TEST_SRC_ROOT)%,$(TEST_OBJ_ROOT)%,$(TEST_SRC_DIRS))
 
-TEST_DIRS := $(shell find $(TEST_ROOT) -type d)
-TOBJ_DIRS := $(patsubst $(TEST_ROOT)%,$(TOBJ_ROOT)%,$(TEST_DIRS))
-
-TESTS := $(wildcard $(patsubst %,%/*.c,$(TEST_DIRS)))
-TOBJS := $(patsubst $(TEST_ROOT)/%.c,$(TOBJ_ROOT)/%.o,$(TESTS))
-TEST_TARGET := $(BIN_DIR)/test-$(TARGET_NAME)
+TEST_SRCS := $(wildcard $(patsubst %,%/*.c,$(TEST_SRC_DIRS)))
+TEST_OBJS := $(patsubst $(TEST_SRC_ROOT)/%.c,$(TEST_OBJ_ROOT)/%.o,$(TEST_SRCS))
+ST_TEST_TARGET := $(BIN_DIR)/stest-$(TARGET_NAME)
+DY_TEST_TARGET := $(BIN_DIR)/dtest-$(TARGET_NAME)
+TEST_TARGET := $(if $(__static),$(ST_TEST_TARGET),$(DY_TEST_TARGET))
 TEST_DEP := $(DEP_DIR)/test_dependencies.mk
+TEST_CFLAGS :=
+TEST_LDFLAGS := -L$(LIB_DIR) -l$(TARGET_NAME)
 
 .PHONY: test-build
 test-build: src-build test-prepare test-dep $(TEST_TARGET)
 
 .PHONY: test-prepare
 test-prepare:
-	mkdir -p $(TOBJ_DIRS) $(BIN_DIR)
+	mkdir -p $(TEST_OBJ_DIRS) $(BIN_DIR)
 
 .PHONY: test-dep
 test-dep:
-	$(CC) -MM $(TESTS) | sed "s,\(^.*\.o: $(patsubst ./%,%,$(TEST_ROOT))\)\(.*\)\(/.*\.c\),$(TOBJ_ROOT)\2/\1\2\3," > $(TEST_DEP)
+	$(CC) -MM $(TEST_CFLAGS) $(TEST_SRCS) | sed "s,\(^.*\.o: $(patsubst ./%,%,$(TEST_SRC_ROOT))\)\(.*\)\(/.*\.c\),$(TEST_OBJ_ROOT)\2/\1\2\3," > $(TEST_DEP)
 
-$(TOBJ_ROOT)/%.o: $(TEST_ROOT)/%.c
-	$(CC) -c -o $@ $<
+$(TEST_OBJ_ROOT)/%.o: $(TEST_SRC_ROOT)/%.c
+	$(CC) -c -o $@ $(TEST_CFLAGS) $<
 
-$(TEST_TARGET): $(AOBJS) $(TOBJS)
-	$(CC) -o $@ $^
+$(ST_TEST_TARGET): $(TEST_OBJS)
+	$(CC) -static -o $@ $(TEST_LDFLAGS) $^
+	@echo $(call blue,TEST BUILD COMPLETE): $@
+
+$(DY_TEST_TARGET): $(TEST_OBJS)
+	$(CC) -o $@ $(TEST_LDFLAGS) $^
 	@echo $(call blue,TEST BUILD COMPLETE): $@
 
 .PHONY: test
@@ -135,46 +145,58 @@ endif
 clean:
 	rm -rf $(BUILD_DIR)
 	find $(SRC_ROOT) -name "*.pch" -o -name "*.gch" -o -name "*.stackdump" | xargs rm -f
-	find $(TEST_ROOT) -name "*.pch" -o -name "*.gch" -o -name "*.stackdump" | xargs rm -f
+	find $(TEST_SRC_ROOT) -name "*.pch" -o -name "*.gch" -o -name "*.stackdump" | xargs rm -f
+
+.PHONY: version
+version:
+	@echo Makefile v$(VERSION) for a library project
 
 .PHONY: var
 var:
 	@echo $(call blue,# User-defined Variables)
+	@echo VERSION=$(VERSION)';'
 	@echo SELF=$(SELF)';'
 	@echo PROJECT_ROOT=$(PROJECT_ROOT)';'
 	@echo SRC_ROOT=$(SRC_ROOT)';'
 	@echo BUILD_DIR=$(BUILD_DIR)';'
-	@echo AOBJ_ROOT=$(AOBJ_ROOT)';'
-	@echo SOBJ_ROOT=$(SOBJ_ROOT)';'
+	@echo ST_OBJ_ROOT=$(ST_OBJ_ROOT)';'
+	@echo DY_OBJ_ROOT=$(DY_OBJ_ROOT)';'
 	@echo LIB_DIR=$(LIB_DIR)';'
 	@echo DEP_DIR=$(DEP_DIR)';'
 	@echo SRC_DIRS=$(SRC_DIRS)';'
-	@echo AOBJ_DIRS=$(AOBJ_DIRS)';'
-	@echo SOBJ_DIRS=$(SOBJ_DIRS)';'
+	@echo ST_OBJ_DIRS=$(ST_OBJ_DIRS)';'
+	@echo DY_OBJ_DIRS=$(DY_OBJ_DIRS)';'
 	@echo SRCS=$(SRCS)';'
-	@echo AOBJS=$(AOBJS)';'
-	@echo SOBJS=$(SOBJS)';'
+	@echo ST_OBJS=$(ST_OBJS)';'
+	@echo DY_OBJS=$(DY_OBJS)';'
 	@echo TARGET_NAME=$(TARGET_NAME)';'
-	@echo A_TARGET=$(A_TARGET)';'
-	@echo SO_NAME=$(SO_NAME)';'
-	@echo SO_FILE=$(SO_FILE)';'
-	@echo SO_MAJOR=$(SO_MAJOR)';'
-	@echo SO_VERSION=$(SO_VERSION)';'
-	@echo SO_TARGET=$(SO_TARGET)';'
-	@echo SO_FLAGS=$(SO_FLAGS)';'
+	@echo ST_TARGET=$(ST_TARGET)';'
+	@echo DY_LIB_NAME=$(DY_LIB_NAME)';'
+	@echo DY_LIB=$(DY_LIB)';'
+	@echo DY_MAJOR=$(DY_MAJOR)';'
+	@echo DY_VERSION=$(DY_VERSION)';'
+	@echo DY_TARGET=$(DY_TARGET)';'
+	@echo DYNAME_FLAG=$(DYNAME_FLAG)';'
+	@echo TARGET=$(TARGET)';'
 	@echo DEP=$(DEP)';'
 	@echo CC=$(CC)';'
+	@echo CFLAGS=$(CFLAGS)';'
+	@echo LDFLAGS=$(LDFLAGS)';'
 	@echo AR=$(AR)';'
 	@echo MAKE_REC=$(MAKE_REC)';'
-	@echo TEST_ROOT=$(TEST_ROOT)';'
-	@echo TOBJ_ROOT=$(TOBJ_ROOT)';'
+	@echo TEST_SRC_ROOT=$(TEST_SRC_ROOT)';'
+	@echo TEST_OBJ_ROOT=$(TEST_OBJ_ROOT)';'
 	@echo BIN_DIR=$(BIN_DIR)';'
-	@echo TEST_DIRS=$(TEST_DIRS)';'
-	@echo TOBJ_DIRS=$(TOBJ_DIRS)';'
-	@echo TESTS=$(TESTS)';'
-	@echo TOBJS=$(TOBJS)';'
+	@echo TEST_SRC_DIRS=$(TEST_SRC_DIRS)';'
+	@echo TEST_OBJ_DIRS=$(TEST_OBJ_DIRS)';'
+	@echo TEST_SRCS=$(TEST_SRCS)';'
+	@echo TEST_OBJS=$(TEST_OBJS)';'
+	@echo ST_TEST_TARGET=$(ST_TEST_TARGET)';'
+	@echo DY_TEST_TARGET=$(DY_TEST_TARGET)';'
 	@echo TEST_TARGET=$(TEST_TARGET)';'
 	@echo TEST_DEP=$(TEST_DEP)';'
+	@echo TEST_CFLAGS=$(TEST_CFLAGS)';'
+	@echo TEST_LDFLAGS=$(TEST_LDFLAGS)';'
 	@echo $(call blue,# Built-in Variables)
 	@echo MAKE=$(MAKE)';'
 	@echo MAKEFLAGS=$(MAKEFLAGS)';'

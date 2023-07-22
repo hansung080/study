@@ -12,6 +12,7 @@ green = "$(C_GREEN)$(1)$(C_RESET)"
 blue = "$(C_BLUE)$(1)$(C_RESET)"
 yellow = "$(C_YELLOW)$(1)$(C_RESET)"
 
+VERSION := 1.0
 SELF := $(firstword $(MAKEFILE_LIST))
 PROJECT_ROOT := $(patsubst %/,%,$(dir $(SELF)))
 
@@ -21,7 +22,6 @@ BUILD_DIR := $(PROJECT_ROOT)/build
 OBJ_ROOT := $(BUILD_DIR)/obj
 BIN_DIR := $(BUILD_DIR)/bin
 DEP_DIR := $(BUILD_DIR)/dep
-
 SRC_DIRS := $(shell find $(SRC_ROOT) -type d)
 OBJ_DIRS := $(patsubst $(SRC_ROOT)%,$(OBJ_ROOT)%,$(SRC_DIRS))
 
@@ -31,7 +31,7 @@ TARGET_NAME := make-sample
 TARGET := $(BIN_DIR)/$(TARGET_NAME)
 DEP := $(DEP_DIR)/dependencies.mk
 CC := gcc
-MAKE_REC := make -f $(SELF) $(MFLAGS) $(MAKEOVERRIDES)
+MAKE_REC := make -f $(SELF)
 
 .PHONY: build
 build:
@@ -58,7 +58,7 @@ $(OBJ_ROOT)/%.o: $(SRC_ROOT)/%.c
 
 $(TARGET): $(OBJS)
 	$(CC) -o $@ $^
-	@echo $(call blue,SRC BUILD COMPLETE): $@
+	@echo $(call blue,BUILD COMPLETE): $@
 
 .PHONY: run
 run:
@@ -73,14 +73,13 @@ else
 endif
 
 # Variables & Rules for test
-TEST_ROOT := $(PROJECT_ROOT)/test
-TOBJ_ROOT := $(BUILD_DIR)/tobj
+TEST_SRC_ROOT := $(PROJECT_ROOT)/test
+TEST_OBJ_ROOT := $(BUILD_DIR)/tobj
+TEST_SRC_DIRS := $(shell find $(TEST_SRC_ROOT) -type d)
+TEST_OBJ_DIRS := $(patsubst $(TEST_SRC_ROOT)%,$(TEST_OBJ_ROOT)%,$(TEST_SRC_DIRS))
 
-TEST_DIRS := $(shell find $(TEST_ROOT) -type d)
-TOBJ_DIRS := $(patsubst $(TEST_ROOT)%,$(TOBJ_ROOT)%,$(TEST_DIRS))
-
-TESTS := $(wildcard $(patsubst %,%/*.c,$(TEST_DIRS)))
-TOBJS := $(patsubst $(TEST_ROOT)/%.c,$(TOBJ_ROOT)/%.o,$(TESTS))
+TEST_SRCS := $(wildcard $(patsubst %,%/*.c,$(TEST_SRC_DIRS)))
+TEST_OBJS := $(patsubst $(TEST_SRC_ROOT)/%.c,$(TEST_OBJ_ROOT)/%.o,$(TEST_SRCS))
 TEST_TARGET := $(BIN_DIR)/test-$(TARGET_NAME)
 TEST_DEP := $(DEP_DIR)/test_dependencies.mk
 
@@ -89,16 +88,16 @@ test-build: src-build test-prepare test-dep $(TEST_TARGET)
 
 .PHONY: test-prepare
 test-prepare:
-	mkdir -p $(TOBJ_DIRS)
+	mkdir -p $(TEST_OBJ_DIRS)
 
 .PHONY: test-dep
 test-dep:
-	$(CC) -MM $(TESTS) | sed "s,\(^.*\.o: $(patsubst ./%,%,$(TEST_ROOT))\)\(.*\)\(/.*\.c\),$(TOBJ_ROOT)\2/\1\2\3," > $(TEST_DEP)
+	$(CC) -MM $(TEST_SRCS) | sed "s,\(^.*\.o: $(patsubst ./%,%,$(TEST_SRC_ROOT))\)\(.*\)\(/.*\.c\),$(TEST_OBJ_ROOT)\2/\1\2\3," > $(TEST_DEP)
 
-$(TOBJ_ROOT)/%.o: $(TEST_ROOT)/%.c
+$(TEST_OBJ_ROOT)/%.o: $(TEST_SRC_ROOT)/%.c
 	$(CC) -c -o $@ $<
 
-$(TEST_TARGET): $(subst $(OBJ_ROOT)/main.o,,$(OBJS)) $(TOBJS)
+$(TEST_TARGET): $(subst $(OBJ_ROOT)/main.o,,$(OBJS)) $(TEST_OBJS)
 	$(CC) -o $@ $^
 	@echo $(call blue,TEST BUILD COMPLETE): $@
 
@@ -119,11 +118,16 @@ endif
 clean:
 	rm -rf $(BUILD_DIR)
 	find $(SRC_ROOT) -name "*.pch" -o -name "*.gch" -o -name "*.stackdump" | xargs rm -f
-	find $(TEST_ROOT) -name "*.pch" -o -name "*.gch" -o -name "*.stackdump" | xargs rm -f
+	find $(TEST_SRC_ROOT) -name "*.pch" -o -name "*.gch" -o -name "*.stackdump" | xargs rm -f
+
+.PHONY: version
+version:
+	@echo Makefile v$(VERSION) for a binary project
 
 .PHONY: var
 var:
 	@echo $(call blue,# User-defined Variables)
+	@echo VERSION=$(VERSION)';'
 	@echo SELF=$(SELF)';'
 	@echo PROJECT_ROOT=$(PROJECT_ROOT)';'
 	@echo SRC_ROOT=$(SRC_ROOT)';'
@@ -140,12 +144,12 @@ var:
 	@echo DEP=$(DEP)';'
 	@echo CC=$(CC)';'
 	@echo MAKE_REC=$(MAKE_REC)';'
-	@echo TEST_ROOT=$(TEST_ROOT)';'
-	@echo TOBJ_ROOT=$(TOBJ_ROOT)';'
-	@echo TEST_DIRS=$(TEST_DIRS)';'
-	@echo TOBJ_DIRS=$(TOBJ_DIRS)';'
-	@echo TESTS=$(TESTS)';'
-	@echo TOBJS=$(TOBJS)';'
+	@echo TEST_SRC_ROOT=$(TEST_SRC_ROOT)';'
+	@echo TEST_OBJ_ROOT=$(TEST_OBJ_ROOT)';'
+	@echo TEST_SRC_DIRS=$(TEST_SRC_DIRS)';'
+	@echo TEST_OBJ_DIRS=$(TEST_OBJ_DIRS)';'
+	@echo TEST_SRCS=$(TEST_SRCS)';'
+	@echo TEST_OBJS=$(TEST_OBJS)';'
 	@echo TEST_TARGET=$(TEST_TARGET)';'
 	@echo TEST_DEP=$(TEST_DEP)';'
 	@echo $(call blue,# Built-in Variables)
