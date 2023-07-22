@@ -32,6 +32,7 @@ DEP := $(DEP_DIR)/dependencies.mk
 CC := gcc
 CFLAGS :=
 LDFLAGS :=
+DYLD_LIBRARY_PATH :=
 MAKE_REC := make -f $(SELF)
 
 .PHONY: build
@@ -85,6 +86,7 @@ TEST_TARGET := $(BIN_DIR)/test-$(TARGET_NAME)
 TEST_DEP := $(DEP_DIR)/test_dependencies.mk
 TEST_CFLAGS :=
 TEST_LDFLAGS :=
+DYLD_LIBRARY_PATH :=
 
 .PHONY: test-build
 test-build: src-build test-prepare test-dep $(TEST_TARGET)
@@ -171,6 +173,7 @@ env:
 	@echo $(call blue,# Environment Variables)
 	@echo __args=$(__args)';'
 	@echo __verbose=$(__verbose)';'
+	@echo DYLD_LIBRARY_PATH=$(DYLD_LIBRARY_PATH)';'
 
 ifeq ($(DEP),$(wildcard $(DEP)))
 include $(DEP)

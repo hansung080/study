@@ -31,11 +31,12 @@ ST_OBJS := $(patsubst $(SRC_ROOT)/%.c,$(ST_OBJ_ROOT)/%.o,$(SRCS))
 DY_OBJS := $(patsubst $(SRC_ROOT)/%.c,$(DY_OBJ_ROOT)/%.o,$(SRCS))
 TARGET_NAME := make-sample
 ST_TARGET := $(LIB_DIR)/lib$(TARGET_NAME).a
-DY_LIB_NAME := lib$(TARGET_NAME).so
+DY_LIB_NAME := lib$(TARGET_NAME)
 DY_LIB := $(LIB_DIR)/$(DY_LIB_NAME)
+DY_EXT := so
 DY_MAJOR := 0
 DY_VERSION := $(DY_MAJOR).1.0
-DY_TARGET := $(DY_LIB).$(DY_VERSION)
+DY_TARGET := $(DY_LIB).$(DY_EXT).$(DY_VERSION)
 ifeq ($(shell uname -s),Darwin)
 DYNAME_FLAG := -install_name
 else
@@ -80,9 +81,9 @@ $(DY_OBJ_ROOT)/%.o: $(SRC_ROOT)/%.c
 	$(CC) -c -fPIC -o $@ $(CFLAGS) $<
 
 $(DY_TARGET): $(DY_OBJS)
-	$(CC) -shared -Wl,$(DYNAME_FLAG),$(DY_LIB_NAME).$(DY_MAJOR) -o $@ $(DY_FLAGS) $^
-	ln -sf $@ $(DY_LIB).$(DY_MAJOR)
-	ln -sf $(DY_LIB).$(DY_MAJOR) $(DY_LIB)
+	$(CC) -shared -Wl,$(DYNAME_FLAG),$(DY_LIB_NAME).$(DY_EXT).$(DY_MAJOR) -o $@ $(DY_FLAGS) $^
+	ln -sf $(DY_LIB_NAME).$(DY_EXT).$(DY_VERSION) $(DY_LIB).$(DY_EXT).$(DY_MAJOR)
+	ln -sf $(DY_LIB_NAME).$(DY_EXT).$(DY_MAJOR) $(DY_LIB).$(DY_EXT)
 	@echo $(call blue,BUILD COMPLETE): $@
 
 .PHONY: run
@@ -103,7 +104,8 @@ DY_TEST_TARGET := $(BIN_DIR)/dtest-$(TARGET_NAME)
 TEST_TARGET := $(if $(__static),$(ST_TEST_TARGET),$(DY_TEST_TARGET))
 TEST_DEP := $(DEP_DIR)/test_dependencies.mk
 TEST_CFLAGS :=
-TEST_LDFLAGS := -L$(LIB_DIR) -l$(TARGET_NAME)
+TEST_LDFLAGS := -L$(LIB_DIR) -l$(patsubst lib%,%,$(DY_LIB_NAME))
+DYLD_LIBRARY_PATH := $(LIB_DIR)
 
 .PHONY: test-build
 test-build: src-build test-prepare test-dep $(TEST_TARGET)
@@ -172,6 +174,7 @@ var:
 	@echo ST_TARGET=$(ST_TARGET)';'
 	@echo DY_LIB_NAME=$(DY_LIB_NAME)';'
 	@echo DY_LIB=$(DY_LIB)';'
+	@echo DY_EXT=$(DY_EXT)';'
 	@echo DY_MAJOR=$(DY_MAJOR)';'
 	@echo DY_VERSION=$(DY_VERSION)';'
 	@echo DY_TARGET=$(DY_TARGET)';'
@@ -209,6 +212,7 @@ env:
 	@echo __args=$(__args)';'
 	@echo __static=$(__static)';'
 	@echo __verbose=$(__verbose)';'
+	@echo DYLD_LIBRARY_PATH=$(DYLD_LIBRARY_PATH)';'
 
 ifeq ($(DEP),$(wildcard $(DEP)))
 include $(DEP)
