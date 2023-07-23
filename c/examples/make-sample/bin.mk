@@ -93,7 +93,7 @@ TEST_SRCS := $(wildcard $(patsubst %,%/*.c,$(TEST_SRC_DIRS)))
 TEST_OBJS := $(patsubst $(TEST_SRC_ROOT)/%.c,$(TEST_OBJ_ROOT)/%.o,$(TEST_SRCS))
 TEST_TARGET := $(BIN_DIR)/test-$(TARGET_NAME)
 TEST_DEP := $(DEP_DIR)/test_dependencies.mk
-TEST_CFLAGS :=
+TEST_CFLAGS := -I$(PROJECT_ROOT)/..
 TEST_LDFLAGS :=
 
 .PHONY: test-build

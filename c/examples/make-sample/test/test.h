@@ -1,7 +1,7 @@
 #ifndef __TEST__TEST_H__
 #define __TEST__TEST_H__
 
-#include "../src/types.h"
+#include <make-sample/src/types.h>
 
 #define C_RED "\033[0;31m"
 #define C_GREEN "\033[0;32m"

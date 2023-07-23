@@ -1,6 +1,6 @@
 #include <stdio.h>
+#include <make-sample/src/people/alice.h>
 #include "alice.h"
-#include "../../src/people/alice.h"
 
 void init_people__alice(test t[], int* n) {
     int i = *n;

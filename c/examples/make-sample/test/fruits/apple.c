@@ -1,6 +1,6 @@
 #include <stdio.h>
+#include <make-sample/src/fruits/apple.h>
 #include "apple.h"
-#include "../../src/fruits/apple.h"
 
 void init_fruits__apple(test t[], int* n) {
     int i = *n;

@@ -110,7 +110,7 @@ ST_TEST_TARGET := $(BIN_DIR)/stest-$(TARGET_NAME)
 DY_TEST_TARGET := $(BIN_DIR)/dtest-$(TARGET_NAME)
 TEST_TARGET := $(if $(__static),$(ST_TEST_TARGET),$(DY_TEST_TARGET))
 TEST_DEP := $(DEP_DIR)/test_dependencies.mk
-TEST_CFLAGS :=
+TEST_CFLAGS := -I$(PROJECT_ROOT)/..
 TEST_LDFLAGS := -L$(LIB_DIR) -l$(patsubst lib%,%,$(DY_LIB_NAME))
 ifeq ($(IS_MAC),true)
 DYLD_LIBRARY_PATH := $(LIB_DIR)

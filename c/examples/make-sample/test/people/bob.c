@@ -1,6 +1,6 @@
 #include <stdio.h>
+#include <make-sample/src/people/bob.h>
 #include "bob.h"
-#include "../../src/people/bob.h"
 
 void init_people__bob(test t[], int* n) {
     int i = *n;

@@ -1,6 +1,6 @@
 #include <stdio.h>
+#include <make-sample/src/fruits/banana.h>
 #include "banana.h"
-#include "../../src/fruits/banana.h"
 
 void init_fruits__banana(test t[], int* n) {
     int i = *n;
