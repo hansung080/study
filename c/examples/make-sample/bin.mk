@@ -95,11 +95,6 @@ TEST_TARGET := $(BIN_DIR)/test-$(TARGET_NAME)
 TEST_DEP := $(DEP_DIR)/test_dependencies.mk
 TEST_CFLAGS :=
 TEST_LDFLAGS :=
-ifeq ($(IS_MAC),true)
-DYLD_LIBRARY_PATH :=
-else
-LD_LIBRARY_PATH :=
-endif
 
 .PHONY: test-build
 test-build: src-build test-prepare test-dep $(TEST_TARGET)
