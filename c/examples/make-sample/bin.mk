@@ -110,7 +110,7 @@ test-dep:
 $(TEST_OBJ_ROOT)/%.o: $(TEST_SRC_ROOT)/%.c
 	$(CC) -c -o $@ $(TEST_CFLAGS) $<
 
-$(TEST_TARGET): $(subst $(OBJ_ROOT)/main.o,,$(OBJS)) $(TEST_OBJS)
+$(TEST_TARGET): $(TEST_OBJS) $(subst $(OBJ_ROOT)/main.o,,$(OBJS))
 	$(CC) -o $@ $(TEST_LDFLAGS) $^
 	@echo $(call blue,TEST BUILD COMPLETE): $@
 

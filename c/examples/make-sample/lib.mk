@@ -132,8 +132,8 @@ test-dep:
 $(TEST_OBJ_ROOT)/%.o: $(TEST_SRC_ROOT)/%.c
 	$(CC) -c -o $@ $(TEST_CFLAGS) $<
 
-$(ST_TEST_TARGET): $(TEST_OBJS)
-	$(CC) $(if $(IS_MAC),,-static) -o $@ $(TEST_LDFLAGS) $^
+$(ST_TEST_TARGET): $(TEST_OBJS) $(ST_TARGET)
+	$(CC) $(if $(IS_MAC),,-static) -o $@ $(TEST_LDFLAGS) $(TEST_OBJS)
 	@echo $(call blue,TEST BUILD COMPLETE): $@
 
 $(DY_TEST_TARGET): $(TEST_OBJS)
