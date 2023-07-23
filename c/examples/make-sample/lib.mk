@@ -229,3 +229,7 @@ env:
 ifeq ($(DEP),$(wildcard $(DEP)))
 include $(DEP)
 endif
+
+ifeq ($(TEST_DEP),$(wildcard $(TEST_DEP)))
+include $(TEST_DEP)
+endif
