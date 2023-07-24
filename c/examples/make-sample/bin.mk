@@ -133,6 +133,20 @@ clean:
 	find $(SRC_ROOT) -name "*.pch" -o -name "*.gch" -o -name "*.stackdump" | xargs rm -f
 	find $(TEST_SRC_ROOT) -name "*.pch" -o -name "*.gch" -o -name "*.stackdump" | xargs rm -f
 
+.PHONY: rename-project
+rename-project:
+ifneq ($(__old_pname),)
+ifneq ($(__new_pname),)
+	find test -name '*.c' -o -name '*.h' | xargs sed -i $(if $(IS_MAC),'',) "s:\(^ *# *include *<\)$(__old_pname)/:\1$(__new_pname)/:"
+else
+	@echo $(call red,ERROR)': __new_pname not provided'
+	@echo 'USAGE: make rename-project __old_pname=? __new_pname=?'
+endif
+else
+	@echo $(call red,ERROR)': __old_pname not provided'
+	@echo 'USAGE: make rename-project __old_pname=? __new_pname=?'
+endif
+
 .PHONY: version
 version:
 	@echo Makefile v$(VERSION) for a binary project
@@ -180,9 +194,11 @@ var:
 env:
 	@echo $(call blue,# Environment Variables)
 	@echo __args=$(__args)';'
+	@echo __new_pname=$(__new_pname)';'
+	@echo __old_pname=$(__old_pname)';'
 	@echo __verbose=$(__verbose)';'
-	@echo LD_LIBRARY_PATH=$(LD_LIBRARY_PATH)';'
 	@echo DYLD_LIBRARY_PATH=$(DYLD_LIBRARY_PATH)';'
+	@echo LD_LIBRARY_PATH=$(LD_LIBRARY_PATH)';'
 
 ifeq ($(DEP),$(wildcard $(DEP)))
 include $(DEP)
