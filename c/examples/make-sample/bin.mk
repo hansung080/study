@@ -36,7 +36,7 @@ TARGET_NAME := make-sample
 TARGET := $(BIN_DIR)/$(TARGET_NAME)
 DEP := $(DEP_DIR)/dependencies.mk
 CC := gcc
-CFLAGS :=
+CFLAGS := -std=c11
 LDFLAGS :=
 ifeq ($(IS_MAC),true)
 DYLD_LIBRARY_PATH :=
@@ -94,7 +94,7 @@ TEST_SRCS := $(wildcard $(patsubst %,%/*.c,$(TEST_SRC_DIRS)))
 TEST_OBJS := $(patsubst $(TEST_SRC_ROOT)/%.c,$(TEST_OBJ_ROOT)/%.o,$(TEST_SRCS))
 TEST_TARGET := $(BIN_DIR)/test-$(TARGET_NAME)
 TEST_DEP := $(DEP_DIR)/test_dependencies.mk
-TEST_CFLAGS := -I$(PROJECT_ROOT)/..
+TEST_CFLAGS := -std=c11 -I$(PROJECT_ROOT)/..
 TEST_LDFLAGS :=
 
 .PHONY: test-build

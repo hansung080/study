@@ -46,7 +46,7 @@ DY_TARGET := $(if $(IS_MAC),$(DY_LIB).$(DY_VERSION).$(DY_EXT),$(DY_LIB).$(DY_EXT
 TARGET := $(if $(__static),$(ST_TARGET),$(DY_TARGET))
 DEP := $(DEP_DIR)/dependencies.mk
 CC := gcc
-CFLAGS :=
+CFLAGS := -std=c11
 DY_FLAGS :=
 AR := ar
 MAKE_REC := make -f $(SELF)
@@ -111,7 +111,7 @@ ST_TEST_TARGET := $(BIN_DIR)/stest-$(TARGET_NAME)
 DY_TEST_TARGET := $(BIN_DIR)/dtest-$(TARGET_NAME)
 TEST_TARGET := $(if $(__static),$(ST_TEST_TARGET),$(DY_TEST_TARGET))
 TEST_DEP := $(DEP_DIR)/test_dependencies.mk
-TEST_CFLAGS := -I$(PROJECT_ROOT)/..
+TEST_CFLAGS := -std=c11 -I$(PROJECT_ROOT)/..
 TEST_LDFLAGS := -L$(LIB_DIR) -l$(patsubst lib%,%,$(DY_LIB_NAME))
 ifeq ($(IS_MAC),true)
 DYLD_LIBRARY_PATH := $(LIB_DIR)
