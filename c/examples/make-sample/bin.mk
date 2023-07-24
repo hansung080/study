@@ -6,10 +6,10 @@ C_GREEN := \033[0;32m
 C_BLUE := \033[0;34m
 C_YELLOW := \033[1;33m
 C_RESET := \033[0m
-red = "$(C_RED)$(1)$(C_RESET)"
-green = "$(C_GREEN)$(1)$(C_RESET)"
-blue = "$(C_BLUE)$(1)$(C_RESET)"
-yellow = "$(C_YELLOW)$(1)$(C_RESET)"
+red = $(C_RED)$(1)$(C_RESET)
+green = $(C_GREEN)$(1)$(C_RESET)
+blue = $(C_BLUE)$(1)$(C_RESET)
+yellow = $(C_YELLOW)$(1)$(C_RESET)
 
 ifeq ($(shell uname -s),Darwin)
 IS_MAC := true
@@ -48,7 +48,7 @@ MAKE_REC := make -f $(SELF)
 build:
 ifeq ($(__verbose),)
 	@$(MAKE_REC) src-build > /dev/null
-	@echo $(call blue,BUILD COMPLETE): $(TARGET)
+	@echo "$(call blue,BUILD COMPLETE): $(TARGET)"
 else
 	$(MAKE_REC) src-build
 endif
@@ -69,7 +69,7 @@ $(OBJ_ROOT)/%.o: $(SRC_ROOT)/%.c
 
 $(TARGET): $(OBJS)
 	$(CC) -o $@ $(LDFLAGS) $^
-	@echo $(call blue,BUILD COMPLETE): $@
+	@echo "$(call blue,BUILD COMPLETE): $@"
 
 .PHONY: run
 run:
@@ -79,7 +79,7 @@ ifeq ($(__verbose),)
 else
 	$(MAKE_REC) src-build
 	@echo
-	@printf '> '$(call blue,RUN)': '
+	@printf "> $(call blue,RUN): "
 	$(TARGET) $(__args)
 endif
 
@@ -112,7 +112,7 @@ $(TEST_OBJ_ROOT)/%.o: $(TEST_SRC_ROOT)/%.c
 
 $(TEST_TARGET): $(TEST_OBJS) $(subst $(OBJ_ROOT)/main.o,,$(OBJS))
 	$(CC) -o $@ $(TEST_LDFLAGS) $^
-	@echo $(call blue,TEST BUILD COMPLETE): $@
+	@echo "$(call blue,TEST BUILD COMPLETE): $@"
 
 .PHONY: test
 test:
@@ -122,7 +122,7 @@ ifeq ($(__verbose),)
 else
 	$(MAKE_REC) test-build
 	@echo
-	@printf '> '$(call blue,TEST START)': '
+	@printf "> $(call blue,TEST START): "
 	$(TEST_TARGET) $(__args)
 endif
 
@@ -130,8 +130,8 @@ endif
 .PHONY: clean
 clean:
 	rm -rf $(BUILD_DIR)
-	find $(SRC_ROOT) -name "*.pch" -o -name "*.gch" -o -name "*.stackdump" | xargs rm -f
-	find $(TEST_SRC_ROOT) -name "*.pch" -o -name "*.gch" -o -name "*.stackdump" | xargs rm -f
+	find $(SRC_ROOT) -name '*.pch' -o -name '*.gch' -o -name '*.stackdump' | xargs rm -f
+	find $(TEST_SRC_ROOT) -name '*.pch' -o -name '*.gch' -o -name '*.stackdump' | xargs rm -f
 
 .PHONY: rename-project
 rename-project:
@@ -139,66 +139,66 @@ ifneq ($(__old_pname),)
 ifneq ($(__new_pname),)
 	find test -name '*.c' -o -name '*.h' | xargs sed -i $(if $(IS_MAC),'',) "s:\(^ *# *include *<\)$(__old_pname)/:\1$(__new_pname)/:"
 else
-	@echo $(call red,ERROR)': __new_pname not provided'
-	@echo 'USAGE: make rename-project __old_pname=? __new_pname=?'
+	@echo "$(call red,ERROR): __new_pname not provided"
+	@echo "USAGE: make rename-project __old_pname=? __new_pname=?"
 endif
 else
-	@echo $(call red,ERROR)': __old_pname not provided'
-	@echo 'USAGE: make rename-project __old_pname=? __new_pname=?'
+	@echo "$(call red,ERROR): __old_pname not provided"
+	@echo "USAGE: make rename-project __old_pname=? __new_pname=?"
 endif
 
 .PHONY: version
 version:
-	@echo Makefile v$(VERSION) for a binary project
+	@echo "Makefile v$(VERSION) for a binary project"
 
 .PHONY: var
 var:
-	@echo $(call blue,# User-defined Variables)
-	@echo VERSION=$(VERSION)';'
-	@echo SELF=$(SELF)';'
-	@echo PROJECT_ROOT=$(PROJECT_ROOT)';'
-	@echo SRC_ROOT=$(SRC_ROOT)';'
-	@echo BUILD_DIR=$(BUILD_DIR)';'
-	@echo OBJ_ROOT=$(OBJ_ROOT)';'
-	@echo BIN_DIR=$(BIN_DIR)';'
-	@echo DEP_DIR=$(DEP_DIR)';'
-	@echo SRC_DIRS=$(SRC_DIRS)';'
-	@echo OBJ_DIRS=$(OBJ_DIRS)';'
-	@echo SRCS=$(SRCS)';'
-	@echo OBJS=$(OBJS)';'
-	@echo TARGET_NAME=$(TARGET_NAME)';'
-	@echo TARGET=$(TARGET)';'
-	@echo DEP=$(DEP)';'
-	@echo CC=$(CC)';'
-	@echo CFLAGS=$(CFLAGS)';'
-	@echo LDFLAGS=$(LDFLAGS)';'
-	@echo MAKE_REC=$(MAKE_REC)';'
-	@echo TEST_SRC_ROOT=$(TEST_SRC_ROOT)';'
-	@echo TEST_OBJ_ROOT=$(TEST_OBJ_ROOT)';'
-	@echo TEST_SRC_DIRS=$(TEST_SRC_DIRS)';'
-	@echo TEST_OBJ_DIRS=$(TEST_OBJ_DIRS)';'
-	@echo TEST_SRCS=$(TEST_SRCS)';'
-	@echo TEST_OBJS=$(TEST_OBJS)';'
-	@echo TEST_TARGET=$(TEST_TARGET)';'
-	@echo TEST_DEP=$(TEST_DEP)';'
-	@echo TEST_CFLAGS=$(TEST_CFLAGS)';'
-	@echo TEST_LDFLAGS=$(TEST_LDFLAGS)';'
-	@echo $(call blue,# Built-in Variables)
-	@echo MAKE=$(MAKE)';'
-	@echo MAKEFLAGS=$(MAKEFLAGS)';'
-	@echo MFLAGS=$(MFLAGS)';'
-	@echo MAKEOVERRIDES=$(MAKEOVERRIDES)';'
-	@echo MAKEFILE_LIST=$(MAKEFILE_LIST)';'
+	@echo "$(call blue,# User-defined Variables)"
+	@echo "VERSION=$(VERSION);"
+	@echo "SELF=$(SELF);"
+	@echo "PROJECT_ROOT=$(PROJECT_ROOT);"
+	@echo "SRC_ROOT=$(SRC_ROOT);"
+	@echo "BUILD_DIR=$(BUILD_DIR);"
+	@echo "OBJ_ROOT=$(OBJ_ROOT);"
+	@echo "BIN_DIR=$(BIN_DIR);"
+	@echo "DEP_DIR=$(DEP_DIR);"
+	@echo "SRC_DIRS=$(SRC_DIRS);"
+	@echo "OBJ_DIRS=$(OBJ_DIRS);"
+	@echo "SRCS=$(SRCS);"
+	@echo "OBJS=$(OBJS);"
+	@echo "TARGET_NAME=$(TARGET_NAME);"
+	@echo "TARGET=$(TARGET);"
+	@echo "DEP=$(DEP);"
+	@echo "CC=$(CC);"
+	@echo "CFLAGS=$(CFLAGS);"
+	@echo "LDFLAGS=$(LDFLAGS);"
+	@echo "MAKE_REC=$(MAKE_REC);"
+	@echo "TEST_SRC_ROOT=$(TEST_SRC_ROOT);"
+	@echo "TEST_OBJ_ROOT=$(TEST_OBJ_ROOT);"
+	@echo "TEST_SRC_DIRS=$(TEST_SRC_DIRS);"
+	@echo "TEST_OBJ_DIRS=$(TEST_OBJ_DIRS);"
+	@echo "TEST_SRCS=$(TEST_SRCS);"
+	@echo "TEST_OBJS=$(TEST_OBJS);"
+	@echo "TEST_TARGET=$(TEST_TARGET);"
+	@echo "TEST_DEP=$(TEST_DEP);"
+	@echo "TEST_CFLAGS=$(TEST_CFLAGS);"
+	@echo "TEST_LDFLAGS=$(TEST_LDFLAGS);"
+	@echo "$(call blue,# Built-in Variables)"
+	@echo "MAKE=$(MAKE);"
+	@echo "MAKEFLAGS=$(MAKEFLAGS);"
+	@echo "MFLAGS=$(MFLAGS);"
+	@echo "MAKEOVERRIDES=$(MAKEOVERRIDES);"
+	@echo "MAKEFILE_LIST=$(MAKEFILE_LIST);"
 
 .PHONY: env
 env:
-	@echo $(call blue,# Environment Variables)
-	@echo __args=$(__args)';'
-	@echo __new_pname=$(__new_pname)';'
-	@echo __old_pname=$(__old_pname)';'
-	@echo __verbose=$(__verbose)';'
-	@echo DYLD_LIBRARY_PATH=$(DYLD_LIBRARY_PATH)';'
-	@echo LD_LIBRARY_PATH=$(LD_LIBRARY_PATH)';'
+	@echo "$(call blue,# Environment Variables)"
+	@echo "__args=$(__args);"
+	@echo "__new_pname=$(__new_pname);"
+	@echo "__old_pname=$(__old_pname);"
+	@echo "__verbose=$(__verbose);"
+	@echo "DYLD_LIBRARY_PATH=$(DYLD_LIBRARY_PATH);"
+	@echo "LD_LIBRARY_PATH=$(LD_LIBRARY_PATH);"
 
 ifeq ($(DEP),$(wildcard $(DEP)))
 include $(DEP)
