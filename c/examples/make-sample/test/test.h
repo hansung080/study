@@ -3,16 +3,23 @@
 
 #include <make-sample/src/types.h>
 
-#define C_RED    "\033[0;31m"
-#define C_GREEN  "\033[0;32m"
-#define C_BLUE   "\033[0;34m"
-#define C_YELLOW "\033[1;33m"
-#define C_RESET  "\033[0m"
+#define S_RESET    "\033[0m"
+#define S_RED      "\033[0;31m"
+#define S_RED_BOLD "\033[1;31m"
+#define S_GREEN    "\033[0;32m"
+#define S_YELLOW   "\033[0;33m"
+#define S_BLUE     "\033[0;34m"
 
-#define LOG_ERROR  C_RED"ERROR"C_RESET
-#define LOG_OK_LOW C_GREEN"ok"C_RESET
-#define LOG_OK_UP  C_GREEN"OK"C_RESET
-#define LOG_FAILED C_RED"FAILED"C_RESET
+#define red(text)      S_RED text S_RESET
+#define red_bold(text) S_RED_BOLD text S_RESET
+#define green(text)    S_GREEN text S_RESET
+#define yellow(text)   S_YELLOW text S_RESET
+#define blue(text)     S_BLUE text S_RESET
+
+#define LOG_ERROR  red_bold("error")
+#define LOG_OK_LOW green("ok")
+#define LOG_OK_UP  green("OK")
+#define LOG_FAILED red("FAILED")
 
 typedef bool (*test_func)();
 

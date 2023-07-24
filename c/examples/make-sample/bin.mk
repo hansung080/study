@@ -1,16 +1,18 @@
 # Makefile for a binary project
 
 # Common Variables
-C_RED := \033[0;31m
-C_GREEN := \033[0;32m
-C_BLUE := \033[0;34m
-C_YELLOW := \033[1;33m
-C_RESET := \033[0m
-red = $(C_RED)$(1)$(C_RESET)
-green = $(C_GREEN)$(1)$(C_RESET)
-blue = $(C_BLUE)$(1)$(C_RESET)
-yellow = $(C_YELLOW)$(1)$(C_RESET)
-ERROR := $(call red,ERROR)
+S_RESET := \033[0m
+S_RED := \033[0;31m
+S_RED_BOLD := \033[1;31m
+S_GREEN := \033[0;32m
+S_YELLOW := \033[0;33m
+S_BLUE := \033[0;34m
+red = $(S_RED)$(1)$(S_RESET)
+red_bold = $(S_RED_BOLD)$(1)$(S_RESET)
+green = $(S_GREEN)$(1)$(S_RESET)
+yellow = $(S_YELLOW)$(1)$(S_RESET)
+blue = $(S_BLUE)$(1)$(S_RESET)
+ERROR := $(call red_bold,error)
 
 ifeq ($(shell uname -s),Darwin)
 IS_MAC := true
@@ -49,7 +51,7 @@ MAKE_REC := make -f $(SELF)
 build:
 ifeq ($(__verbose),)
 	@$(MAKE_REC) src-build > /dev/null
-	@echo "$(call blue,BUILD COMPLETE): $(TARGET)"
+	@echo "$(call blue,build complete): $(TARGET)"
 else
 	$(MAKE_REC) src-build
 endif
@@ -70,7 +72,7 @@ $(OBJ_ROOT)/%.o: $(SRC_ROOT)/%.c
 
 $(TARGET): $(OBJS)
 	$(CC) -o $@ $(LDFLAGS) $^
-	@echo "$(call blue,BUILD COMPLETE): $@"
+	@echo "> $(call blue,build complete): $@"
 
 .PHONY: run
 run:
@@ -80,7 +82,7 @@ ifeq ($(__verbose),)
 else
 	$(MAKE_REC) src-build
 	@echo
-	@printf "> $(call blue,RUN): "
+	@printf "> $(call blue,run): "
 	$(TARGET) $(__args)
 endif
 
@@ -113,7 +115,7 @@ $(TEST_OBJ_ROOT)/%.o: $(TEST_SRC_ROOT)/%.c
 
 $(TEST_TARGET): $(TEST_OBJS) $(subst $(OBJ_ROOT)/main.o,,$(OBJS))
 	$(CC) -o $@ $(TEST_LDFLAGS) $^
-	@echo "$(call blue,TEST BUILD COMPLETE): $@"
+	@echo "> $(call blue,test build complete): $@"
 
 .PHONY: test
 test:
@@ -123,7 +125,7 @@ ifeq ($(__verbose),)
 else
 	$(MAKE_REC) test-build
 	@echo
-	@printf "> $(call blue,TEST START): "
+	@printf "> $(call blue,test start): "
 	$(TEST_TARGET) $(__args)
 endif
 
@@ -141,11 +143,11 @@ ifneq ($(__new_pname),)
 	find test -name '*.c' -o -name '*.h' | xargs sed -i $(if $(IS_MAC),'',) "s:\(^ *# *include *<\)$(__old_pname)/:\1$(__new_pname)/:"
 else
 	@echo "$(ERROR): __new_pname not provided"
-	@echo "USAGE: make rename-project __old_pname=? __new_pname=?"
+	@echo "usage: make rename-project __old_pname=? __new_pname=?"
 endif
 else
 	@echo "$(ERROR): __old_pname not provided"
-	@echo "USAGE: make rename-project __old_pname=? __new_pname=?"
+	@echo "usage: make rename-project __old_pname=? __new_pname=?"
 endif
 
 .PHONY: version

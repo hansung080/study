@@ -50,7 +50,7 @@ int main(int argc, char* argv[]) {
         }        
     }
 
-    printf("> "C_BLUE"TEST RESULT"C_RESET": %s - %d passed, %d failed\n",
+    printf("> "blue("test result")": %s - %d passed, %d failed\n",
         (passed == n_tests) ? LOG_OK_UP : LOG_FAILED, passed, n_tests - passed);
     return 0;
 }
