@@ -25,7 +25,7 @@ bool test_banana() {
         struct case_ c = cases[i];
         int got = banana(c.arg);
         if (got != c.want) {
-            fprintf(stderr, C_RED"FAILED"C_RESET": banana(%d) => %d, want %d\n", c.arg, got, c.want);
+            fprintf(stderr, LOG_FAILED": banana(%d) => %d, want %d\n", c.arg, got, c.want);
             return false;
         }
     }

@@ -33,7 +33,7 @@ int main(int argc, char* argv[]) {
     init_people__bob(tests, &n);
 
     if (n != len) {
-        fprintf(stderr, C_RED"ERROR"C_RESET": mismatched tests length: want %d, got %d\n", len, n);
+        fprintf(stderr, LOG_ERROR": mismatched tests length: want %d, got %d\n", len, n);
         return 1;
     }
 
@@ -44,13 +44,13 @@ int main(int argc, char* argv[]) {
         if (argc < 2 || contains(t.name, argv[1])) {
             ++n_tests;
             bool ok = t.func();
-            printf("# %d. %s - %s\n", i + 1, t.name, ok ? C_GREEN"ok"C_RESET : C_RED"FAILED"C_RESET);
+            printf("# %d. %s - %s\n", i + 1, t.name, ok ? LOG_OK_LOW : LOG_FAILED);
             if (ok) ++passed;
             else return 2;
         }        
     }
 
     printf("> "C_BLUE"TEST RESULT"C_RESET": %s - %d passed, %d failed\n",
-        (passed == n_tests) ? C_GREEN"OK"C_RESET : C_RED"FAILED"C_RESET, passed, n_tests - passed);
+        (passed == n_tests) ? LOG_OK_UP : LOG_FAILED, passed, n_tests - passed);
     return 0;
 }

@@ -10,6 +10,7 @@ red = $(C_RED)$(1)$(C_RESET)
 green = $(C_GREEN)$(1)$(C_RESET)
 blue = $(C_BLUE)$(1)$(C_RESET)
 yellow = $(C_YELLOW)$(1)$(C_RESET)
+ERROR := $(call red,ERROR)
 
 ifeq ($(shell uname -s),Darwin)
 IS_MAC := true
@@ -139,11 +140,11 @@ ifneq ($(__old_pname),)
 ifneq ($(__new_pname),)
 	find test -name '*.c' -o -name '*.h' | xargs sed -i $(if $(IS_MAC),'',) "s:\(^ *# *include *<\)$(__old_pname)/:\1$(__new_pname)/:"
 else
-	@echo "$(call red,ERROR): __new_pname not provided"
+	@echo "$(ERROR): __new_pname not provided"
 	@echo "USAGE: make rename-project __old_pname=? __new_pname=?"
 endif
 else
-	@echo "$(call red,ERROR): __old_pname not provided"
+	@echo "$(ERROR): __old_pname not provided"
 	@echo "USAGE: make rename-project __old_pname=? __new_pname=?"
 endif
 

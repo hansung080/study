@@ -25,7 +25,7 @@ bool test_bob() {
         struct case_ c = cases[i];
         int got = bob(c.arg);
         if (got != c.want) {
-            fprintf(stderr, C_RED"FAILED"C_RESET": bob(%d) => %d, want %d\n", c.arg, got, c.want);
+            fprintf(stderr, LOG_FAILED": bob(%d) => %d, want %d\n", c.arg, got, c.want);
             return false;
         }
     }
