@@ -23,6 +23,12 @@ bool contains(const char* s, const char* keyword) {
 }
 
 int main(int argc, char* argv[]) {
+    if (argc > 2) {
+        fprintf(stderr, LOG_ERROR": too many arguments\n");
+        fprintf(stderr, "usage: %s [<test-name>]\n", argv[0]);
+        return 1;
+    }
+
     int len = 4;
     test tests[len];
     int n = 0;
