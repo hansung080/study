@@ -22,5 +22,5 @@ PROJECT_TYPE='bin | lib'
 
 To download `Makefile for each project`, run:
 ```sh
-curl -fsSL 'https://raw.githubusercontent.com/hansung080/study/master/c/examples/make-sample/project.mk' | sed "s/bin\.mk/${PROJECT_TYPE:-change-me}\.mk/g" > 'Makefile'
+curl -fsSL 'https://raw.githubusercontent.com/hansung080/study/master/c/examples/make-sample/project.mk' | sed "s/bin\.mk/${PROJECT_TYPE:-change-me}.mk/g" > 'Makefile'
 ```
