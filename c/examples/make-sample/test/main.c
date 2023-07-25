@@ -50,9 +50,8 @@ int main(int argc, char* argv[]) {
         if (argc < 2 || contains(t.name, argv[1])) {
             ++n_tests;
             bool ok = t.func();
-            printf("# %d. %s - %s\n", i + 1, t.name, ok ? LOG_OK_LOW : LOG_FAILED);
+            printf("# %d. %s ... %s\n", i + 1, t.name, ok ? LOG_OK_LOW : LOG_FAILED);
             if (ok) ++passed;
-            else return 2;
         }        
     }
 
