@@ -98,7 +98,7 @@ endif
 
 .PHONY: run
 run:
-	@echo "$(ERROR): cannot run a library project"
+	@echo >&2 "$(ERROR): cannot run a library project"
 
 # Variables & Rules for test
 TEST_SRC_ROOT := $(PROJECT_ROOT)/test
@@ -168,12 +168,12 @@ ifneq ($(__old_pname),)
 ifneq ($(__new_pname),)
 	find test -name '*.c' -o -name '*.h' | xargs sed -i $(if $(IS_MAC),'',) "s:\(^ *# *include *<\)$(__old_pname)/:\1$(__new_pname)/:"
 else
-	@echo "$(ERROR): __new_pname not provided"
-	@echo "usage: make rename-project __old_pname=? __new_pname=?"
+	@echo >&2 "$(ERROR): argument __new_pname required"
+	@echo >&2 "usage: make rename-project __old_pname=? __new_pname=?"
 endif
 else
-	@echo "$(ERROR): __old_pname not provided"
-	@echo "usage: make rename-project __old_pname=? __new_pname=?"
+	@echo >&2 "$(ERROR): argument __old_pname required"
+	@echo >&2 "usage: make rename-project __old_pname=? __new_pname=?"
 endif
 
 .PHONY: version
