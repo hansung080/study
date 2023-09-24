@@ -1,5 +1,5 @@
 # Study
-Study on languages, data structures, and algorithms.
+Study on languages, algorithms, and data structures
 
 ## Rust
 - trpl (The Rust Programming Language)
