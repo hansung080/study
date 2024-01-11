@@ -58,5 +58,8 @@ dkms.conf
 # End of https://www.toptal.com/developers/gitignore/api/c
 
 # Added by hansung
+
+# C-related files
 *.stackdump
-**/.vscode/settings.json
+
+# End of hansung
