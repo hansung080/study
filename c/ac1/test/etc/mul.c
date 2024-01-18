@@ -1,6 +1,6 @@
 #include <stdio.h>
+#include <ac1/src/etc/mul.h>
 #include "mul.h"
-#include "../../src/etc/mul.h"
 
 void init_etc__mul(test t[], int* n) {
     int i = *n;
@@ -33,13 +33,13 @@ bool test_mul() {
         struct case_ c = cases[i];
         int got = mul_rec(c.x, c.y);
         if (got != c.want) {
-            fprintf(stderr, C_RED"FAILED"C_RESET": mul_rec(%d, %d) => %d, want %d\n", c.x, c.y, got, c.want);
+            fprintf(stderr, LOG_FAILED": mul_rec(%d, %d) => %d, want %d\n", c.x, c.y, got, c.want);
             return false;
         }
 
         got = mul_iter(c.x, c.y);
         if (got != c.want) {
-            fprintf(stderr, C_RED"FAILED"C_RESET": mul_iter(%d, %d) => %d, want %d\n", c.x, c.y, got, c.want);
+            fprintf(stderr, LOG_FAILED": mul_iter(%d, %d) => %d, want %d\n", c.x, c.y, got, c.want);
             return false;
         }
     }

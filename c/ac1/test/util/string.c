@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
+#include <ac1/src/util/string.h>
 #include "string.h"
-#include "../../src/util/string.h"
 
 void init_util__string(test t[], int* n) {
     int i = *n;
@@ -28,7 +28,7 @@ bool test_stob() {
         struct case_ c = cases[i];
         bool got = stob(c.s);
         if (got != c.want) {
-            fprintf(stderr, C_RED"FAILED"C_RESET": stob(%s) => %d, want %d\n", c.s, got, c.want);
+            fprintf(stderr, LOG_FAILED": stob(%s) => %d, want %d\n", c.s, got, c.want);
             return false;
         }
     }    
@@ -53,7 +53,7 @@ bool test_btos() {
         struct case_ c = cases[i];
         const char* got = btos(c.b);
         if (strcmp(got, c.want) != 0) {
-            fprintf(stderr, C_RED"FAILED"C_RESET": btos(%d) => %s, want %s\n", c.b, got, c.want);
+            fprintf(stderr, LOG_FAILED": btos(%d) => %s, want %s\n", c.b, got, c.want);
             return false;
         }
     }
@@ -83,7 +83,7 @@ bool test_contains() {
         struct case_ c = cases[i];
         bool got = contains(c.s, c.keyword);
         if (got != c.want) {
-            fprintf(stderr, C_RED"FAILED"C_RESET": contains('%s', '%s') => %s, want %s\n", c.s, c.keyword, btos(got), btos(c.want));
+            fprintf(stderr, LOG_FAILED": contains('%s', '%s') => %s, want %s\n", c.s, c.keyword, btos(got), btos(c.want));
             return false;
         }
 
