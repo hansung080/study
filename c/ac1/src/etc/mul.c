@@ -1,7 +1,6 @@
 #include "mul.h"
 
-/**
- * @ a la russe Algorithm
+/* a la russe Algorithm
  *   x     y    result
  *  45    37    37
  *  22    74    37
@@ -9,7 +8,7 @@
  *   5   296    37 + 148 + 296
  *   2   592    37 + 148 + 296
  *   1  1184    37 + 148 + 296 + 1184 = 1665
-*/
+ */
 int mul_rec(int x, int y) {
     if (x == 0 || y == 0) return 0;
 

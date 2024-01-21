@@ -3,10 +3,10 @@ Study on languages, algorithms, and data structures
 
 ## C
 - ac1 (Algorithm with C 1)
-    - util - string
-    - etc - mul
+  - util - string
+  - etc - mul
 - ypds (Yoon Seong-woo's Passionate Data Structure) 
-    - tree - binary_tree, binary_search_tree, avl_tree
+  - tree - binary_tree, binary_search_tree, avl_tree
 
 ## Rust
 - trpl (The Rust Programming Language)
