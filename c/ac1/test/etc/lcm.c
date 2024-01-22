@@ -28,7 +28,7 @@ bool test_lcm() {
         struct case_ c = cases[i];
         unsigned int got = lcm(c.a, c.b);
         if (got != c.want) {
-            fprintf(stderr, LOG_FAILED": lcm(%u, %u) => %u, want %d\n", c.a, c.b, got, c.want);
+            fprintf(stderr, LOG_FAILED": lcm(%u, %u) => %u, want %u\n", c.a, c.b, got, c.want);
             return false;
         } 
     }

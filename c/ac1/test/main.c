@@ -4,6 +4,7 @@
 #include "etc/mul.h"
 #include "etc/gcd.h"
 #include "etc/lcm.h"
+#include "etc/prime.h"
 
 int main(int argc, char* argv[]) {
     if (argc > 2) {
@@ -12,7 +13,7 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    int len = 6;
+    int len = 7;
     test tests[len];
     int n = 0;
 
@@ -20,6 +21,7 @@ int main(int argc, char* argv[]) {
     init_etc__mul(tests, &n);
     init_etc__gcd(tests, &n);
     init_etc__lcm(tests, &n);
+    init_etc__prime(tests, &n);
 
     if (n != len) {
         fprintf(stderr, LOG_ERROR": mismatched tests length: want %d, got %d\n", len, n);

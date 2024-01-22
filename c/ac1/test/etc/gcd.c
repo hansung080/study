@@ -28,25 +28,25 @@ bool test_gcd() {
         struct case_ c = cases[i];
         unsigned int got = gcd_sub_rec(c.a, c.b);
         if (got != c.want) {
-            fprintf(stderr, LOG_FAILED": gcd_sub_rec(%u, %u) => %u, want %d\n", c.a, c.b, got, c.want);
+            fprintf(stderr, LOG_FAILED": gcd_sub_rec(%u, %u) => %u, want %u\n", c.a, c.b, got, c.want);
             return false;
         } 
 
         got = gcd_sub_iter(c.a, c.b);
         if (got != c.want) {
-            fprintf(stderr, LOG_FAILED": gcd_sub_iter(%u, %u) => %u, want %d\n", c.a, c.b, got, c.want);
+            fprintf(stderr, LOG_FAILED": gcd_sub_iter(%u, %u) => %u, want %u\n", c.a, c.b, got, c.want);
             return false;
         }
 
         got = gcd_mod_rec(c.a, c.b);
         if (got != c.want) {
-            fprintf(stderr, LOG_FAILED": gcd_mod_rec(%u, %u) => %u, want %d\n", c.a, c.b, got, c.want);
+            fprintf(stderr, LOG_FAILED": gcd_mod_rec(%u, %u) => %u, want %u\n", c.a, c.b, got, c.want);
             return false;
         }
 
         got = gcd_mod_iter(c.a, c.b);
         if (got != c.want) {
-            fprintf(stderr, LOG_FAILED": gcd_mod_iter(%u, %u) => %u, want %d\n", c.a, c.b, got, c.want);
+            fprintf(stderr, LOG_FAILED": gcd_mod_iter(%u, %u) => %u, want %u\n", c.a, c.b, got, c.want);
             return false;
         }
     }
