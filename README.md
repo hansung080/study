@@ -4,7 +4,7 @@ Study on languages, algorithms, and data structures
 ## C
 - ac1 (Algorithm with C 1)
   - util - string, math
-  - etc - mul, gcd
+  - etc - mul, gcd, lcm
 - ypds (Yoon Seong-woo's Passionate Data Structure) 
   - tree - binary_tree, binary_search_tree, avl_tree
 
