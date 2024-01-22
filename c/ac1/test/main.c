@@ -2,6 +2,7 @@
 #include <ac1/src/util/string.h>
 #include "util/string.h"
 #include "etc/mul.h"
+#include "etc/gcd.h"
 
 int main(int argc, char* argv[]) {
     if (argc > 2) {
@@ -10,12 +11,13 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    int len = 4;
+    int len = 5;
     test tests[len];
     int n = 0;
 
     init_util__string(tests, &n);
     init_etc__mul(tests, &n);
+    init_etc__gcd(tests, &n);
 
     if (n != len) {
         fprintf(stderr, LOG_ERROR": mismatched tests length: want %d, got %d\n", len, n);
