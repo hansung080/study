@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <ac1/src/util/string.h>
 #include "util/string.h"
+#include "util/math.h"
 #include "etc/mul.h"
 #include "etc/gcd.h"
 #include "etc/lcm.h"
@@ -13,11 +14,12 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    int len = 7;
+    int len = 9;
     test tests[len];
     int n = 0;
 
     init_util__string(tests, &n);
+    init_util__math(tests, &n);
     init_etc__mul(tests, &n);
     init_etc__gcd(tests, &n);
     init_etc__lcm(tests, &n);

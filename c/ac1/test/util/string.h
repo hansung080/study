@@ -4,7 +4,6 @@
 #include "../test.h"
 
 void init_util__string(test t[], int* n);
-
 static bool test_stob();
 static bool test_btos();
 static bool test_contains();

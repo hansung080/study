@@ -13,7 +13,7 @@
  *   1. gcd(A, B) = gcd(A - B, B)
  *   2. gcd(A, B) = gcd(B, A)
  *   3. gcd(0, B) = B
-*/
+ */
 unsigned int gcd_sub_rec(unsigned int a, unsigned int b) {
     if (a == 0) return b;
     if (a < b) return gcd_sub_rec(b - a, a);
@@ -45,7 +45,7 @@ unsigned int gcd_sub_iter(unsigned int a, unsigned int b) {
  * Thus:
  *   1. gcd(A, B) = gcd(B, A % B)
  *   2. gcd(A, 0) = A
-*/
+ */
 unsigned int gcd_mod_rec(unsigned int a, unsigned int b) {
     if (b == 0) return a;
     return gcd_mod_rec(b, a % b);

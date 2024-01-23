@@ -7,4 +7,7 @@
 #define swap(x, y, t)   (((t) = (x)), ((x) = (y)), ((y) = (t)))
 #define swap_t(x, y, T) do { T (t) = (x); (x) = (y); (y) = (t); } while (0)
 
+double square(double x);
+double pow_rec(double b, unsigned int n);
+
 #endif // __UTIL__MATH_H__
