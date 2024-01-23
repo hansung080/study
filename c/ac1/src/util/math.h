@@ -9,5 +9,6 @@
 
 double square(double x);
 double pow_rec(double b, unsigned int n);
+double pow_iter(double b, unsigned int n);
 
 #endif // __UTIL__MATH_H__

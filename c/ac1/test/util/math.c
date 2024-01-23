@@ -54,7 +54,13 @@ bool test_pow() {
         struct case_ c = cases[i];
         double got = pow_rec(c.b, c.n);
         if (got != c.want) {
-            fprintf(stderr, LOG_FAILED": square(%f, %u) => %f, want %f\n", c.b, c.n, got, c.want);
+            fprintf(stderr, LOG_FAILED": pow_rec(%f, %u) => %f, want %f\n", c.b, c.n, got, c.want);
+            return false;
+        }
+
+        got = pow_iter(c.b, c.n);
+        if (got != c.want) {
+            fprintf(stderr, LOG_FAILED": pow_iter(%f, %u) => %f, want %f\n", c.b, c.n, got, c.want);
             return false;
         }
     }
