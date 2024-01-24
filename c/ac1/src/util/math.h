@@ -11,6 +11,8 @@
 #define pow    pow_iter
 #define powmod powmod_iter
 
+int rand_between(int min, int max); // including min and including max
+
 int square_i(int x);
 unsigned int square_u(unsigned int x);
 double square_d(double x);

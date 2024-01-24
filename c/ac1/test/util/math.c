@@ -4,10 +4,24 @@
 
 void init_util__math(test t[], int* n) {
     int i = *n;
+    t[i++] = new_test("test/util/math/test_rand", test_rand);
     t[i++] = new_test("test/util/math/test_square", test_square);
     t[i++] = new_test("test/util/math/test_pow", test_pow);
     t[i++] = new_test("test/util/math/test_powmod", test_powmod);
     *n = i;
+}
+
+static bool test_rand() {
+    int min = 5;
+    int max = 10;
+    for (int i = 0; i < 20; ++i) {
+        int got = rand_between(min, max);
+        if (got < min || got > max) {
+            fprintf(stderr, LOG_FAILED": rand_between(%d, %d) => %d, want (%d ~ %d)\n", min, max, got, min, max);
+            return false;
+        }
+    }
+    return true;
 }
 
 bool test_square() {

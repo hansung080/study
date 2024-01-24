@@ -15,6 +15,8 @@ bool test_is_prime() {
         bool want;
     };
 
+    int carmichael_len = 6;
+
     struct case_ cases[] = {
         /* Carmichael Numbers */
         {561, false},
@@ -50,6 +52,14 @@ bool test_is_prime() {
         bool got = is_prime_basic(c.n);
         if (got != c.want) {
             fprintf(stderr, LOG_FAILED": is_prime_basic(%u) => %s, want %s\n", c.n, btos(got), btos(c.want));
+            return false;
+        }
+
+        got = is_prime_fermat(c.n);
+        // NOTE: is_prime_fermat fails with Carmichael numbers, thus, correct the results.
+        if (i < carmichael_len) got = !got;
+        if (got != c.want) {
+            fprintf(stderr, LOG_FAILED": is_prime_fermat(%u) => %s, want %s\n", c.n, btos(got), btos(c.want));
             return false;
         }
     }
