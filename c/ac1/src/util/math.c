@@ -1,6 +1,14 @@
 #include "math.h"
 
-double square(double x) {
+int square_i(int x) {
+    return x * x;
+}
+
+unsigned int square_u(unsigned int x) {
+    return x * x;
+}
+
+double square_d(double x) {
     return x * x;
 }
 
@@ -43,6 +51,66 @@ double pow_iter(double b, unsigned int n) {
             n /= 2;
         } else {
             a *= b;
+            n -= 1;
+        }
+    }
+    return a;
+}
+
+/* Remainder Theorem
+ * 1. (a * b) % m = {(a % m) * b} % m
+ * 2. (a * b) % m = {a * (b % m)} % m
+ * 3. (a * b) % m = {(a % m) * (b % m)} % m
+ */
+unsigned int powmod_basic(unsigned int b, unsigned int n, unsigned int m) {
+    return (unsigned int)pow(b % m, n) % m;
+}
+
+/* Recursive Power-Modulo
+ * If n = 0:
+ *   b^n = 1
+ * If n is even:
+ *   b^n % m = {b^(n/2)}^2 % m
+ *           = [{b^(n/4)}^2 % m]^2 % m
+ *           ...
+ * If n is odd:
+ *   b^n % m = b * b^(n-1) % m
+ *           = b * {b * b^(n-2) % m} % m
+ *           ...
+ */
+unsigned int powmod_rec(unsigned int b, unsigned int n, unsigned int m) {
+    if (n == 0)
+        return 1;
+    else if (n % 2 == 0)
+        return square_u(powmod_rec(b, n / 2, m)) % m;
+    else
+        return (b * powmod_rec(b, n - 1, m)) % m;
+}
+
+/* Iterative Power-Modulo
+ * If n = 0:
+ *   a = b^n % m
+ * If n is even:
+ *   ab^n % m = a{b^(n/2)}^2 % m = a(b^2)^(n/2) % m = a(b^2 % m)^(n/2) % m = a'b'^n' % m'
+ *   a' = a
+ *   b' = b^2 % m
+ *   n' = n/2
+ *   m' = m
+ * If n is odd:
+ *   ab^n % m = abb^(n-1) % m = (ab)b^(n-1) % m = (ab % m)b^(n-1) % m = a'b'^n' % m'
+ *   a' = ab % m
+ *   b' = b
+ *   n' = n-1
+ *   m' = m
+ */
+unsigned int powmod_iter(unsigned int b, unsigned int n, unsigned int m) {
+    unsigned int a = 1;
+    while (n) {
+        if (n % 2 == 0) {
+            b = (b * b) % m;
+            n /= 2;
+        } else {
+            a = (a * b) % m;
             n -= 1;
         }
     }
