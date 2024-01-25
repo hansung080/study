@@ -10,5 +10,6 @@
 bool is_prime_basic(unsigned int n);
 bool is_prime_fermat(unsigned int n); // is_prime_fermat_xx fails with Carmichael numbers.
 bool is_prime_fermat_times(unsigned int n, unsigned int times);
+unsigned int* get_primes(unsigned int max); // including max
 
 #endif // __ETC__PRIME_H__
