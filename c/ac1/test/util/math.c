@@ -2,7 +2,7 @@
 #include <ac1/src/util/math.h>
 #include "math.h"
 
-void init_util__math(test t[], int* n) {
+void init_util__math(test_t t[], int* n) {
     int i = *n;
     t[i++] = new_test("test/util/math/test_rand", test_rand);
     t[i++] = new_test("test/util/math/test_square", test_square);

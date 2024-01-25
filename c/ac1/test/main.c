@@ -15,7 +15,7 @@ int main(int argc, char* argv[]) {
     }
 
     int len = 12;
-    test tests[len];
+    test_t tests[len];
     int n = 0;
 
     init_util__string(tests, &n);
@@ -33,7 +33,7 @@ int main(int argc, char* argv[]) {
     int n_tests = 0;
     int passed = 0; 
     for (int i = 0; i < len; ++i) {
-        test t = tests[i];
+        test_t t = tests[i];
         if (argc < 2 || contains(t.name, argv[1])) {
             ++n_tests;
             bool ok = t.func();

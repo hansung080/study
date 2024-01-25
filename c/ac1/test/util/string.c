@@ -3,7 +3,7 @@
 #include <ac1/src/util/string.h>
 #include "string.h"
 
-void init_util__string(test t[], int* n) {
+void init_util__string(test_t t[], int* n) {
     int i = *n;
     t[i++] = new_test("test/util/string/test_stob", test_stob);
     t[i++] = new_test("test/util/string/test_btos", test_btos);

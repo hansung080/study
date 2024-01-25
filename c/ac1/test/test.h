@@ -11,10 +11,10 @@ typedef bool (*test_func)();
 typedef struct __test {
     const char* name;
     test_func func;
-} test;
+} test_t;
 
 #pragma pack(pop)
 
-test new_test(const char* name, test_func func);
+test_t new_test(const char* name, test_func func);
 
 #endif // __TEST__TEST_H__

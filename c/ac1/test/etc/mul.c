@@ -2,7 +2,7 @@
 #include <ac1/src/etc/mul.h>
 #include "mul.h"
 
-void init_etc__mul(test t[], int* n) {
+void init_etc__mul(test_t t[], int* n) {
     int i = *n;
     t[i++] = new_test("test/etc/mul/test_mul", test_mul);
     *n = i;

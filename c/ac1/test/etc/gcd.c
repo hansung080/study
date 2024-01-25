@@ -2,7 +2,7 @@
 #include <ac1/src/etc/gcd.h>
 #include "gcd.h"
 
-void init_etc__gcd(test t[], int* n) {
+void init_etc__gcd(test_t t[], int* n) {
     int i = *n;
     t[i++] = new_test("test/etc/gcd/test_gcd", test_gcd);
     *n = i;

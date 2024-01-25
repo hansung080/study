@@ -3,7 +3,7 @@
 
 #include "../test.h"
 
-void init_etc__prime(test t[], int* n);
+void init_etc__prime(test_t t[], int* n);
 static bool test_is_prime();
 static bool test_get_primes();
 

@@ -2,7 +2,7 @@
 #include <ac1/src/etc/lcm.h>
 #include "lcm.h"
 
-void init_etc__lcm(test t[], int* n) {
+void init_etc__lcm(test_t t[], int* n) {
     int i = *n;
     t[i++] = new_test("test/etc/lcm/test_lcm", test_lcm);
     *n = i;

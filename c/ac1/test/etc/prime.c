@@ -3,7 +3,7 @@
 #include <ac1/src/util/string.h>
 #include "prime.h"
 
-void init_etc__prime(test t[], int* n) {
+void init_etc__prime(test_t t[], int* n) {
     int i = *n;
     t[i++] = new_test("test/etc/prime/test_is_prime", test_is_prime);
     t[i++] = new_test("test/etc/prime/test_get_primes", test_get_primes);

@@ -1,6 +1,6 @@
 #include "test.h"
 
-test new_test(const char* name, test_func func) {
-    test t = {name, func};
-    return t;
+test_t new_test(const char* name, test_func func) {
+    test_t test = {name, func};
+    return test;
 }
