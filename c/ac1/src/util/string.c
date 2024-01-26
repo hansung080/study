@@ -1,12 +1,12 @@
 #include <string.h>
 #include "string.h"
 
-bool stob(const char* s) {
+bool str2bool(const char* s) {
     if (strcmp(s, "true") == 0) return true;
     return false;
 }
 
-const char* btos(bool b) {
+const char* bool2str(bool b) {
     if (b == false) return "false";
     return "true";
 }

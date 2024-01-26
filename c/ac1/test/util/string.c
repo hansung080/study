@@ -5,13 +5,13 @@
 
 void init_util__string(test_t t[], int* n) {
     int i = *n;
-    t[i++] = new_test("test/util/string/test_stob", test_stob);
-    t[i++] = new_test("test/util/string/test_btos", test_btos);
+    t[i++] = new_test("test/util/string/test_str2bool", test_str2bool);
+    t[i++] = new_test("test/util/string/test_bool2str", test_bool2str);
     t[i++] = new_test("test/util/string/test_contains", test_contains);
     *n = i;
 }
 
-bool test_stob() {
+bool test_str2bool() {
     struct case_ {
         const char* s;
         bool want;
@@ -26,9 +26,9 @@ bool test_stob() {
     int len = sizeof(cases) / sizeof(struct case_);
     for (int i = 0; i < len; ++i) {
         struct case_ c = cases[i];
-        bool got = stob(c.s);
+        bool got = str2bool(c.s);
         if (got != c.want) {
-            fprintf(stderr, LOG_FAILED": stob(%s) => %d, want %d\n", c.s, got, c.want);
+            fprintf(stderr, LOG_FAILED": str2bool(%s) => %d, want %d\n", c.s, got, c.want);
             return false;
         }
     }    
@@ -36,7 +36,7 @@ bool test_stob() {
     return true;
 }
 
-bool test_btos() {
+bool test_bool2str() {
     struct case_ {
         bool b;
         const char* want;
@@ -51,9 +51,9 @@ bool test_btos() {
     int len = sizeof(cases) / sizeof(struct case_);
     for (int i = 0; i < len; ++i) {
         struct case_ c = cases[i];
-        const char* got = btos(c.b);
+        const char* got = bool2str(c.b);
         if (strcmp(got, c.want) != 0) {
-            fprintf(stderr, LOG_FAILED": btos(%d) => %s, want %s\n", c.b, got, c.want);
+            fprintf(stderr, LOG_FAILED": bool2str(%d) => %s, want %s\n", c.b, got, c.want);
             return false;
         }
     }
@@ -83,7 +83,7 @@ bool test_contains() {
         struct case_ c = cases[i];
         bool got = contains(c.s, c.keyword);
         if (got != c.want) {
-            fprintf(stderr, LOG_FAILED": contains('%s', '%s') => %s, want %s\n", c.s, c.keyword, btos(got), btos(c.want));
+            fprintf(stderr, LOG_FAILED": contains('%s', '%s') => %s, want %s\n", c.s, c.keyword, bool2str(got), bool2str(c.want));
             return false;
         }
 

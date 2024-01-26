@@ -3,8 +3,8 @@
 
 #include "../types.h"
 
-bool stob(const char* s);
-const char* btos(bool b);
+bool str2bool(const char* s);
+const char* bool2str(bool b);
 bool contains(const char* s, const char* keyword);
 
 #endif // __UTIL__STRING_H__
