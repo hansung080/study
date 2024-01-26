@@ -1,5 +1,7 @@
+#include <stdio.h>
 #include <stdlib.h>
 #include "prime.h"
+#include "../log.h"
 #include "../util/math.h"
 
 bool is_prime_basic(unsigned int n) {
@@ -44,25 +46,44 @@ bool is_prime_fermat_times(unsigned int n, unsigned int times) {
  *   11(O)  12(X)  13(O)  14(X)  15(X)  16(X)  17(O)  18(X)  19(O)  20(X)
  *   21(X)  22(X)  23(O)  24(X)  25(X)  26(X)  27(X)  28(X)  29(O)  30(X)
  */
-unsigned int* get_primes(unsigned int max) {
-    int len = max + 1;
-    bool* not_primes = (bool*)calloc(len, sizeof(bool));
-    //not_primes[1] = true;
-    for (unsigned int i = 2; i < max; ++i) {
-        if (not_primes[i] == true) continue;
+primes_t new_primes(unsigned int max) {
+    bool* not_primes = (bool*)calloc(max + 1, sizeof(bool));
+    if (not_primes == NULL) {
+        fprintf(stderr, LOG_ERROR": new_primes: failed to calloc");
+        primes_t error = {NULL, 0};
+        return error;
+    }
+
+    unsigned int half = max / 2;
+    for (unsigned int i = 2; i <= half; ++i) {
+        if (not_primes[i]) continue;
         for (unsigned int j = i + i; j <= max; j += i) {
             not_primes[j] = true;
         }
     }
 
-    int count = 0;
-    for (int i = 1; i < len; ++i) {
+    unsigned int count = 0;
+    for (unsigned int i = 2; i <= max; ++i) {
         if (!not_primes[i]) ++count;
     }
 
     unsigned int* primes = (unsigned int*)malloc(sizeof(unsigned int) * count);
-    for (int i = 1, j = 0; i < len; ++i) {
+    if (primes == NULL) {
+        fprintf(stderr, LOG_ERROR": new_primes: failed to malloc");
+        primes_t error = {NULL, 0};
+        return error;
+    }
+
+    for (unsigned int i = 2, j = 0; i <= max; ++i) {
         if (!not_primes[i]) primes[j++] = i;
     }
-    return primes;
+
+    free(not_primes);
+
+    primes_t result = {primes, count};
+    return result;
+}
+
+void delete_primes(const primes_t* p) {
+    free(p->arr);
 }

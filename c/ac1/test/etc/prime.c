@@ -6,7 +6,7 @@
 void init_etc__prime(test_t t[], int* n) {
     int i = *n;
     t[i++] = new_test("test/etc/prime/test_is_prime", test_is_prime);
-    t[i++] = new_test("test/etc/prime/test_get_primes", test_get_primes);
+    t[i++] = new_test("test/etc/prime/test_new_primes", test_new_primes);
     *n = i;
 }
 
@@ -67,10 +67,11 @@ bool test_is_prime() {
     return true;
 }
 
-static bool test_get_primes() {
-    unsigned int* primes = get_primes(30);
-    for (int i = 0; i < 10; i++) {
-        printf("%u\n", primes[i]);
+static bool test_new_primes() {
+    primes_t primes = new_primes(30);
+    for (int i = 0; i < primes.len; i++) {
+        printf("%u\n", primes.arr[i]);
     }
+    delete_primes(&primes);
     return true;
 }
