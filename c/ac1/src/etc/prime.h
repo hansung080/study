@@ -10,16 +10,16 @@
 #pragma pack(push, 1)
 
 typedef struct __primes {
-    unsigned int* arr;
-    unsigned int len;
+    uint* arr;
+    uint len;
 } primes_t;
 
 #pragma pack(pop)
 
-bool is_prime_basic(unsigned int n);
-bool is_prime_fermat(unsigned int n); // is_prime_fermat_xx fails with Carmichael numbers.
-bool is_prime_fermat_times(unsigned int n, unsigned int times);
-primes_t new_primes(unsigned int max); // including max
+bool is_prime_basic(uint n);
+bool is_prime_fermat(uint n); // is_prime_fermat_xx fails with Carmichael numbers.
+bool is_prime_fermat_times(uint n, uint times);
+primes_t new_primes(uint max); // including max
 void delete_primes(const primes_t* p);
 
 #endif // __ETC__PRIME_H__

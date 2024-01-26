@@ -10,9 +10,9 @@ void init_etc__lcm(test_t t[], int* n) {
 
 bool test_lcm() {
     struct case_ {
-        unsigned int a;
-        unsigned int b;
-        unsigned int want;
+        uint a;
+        uint b;
+        uint want;
     };
 
     struct case_ cases[] = {
@@ -26,7 +26,7 @@ bool test_lcm() {
     int len = sizeof(cases) / sizeof(struct case_);
     for (int i = 0; i < len; ++i) {
         struct case_ c = cases[i];
-        unsigned int got = lcm(c.a, c.b);
+        uint got = lcm(c.a, c.b);
         if (got != c.want) {
             fprintf(stderr, LOG_FAILED": lcm(%u, %u) => %u, want %u\n", c.a, c.b, got, c.want);
             return false;

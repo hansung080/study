@@ -23,7 +23,7 @@ int square_i(int x) {
     return x * x;
 }
 
-unsigned int square_u(unsigned int x) {
+uint square_u(uint x) {
     return x * x;
 }
 
@@ -39,7 +39,7 @@ double square_d(double x) {
  * If n is odd:
  *   b^n = b * b^(n-1)
  */
-double pow_rec(double b, unsigned int n) {
+double pow_rec(double b, uint n) {
     if (n == 0) 
         return 1;
     else if (n % 2 == 0)
@@ -62,7 +62,7 @@ double pow_rec(double b, unsigned int n) {
  *   b' = b
  *   n' = n-1
  */
-double pow_iter(double b, unsigned int n) {
+double pow_iter(double b, uint n) {
     double a = 1;
     while (n) {
         if (n % 2 == 0) {
@@ -81,8 +81,8 @@ double pow_iter(double b, unsigned int n) {
  * 2. (a * b) % m = {a * (b % m)} % m
  * 3. (a * b) % m = {(a % m) * (b % m)} % m
  */
-unsigned int powmod_basic(unsigned int b, unsigned int n, unsigned int m) {
-    return (unsigned int)pow(b % m, n) % m;
+uint powmod_basic(uint b, uint n, uint m) {
+    return (uint)pow(b % m, n) % m;
 }
 
 /* Recursive Power-Modulo
@@ -97,7 +97,7 @@ unsigned int powmod_basic(unsigned int b, unsigned int n, unsigned int m) {
  *           = b * {b * b^(n-2) % m} % m
  *           ...
  */
-unsigned int powmod_rec(unsigned int b, unsigned int n, unsigned int m) {
+uint powmod_rec(uint b, uint n, uint m) {
     if (n == 0)
         return 1;
     else if (n % 2 == 0)
@@ -122,8 +122,8 @@ unsigned int powmod_rec(unsigned int b, unsigned int n, unsigned int m) {
  *   n' = n-1
  *   m' = m
  */
-unsigned int powmod_iter(unsigned int b, unsigned int n, unsigned int m) {
-    unsigned int a = 1;
+uint powmod_iter(uint b, uint n, uint m) {
+    uint a = 1;
     while (n) {
         if (n % 2 == 0) {
             b = (b * b) % m;

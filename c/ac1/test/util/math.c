@@ -44,7 +44,7 @@ bool test_square() {
             return false;
         }
 
-        got = (int)square_u((unsigned int)c.x);
+        got = (int)square_u((uint)c.x);
         if (got != c.want) {
             fprintf(stderr, LOG_FAILED": square_u(%d) => %d, want %d\n", c.x, got, c.want);
             return false;
@@ -62,7 +62,7 @@ bool test_square() {
 bool test_pow() {
     struct case_ {
         double b;
-        unsigned int n;
+        uint n;
         double want;
     };
 
@@ -96,10 +96,10 @@ bool test_pow() {
 
 bool test_powmod() {
     struct case_ {
-        unsigned int b;
-        unsigned int n;
-        unsigned int m;
-        unsigned int want;
+        uint b;
+        uint n;
+        uint m;
+        uint want;
     };
 
     struct case_ cases[] = {
@@ -122,7 +122,7 @@ bool test_powmod() {
     int len = sizeof(cases) / sizeof(struct case_);
     for (int i = 0; i < len; ++i) {
         struct case_ c = cases[i];
-        unsigned int got = powmod_basic(c.b, c.n, c.m);
+        uint got = powmod_basic(c.b, c.n, c.m);
         if (got != c.want) {
             fprintf(stderr, LOG_FAILED": powmod_basic(%u, %u, %u) => %u, want %u\n", c.b, c.n, c.m, got, c.want);
             return false;

@@ -12,7 +12,7 @@ void init_etc__prime(test_t t[], int* n) {
 
 bool test_is_prime() {
     struct case_ {
-        unsigned int n;
+        uint n;
         bool want;
     };
 

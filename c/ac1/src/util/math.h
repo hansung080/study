@@ -1,6 +1,8 @@
 #ifndef __UTIL__MATH_H__
 #define __UTIL__MATH_H__
 
+#include "../types.h"
+
 #define min(x, y)       (((x) < (y)) ? (x) : (y))
 #define max(x, y)       (((x) > (y)) ? (x) : (y))
 #define abs(x)          (((x) < 0) ? -(x) : (x))
@@ -14,14 +16,14 @@
 int rand_between(int min, int max); // including min and including max
 
 int square_i(int x);
-unsigned int square_u(unsigned int x);
+uint square_u(uint x);
 double square_d(double x);
 
-double pow_rec(double b, unsigned int n);
-double pow_iter(double b, unsigned int n);
+double pow_rec(double b, uint n);
+double pow_iter(double b, uint n);
 
-unsigned int powmod_basic(unsigned int b, unsigned int n, unsigned int m);
-unsigned int powmod_rec(unsigned int b, unsigned int n, unsigned int m);
-unsigned int powmod_iter(unsigned int b, unsigned int n, unsigned int m);
+uint powmod_basic(uint b, uint n, uint m);
+uint powmod_rec(uint b, uint n, uint m);
+uint powmod_iter(uint b, uint n, uint m);
 
 #endif // __UTIL__MATH_H__

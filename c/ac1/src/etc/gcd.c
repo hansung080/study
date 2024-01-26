@@ -14,14 +14,14 @@
  *   2. gcd(A, B) = gcd(B, A)
  *   3. gcd(0, B) = B
  */
-unsigned int gcd_sub_rec(unsigned int a, unsigned int b) {
+uint gcd_sub_rec(uint a, uint b) {
     if (a == 0) return b;
     if (a < b) return gcd_sub_rec(b - a, a);
     else return gcd_sub_rec(a - b, b);
 }
 
-unsigned int gcd_sub_iter(unsigned int a, unsigned int b) {
-    unsigned int t;
+uint gcd_sub_iter(uint a, uint b) {
+    uint t;
     while (a) {
         if (a < b) swap(a, b, t);
         a -= b;
@@ -46,13 +46,13 @@ unsigned int gcd_sub_iter(unsigned int a, unsigned int b) {
  *   1. gcd(A, B) = gcd(B, A % B)
  *   2. gcd(A, 0) = A
  */
-unsigned int gcd_mod_rec(unsigned int a, unsigned int b) {
+uint gcd_mod_rec(uint a, uint b) {
     if (b == 0) return a;
     return gcd_mod_rec(b, a % b);
 }
 
-unsigned int gcd_mod_iter(unsigned int a, unsigned int b) {
-    unsigned int t;
+uint gcd_mod_iter(uint a, uint b) {
+    uint t;
     while (b) {
         t = a % b;
         a = b;

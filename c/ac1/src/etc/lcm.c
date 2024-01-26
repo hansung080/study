@@ -6,6 +6,6 @@
  *   A * B = G * L
  *   L = (A * B) / G
  */
-unsigned int lcm(unsigned int a, unsigned int b) {
+uint lcm(uint a, uint b) {
     return (a * b) / gcd(a, b);
 }
