@@ -11,7 +11,7 @@ const char* bool2str(bool b) {
     return "true";
 }
 
-bool contains(const char* s, const char* keyword) {
+bool s_contains(const char* s, const char* keyword) {
     int i, j, k;
     bool matched;
     for (i = 0; s[i] != '\0'; ++i) {

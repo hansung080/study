@@ -34,7 +34,7 @@ int main(int argc, char* argv[]) {
     int passed = 0; 
     for (int i = 0; i < len; ++i) {
         test_t t = tests[i];
-        if (argc < 2 || contains(t.name, argv[1])) {
+        if (argc < 2 || s_contains(t.name, argv[1])) {
             ++n_tests;
             bool ok = t.func();
             printf("# %d. %s ... %s\n", i + 1, t.name, ok ? LOG_OK_LOW : LOG_FAILED);
