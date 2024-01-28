@@ -31,8 +31,7 @@ bool test_str2bool() {
             fprintf(stderr, LOG_FAILED": str2bool(%s) => %d, want %d\n", c.s, got, c.want);
             return false;
         }
-    }    
-
+    }
     return true;
 }
 
@@ -88,6 +87,5 @@ bool test_s_contains() {
         }
 
     }
-
     return true;
 }
