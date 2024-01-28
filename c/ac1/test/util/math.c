@@ -44,9 +44,9 @@ bool test_square() {
             return false;
         }
 
-        got = (int)square_u((uint)c.x);
+        got = (int)square_ui((uint)c.x);
         if (got != c.want) {
-            fprintf(stderr, LOG_FAILED": square_u(%d) => %d, want %d\n", c.x, got, c.want);
+            fprintf(stderr, LOG_FAILED": square_ui(%d) => %d, want %d\n", c.x, got, c.want);
             return false;
         }
 

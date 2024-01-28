@@ -16,7 +16,7 @@
 int rand_between(int min, int max); // including min and including max
 
 int square_i(int x);
-uint square_u(uint x);
+uint square_ui(uint x);
 double square_d(double x);
 
 double pow_rec(double b, uint n);

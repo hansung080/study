@@ -23,7 +23,7 @@ int square_i(int x) {
     return x * x;
 }
 
-uint square_u(uint x) {
+uint square_ui(uint x) {
     return x * x;
 }
 
@@ -101,7 +101,7 @@ uint powmod_rec(uint b, uint n, uint m) {
     if (n == 0)
         return 1;
     else if (n % 2 == 0)
-        return square_u(powmod_rec(b, n / 2, m)) % m;
+        return square_ui(powmod_rec(b, n / 2, m)) % m;
     else
         return (b * powmod_rec(b, n - 1, m)) % m;
 }
