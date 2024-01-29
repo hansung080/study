@@ -8,6 +8,7 @@ void init_util__math(test_t t[], int* n) {
     t[i++] = new_test("test/util/math/test_square", test_square);
     t[i++] = new_test("test/util/math/test_pow", test_pow);
     t[i++] = new_test("test/util/math/test_powmod", test_powmod);
+    t[i++] = new_test("test/util/math/test_digit", test_digit);
     *n = i;
 }
 
@@ -138,6 +139,42 @@ bool test_powmod() {
         if (got != c.want) {
             fprintf(stderr, LOG_FAILED": powmod_iter(%u, %u, %u) => %u, want %u\n", c.b, c.n, c.m, got, c.want);
             return false;
+        }
+    }
+    return true;
+}
+
+bool test_digit() {
+    struct case_ {
+        int x;
+        uint want;
+    };
+
+    struct case_ cases[] = {
+        {0, 1},
+        {1, 1},
+        {12, 2},
+        {123, 3},
+        {-1, 2},
+        {-12, 3},
+        {-123, 4},
+    };
+
+    int len = sizeof(cases) / sizeof(struct case_);
+    for (int i = 0; i < len; ++i) {
+        struct case_ c = cases[i];
+        uint got = digit_i(c.x);
+        if (got != c.want) {
+            fprintf(stderr, LOG_FAILED": digit_i(%d) => %u, want %u\n", c.x, got, c.want);
+            return false;
+        }
+
+        if (c.x >= 0) {
+            got = digit_ui((uint)c.x);
+            if (got != c.want) {
+                fprintf(stderr, LOG_FAILED": digit_ui(%d) => %u, want %u\n", c.x, got, c.want);
+                return false;
+            }
         }
     }
     return true;

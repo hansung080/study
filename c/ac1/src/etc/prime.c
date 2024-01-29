@@ -49,7 +49,7 @@ bool is_prime_fermat_times(uint n, uint times) {
 primes_t new_primes(uint max) {
     bool* not_primes = (bool*)calloc(max + 1, sizeof(bool));
     if (not_primes == NULL) {
-        fprintf(stderr, LOG_ERROR": new_primes: failed to calloc");
+        fprintf(stderr, LOG_ERROR": new_primes: failed to calloc\n");
         primes_t error = {NULL, 0};
         return error;
     }
@@ -69,7 +69,7 @@ primes_t new_primes(uint max) {
 
     uint* primes = (uint*)malloc(sizeof(uint) * count);
     if (primes == NULL) {
-        fprintf(stderr, LOG_ERROR": new_primes: failed to malloc");
+        fprintf(stderr, LOG_ERROR": new_primes: failed to malloc\n");
         primes_t error = {NULL, 0};
         return error;
     }

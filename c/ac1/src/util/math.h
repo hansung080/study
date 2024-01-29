@@ -26,4 +26,7 @@ uint powmod_basic(uint b, uint n, uint m);
 uint powmod_rec(uint b, uint n, uint m);
 uint powmod_iter(uint b, uint n, uint m);
 
+uint digit_i(int x);
+uint digit_ui(uint x);
+
 #endif // __UTIL__MATH_H__

@@ -135,3 +135,14 @@ uint powmod_iter(uint b, uint n, uint m) {
     }
     return a;
 }
+
+uint digit_i(int x) {
+    if (x < 0) return digit_ui(-x) + 1;
+    else return digit_ui(x);
+}
+
+uint digit_ui(uint x) {
+    uint d = 1;
+    while (x /= 10) ++d;
+    return d;
+}

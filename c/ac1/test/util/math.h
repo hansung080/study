@@ -8,5 +8,6 @@ static bool test_rand();
 static bool test_square();
 static bool test_pow();
 static bool test_powmod();
+static bool test_digit();
 
 #endif // __TEST__UTIL__MATH_H__
