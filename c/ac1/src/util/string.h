@@ -9,6 +9,6 @@ const char* bool2str(bool b);
 uint int2str(int x, char* s);
 uint uint2str(uint x, char* s);
 
-bool s_contains(const char* s, const char* keyword);
+bool str_contains(const char* s, const char* keyword);
 
 #endif // __UTIL__STRING_H__

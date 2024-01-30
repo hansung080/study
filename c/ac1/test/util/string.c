@@ -8,7 +8,7 @@ void init_util__string(test_t t[], int* n) {
     t[i++] = new_test("test/util/string/test_str2bool", test_str2bool);
     t[i++] = new_test("test/util/string/test_bool2str", test_bool2str);
     t[i++] = new_test("test/util/string/test_int2str", test_int2str);
-    t[i++] = new_test("test/util/string/test_s_contains", test_s_contains);
+    t[i++] = new_test("test/util/string/test_str_contains", test_str_contains);
     *n = i;
 }
 
@@ -98,7 +98,7 @@ bool test_int2str() {
     return true;
 }
 
-bool test_s_contains() {
+bool test_str_contains() {
     struct case_ {
         const char* s;
         const char* keyword;
@@ -119,9 +119,9 @@ bool test_s_contains() {
     int len = sizeof(cases) / sizeof(struct case_);
     for (int i = 0; i < len; ++i) {
         struct case_ c = cases[i];
-        bool got = s_contains(c.s, c.keyword);
+        bool got = str_contains(c.s, c.keyword);
         if (got != c.want) {
-            fprintf(stderr, LOG_FAILED": s_contains('%s', '%s') => %s, want %s\n", c.s, c.keyword, bool2str(got), bool2str(c.want));
+            fprintf(stderr, LOG_FAILED": str_contains('%s', '%s') => %s, want %s\n", c.s, c.keyword, bool2str(got), bool2str(c.want));
             return false;
         }
 

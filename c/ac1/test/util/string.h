@@ -7,6 +7,6 @@ void init_util__string(test_t t[], int* n);
 static bool test_str2bool();
 static bool test_bool2str();
 static bool test_int2str();
-static bool test_s_contains();
+static bool test_str_contains();
 
 #endif // __TEST__UTIL__STRING_H__

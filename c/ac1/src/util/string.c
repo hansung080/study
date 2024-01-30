@@ -32,7 +32,7 @@ uint uint2str(uint x, char* s) {
     return d;
 }
 
-bool s_contains(const char* s, const char* keyword) {
+bool str_contains(const char* s, const char* keyword) {
     int i, j, k;
     bool matched;
     for (i = 0; s[i] != '\0'; ++i) {
