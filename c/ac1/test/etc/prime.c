@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <ac1/src/etc/prime.h>
 #include <ac1/src/util/string.h>
 #include "prime.h"
@@ -67,11 +68,41 @@ bool test_is_prime() {
     return true;
 }
 
-static bool test_new_primes() {
-    primes_t primes = new_primes(30);
-    for (int i = 0; i < primes.len; i++) {
-        printf("%u\n", primes.arr[i]);
+bool test_new_primes() {
+    struct case_ {
+        uint max;
+        primes_t want;
+    };
+
+    uint arr1[] = {};
+    uint arr2[] = {2};
+    uint arr3[] = {2, 3};
+    uint arr4[] = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29};
+
+    primes_t want1 = {arr1, sizeof(arr1) / sizeof(uint), NULL};
+    primes_t want2 = {arr2, sizeof(arr2) / sizeof(uint), NULL};
+    primes_t want3 = {arr3, sizeof(arr3) / sizeof(uint), NULL};
+    primes_t want4 = {arr4, sizeof(arr4) / sizeof(uint), NULL};
+
+    struct case_ cases[] = {
+        {1, want1},
+        {2, want2},
+        {3, want3},
+        {30, want4},
+    };
+
+    int len = sizeof(cases) / sizeof(struct case_);
+    for (int i = 0; i < len; ++i) {
+        struct case_ c = cases[i];
+        primes_t got = new_primes(c.max);
+        if (!primes_equals(&got, &c.want)) {
+            char* s_want = primes2str(&c.want);
+            fprintf(stderr, LOG_FAILED": new_primes(%u) => %s, want %s\n", c.max, primes2str(&got), s_want);
+            delete_primes(&got);
+            if (s_want != NULL) free(s_want);
+            return false;
+        }
+        delete_primes(&got);
     }
-    delete_primes(&primes);
     return true;
 }

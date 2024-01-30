@@ -3,6 +3,7 @@
 #include "prime.h"
 #include "../log.h"
 #include "../util/math.h"
+#include "../util/array.h"
 
 bool is_prime_basic(uint n) {
     if (n == 1) return false;
@@ -50,7 +51,7 @@ primes_t new_primes(uint max) {
     bool* not_primes = (bool*)calloc(max + 1, sizeof(bool));
     if (not_primes == NULL) {
         fprintf(stderr, LOG_ERROR": new_primes: failed to calloc\n");
-        primes_t error = {NULL, 0};
+        primes_t error = {NULL, 0, NULL};
         return error;
     }
 
@@ -70,7 +71,7 @@ primes_t new_primes(uint max) {
     uint* primes = (uint*)malloc(sizeof(uint) * count);
     if (primes == NULL) {
         fprintf(stderr, LOG_ERROR": new_primes: failed to malloc\n");
-        primes_t error = {NULL, 0};
+        primes_t error = {NULL, 0, NULL};
         return error;
     }
 
@@ -80,10 +81,31 @@ primes_t new_primes(uint max) {
 
     free(not_primes);
 
-    primes_t result = {primes, count};
+    primes_t result = {primes, count, NULL};
     return result;
 }
 
-void delete_primes(const primes_t* p) {
-    free(p->arr);
+bool primes_equals(const primes_t* p1, const primes_t* p2) {
+    return arr_equals(p1->arr, p1->len * sizeof(uint), p2->arr, p2->len * sizeof(uint));
+}
+
+char* primes2str(primes_t* p) {
+    if (p->str != NULL) {
+        return p->str;
+    }
+    char* str = arr2str_ui(p->arr, p->len);
+    p->str = str;
+    return str;
+}
+
+void delete_primes(primes_t* p) {
+    if (p->arr != NULL) {
+        free(p->arr);
+        p->arr = NULL;
+    }
+    p->len = 0;
+    if (p->str != NULL) {
+        free(p->str);
+        p->str = NULL;
+    }
 }

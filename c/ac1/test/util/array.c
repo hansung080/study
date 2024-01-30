@@ -110,7 +110,6 @@ bool test_arr_equals() {
             if (s_arr2 != NULL) free(s_arr2);
             return false;
         }
-
     }
     return true;
 }
