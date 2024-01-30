@@ -11,10 +11,10 @@ char* arr2str(const void* arr, size_t len, int type) {
     size_t size = 2 + ((len - 1) * 2);
     for (size_t i = 0; i < len; ++i) {
         switch (type) {
-        case ARR2STR_TYPE_INT:
+        case TYPE_INT:
             size += digit_i(((const int*)arr)[i]);
             break;
-        case ARR2STR_TYPE_UINT:
+        case TYPE_UINT:
             size += digit_ui(((const uint*)arr)[i]);
             break;
         default:
@@ -34,10 +34,10 @@ char* arr2str(const void* arr, size_t len, int type) {
     ++s;
     for (size_t i = 0; i < len; ++i) {
         switch (type) {
-        case ARR2STR_TYPE_INT:
+        case TYPE_INT:
             s += int2str(((const int*)arr)[i], s);
             break;
-        case ARR2STR_TYPE_UINT:
+        case TYPE_UINT:
             s += uint2str(((const uint*)arr)[i], s);
             break;
         default:
@@ -57,14 +57,18 @@ char* arr2str(const void* arr, size_t len, int type) {
     return str;
 }
 
-char* int_arr2str(const int* arr, size_t len) {
-    return arr2str(arr, len, ARR2STR_TYPE_INT);
+char* arr2str_i(const int* arr, size_t len) {
+    return arr2str(arr, len, TYPE_INT);
 }
 
-char* uint_arr2str(const uint* arr, size_t len) {
-    return arr2str(arr, len, ARR2STR_TYPE_UINT);
+char* arr2str_ui(const uint* arr, size_t len) {
+    return arr2str(arr, len, TYPE_UINT);
 }
 
-bool a_equals(const void* arr1, size_t len1, const void* arr2, size_t len2) {
-    return len1 == len2 && memcmp(arr1, arr2, len1) == 0;
+bool arr_equals(const void* arr1, size_t size1, const void* arr2, size_t size2) {
+    if (arr1 == NULL || arr2 == NULL) {
+        if (arr1 == NULL && arr2 == NULL) return true;
+        else return false;
+    }
+    return size1 == size2 && memcmp(arr1, arr2, size1) == 0;
 }

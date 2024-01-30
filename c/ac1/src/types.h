@@ -1,6 +1,9 @@
 #ifndef __TYPES_H__
 #define __TYPES_H__
 
+#define TYPE_INT  1
+#define TYPE_UINT 2
+
 #define false 0
 #define true  1
 

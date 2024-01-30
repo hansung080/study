@@ -2,12 +2,13 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ac1/src/util/array.h>
+#include <ac1/src/util/string.h>
 #include "array.h"
 
 void init_util__array(test_t t[], int* n) {
     int i = *n;
     t[i++] = new_test("test/util/array/test_arr2str", test_arr2str);
-    t[i++] = new_test("test/util/array/test_a_equals", test_a_equals);
+    t[i++] = new_test("test/util/array/test_arr_equals", test_arr_equals);
     *n = i;
 }
 
@@ -50,18 +51,18 @@ bool test_arr2str() {
     int len = sizeof(cases) / sizeof(struct case_);
     for (int i = 0; i < len; ++i) {
         struct case_ c = cases[i];
-        char* got = int_arr2str(c.arr, c.len);
+        char* got = arr2str_i(c.arr, c.len);
         if (got == NULL || strcmp(got, c.want) != 0) {
-            fprintf(stderr, LOG_FAILED": int_arr2str(arr%d, %lu) => %s, want %s\n", i, c.len, got, c.want);
+            fprintf(stderr, LOG_FAILED": arr2str_i(arr%d, %lu) => %s, want %s\n", i, c.len, got, c.want);
             if (got != NULL) free(got);
             return false;
         }
         free(got);
 
         if (!c.has_negative) {
-            got = uint_arr2str((const uint*)c.arr, c.len);
+            got = arr2str_ui((const uint*)c.arr, c.len);
             if (got == NULL || strcmp(got, c.want) != 0) {
-                fprintf(stderr, LOG_FAILED": uint_arr2str(arr%d, %lu) => %s, want %s\n", i, c.len, got, c.want);
+                fprintf(stderr, LOG_FAILED": arr2str_ui(arr%d, %lu) => %s, want %s\n", i, c.len, got, c.want);
                 if (got != NULL) free(got);
                 return false;
             }
@@ -71,29 +72,42 @@ bool test_arr2str() {
     return true;
 }
 
-bool test_a_equals() {
+bool test_arr_equals() {
     struct case_ {
         const int* arr1;
-        size_t len1;
+        size_t size1;
         const int* arr2;
-        size_t len2;
+        size_t size2;
         bool want;
     };
 
-    int arr[] = {1, 2, 3};
+    int arr1[] = {};
+    int arr2[] = {};
+    int arr3[] = {1, -2, 3};
+    int arr4[] = {1, -2, 3};
+    int arr5[] = {1, -2, -3};
+    int arr6[] = {1, -2, 3, 4};
 
     struct case_ cases[] = {
-        {arr, 3, arr, 3, true},
+        {NULL, 0, NULL, 0, true},
+        {NULL, 0, arr1, sizeof(arr1), false},
+        {arr1, sizeof(arr1), NULL, 0, false},
+        {arr1, sizeof(arr1), arr2, sizeof(arr2), true},
+        {arr3, sizeof(arr3), arr4, sizeof(arr4), true},
+        {arr3, sizeof(arr3), arr5, sizeof(arr5), false},
+        {arr3, sizeof(arr3), arr6, sizeof(arr6), false},
     };
 
     int len = sizeof(cases) / sizeof(struct case_);
-    //printf("len: %d\n", len);
     for (int i = 0; i < len; ++i) {
         struct case_ c = cases[i];
-        bool got = a_equals(c.arr1, c.len1, c.arr2, c.len2);
+        bool got = arr_equals(c.arr1, c.size1, c.arr2, c.size2);
         if (got != c.want) {
-            //fprintf(stderr, LOG_FAILED": s_contains('%s', '%s') => %s, want %s\n", c.s, c.keyword, bool2str(got), bool2str(c.want));
-            fprintf(stderr, LOG_FAILED": a_equals\n");
+            char* s_arr1 = arr2str_i(c.arr1, c.size1 / sizeof(int));
+            char* s_arr2 = arr2str_i(c.arr2, c.size2 / sizeof(int));
+            fprintf(stderr, LOG_FAILED": arr_equals(%s, %lu, %s, %lu) => %s, want %s\n", s_arr1, c.size1, s_arr2, c.size2, bool2str(got), bool2str(c.want));
+            if (s_arr1 != NULL) free(s_arr1);
+            if (s_arr2 != NULL) free(s_arr2);
             return false;
         }
 
