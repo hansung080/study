@@ -20,9 +20,10 @@ typedef struct __primes {
 bool is_prime_basic(uint n);
 bool is_prime_fermat(uint n); // NOTE: is_prime_fermat_xx fails with Carmichael numbers.
 bool is_prime_fermat_times(uint n, uint times);
-primes_t new_primes(uint max); // including max
+
+primes_t primes_new(uint max); // including max
 bool primes_equals(const primes_t* p1, const primes_t* p2);
-char* primes2str(primes_t* p);
-void delete_primes(primes_t* p);
+char* primes_to_str(primes_t* p);
+void primes_delete(primes_t* p);
 
 #endif // __ETC__PRIME_H__

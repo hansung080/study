@@ -3,11 +3,11 @@
 
 #include "../types.h"
 
-bool str2bool(const char* s);
-const char* bool2str(bool b);
+bool str_to_bool(const char* s);
+const char* bool_to_str(bool b);
 
-uint int2str(int x, char* s);
-uint uint2str(uint x, char* s);
+uint int_to_str(int x, char* s);
+uint uint_to_str(uint x, char* s);
 
 bool str_contains(const char* s, const char* keyword);
 

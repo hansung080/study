@@ -7,7 +7,7 @@
 
 void init_util__array(test_t t[], int* n) {
     int i = *n;
-    t[i++] = new_test("test/util/array/test_arr2str", test_arr2str);
+    t[i++] = new_test("test/util/array/test_arr_to_str", test_arr_to_str);
     t[i++] = new_test("test/util/array/test_arr_equals", test_arr_equals);
     *n = i;
 }
@@ -19,7 +19,7 @@ bool has_negative(const int* arr, size_t len) {
     return false;
 }
 
-bool test_arr2str() {
+bool test_arr_to_str() {
     struct case_ {
         const int* arr;
         size_t len;
@@ -51,18 +51,18 @@ bool test_arr2str() {
     int len = sizeof(cases) / sizeof(struct case_);
     for (int i = 0; i < len; ++i) {
         struct case_ c = cases[i];
-        char* got = arr2str_i(c.arr, c.len);
+        char* got = arr_to_str_i(c.arr, c.len);
         if (got == NULL || strcmp(got, c.want) != 0) {
-            fprintf(stderr, LOG_FAILED": arr2str_i(arr%d, %lu) => %s, want %s\n", i, c.len, got, c.want);
+            fprintf(stderr, LOG_FAILED": arr_to_str_i(arr%d, %lu) => %s, want %s\n", i, c.len, got, c.want);
             if (got != NULL) free(got);
             return false;
         }
         free(got);
 
         if (!c.has_negative) {
-            got = arr2str_ui((const uint*)c.arr, c.len);
+            got = arr_to_str_ui((const uint*)c.arr, c.len);
             if (got == NULL || strcmp(got, c.want) != 0) {
-                fprintf(stderr, LOG_FAILED": arr2str_ui(arr%d, %lu) => %s, want %s\n", i, c.len, got, c.want);
+                fprintf(stderr, LOG_FAILED": arr_to_str_ui(arr%d, %lu) => %s, want %s\n", i, c.len, got, c.want);
                 if (got != NULL) free(got);
                 return false;
             }
@@ -103,9 +103,9 @@ bool test_arr_equals() {
         struct case_ c = cases[i];
         bool got = arr_equals(c.arr1, c.size1, c.arr2, c.size2);
         if (got != c.want) {
-            char* s_arr1 = arr2str_i(c.arr1, c.size1 / sizeof(int));
-            char* s_arr2 = arr2str_i(c.arr2, c.size2 / sizeof(int));
-            fprintf(stderr, LOG_FAILED": arr_equals(%s, %lu, %s, %lu) => %s, want %s\n", s_arr1, c.size1, s_arr2, c.size2, bool2str(got), bool2str(c.want));
+            char* s_arr1 = arr_to_str_i(c.arr1, c.size1 / sizeof(int));
+            char* s_arr2 = arr_to_str_i(c.arr2, c.size2 / sizeof(int));
+            fprintf(stderr, LOG_FAILED": arr_equals(%s, %lu, %s, %lu) => %s, want %s\n", s_arr1, c.size1, s_arr2, c.size2, bool_to_str(got), bool_to_str(c.want));
             if (s_arr1 != NULL) free(s_arr1);
             if (s_arr2 != NULL) free(s_arr2);
             return false;

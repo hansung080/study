@@ -13,16 +13,16 @@ int mul_rec(int x, int y) {
     if (x == 0 || y == 0) return 0;
 
     if (x > 0 && y > 0)
-        return __mul_rec(x, y);
+        return proc_mul_rec(x, y);
     else if (x < 0 && y < 0)
-        return __mul_rec(-x, -y);
+        return proc_mul_rec(-x, -y);
     else if (x < 0)
-        return -__mul_rec(-x, y);
+        return -proc_mul_rec(-x, y);
     else 
-        return -__mul_rec(x, -y);
+        return -proc_mul_rec(x, -y);
 }
 
-int __mul_rec(int x, int y) {
+int proc_mul_rec(int x, int y) {
     if (x == 1) return y;
     return ((x % 2 == 1) ? y : 0) + mul_rec(x >> 1, y << 1);
 }
@@ -31,16 +31,16 @@ int mul_iter(int x, int y) {
     if (x == 0 || y == 0) return 0;
 
     if (x > 0 && y > 0)
-        return __mul_iter(x, y);
+        return proc_mul_iter(x, y);
     else if (x < 0 && y < 0)
-        return __mul_iter(-x, -y);
+        return proc_mul_iter(-x, -y);
     else if (x < 0)
-        return -__mul_iter(-x, y);
+        return -proc_mul_iter(-x, y);
     else 
-        return -__mul_iter(x, -y);
+        return -proc_mul_iter(x, -y);
 }
 
-int __mul_iter(int x, int y) {
+int proc_mul_iter(int x, int y) {
     int result = 0;
     while (x > 1) {
         result += ((x % 2 == 1) ? y : 0);

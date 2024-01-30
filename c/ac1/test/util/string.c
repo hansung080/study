@@ -5,14 +5,14 @@
 
 void init_util__string(test_t t[], int* n) {
     int i = *n;
-    t[i++] = new_test("test/util/string/test_str2bool", test_str2bool);
-    t[i++] = new_test("test/util/string/test_bool2str", test_bool2str);
-    t[i++] = new_test("test/util/string/test_int2str", test_int2str);
+    t[i++] = new_test("test/util/string/test_str_to_bool", test_str_to_bool);
+    t[i++] = new_test("test/util/string/test_bool_to_str", test_bool_to_str);
+    t[i++] = new_test("test/util/string/test_int_to_str", test_int_to_str);
     t[i++] = new_test("test/util/string/test_str_contains", test_str_contains);
     *n = i;
 }
 
-bool test_str2bool() {
+bool test_str_to_bool() {
     struct case_ {
         const char* s;
         bool want;
@@ -27,16 +27,16 @@ bool test_str2bool() {
     int len = sizeof(cases) / sizeof(struct case_);
     for (int i = 0; i < len; ++i) {
         struct case_ c = cases[i];
-        bool got = str2bool(c.s);
+        bool got = str_to_bool(c.s);
         if (got != c.want) {
-            fprintf(stderr, LOG_FAILED": str2bool(%s) => %d, want %d\n", c.s, got, c.want);
+            fprintf(stderr, LOG_FAILED": str_to_bool(%s) => %d, want %d\n", c.s, got, c.want);
             return false;
         }
     }
     return true;
 }
 
-bool test_bool2str() {
+bool test_bool_to_str() {
     struct case_ {
         bool b;
         const char* want;
@@ -51,16 +51,16 @@ bool test_bool2str() {
     int len = sizeof(cases) / sizeof(struct case_);
     for (int i = 0; i < len; ++i) {
         struct case_ c = cases[i];
-        const char* got = bool2str(c.b);
+        const char* got = bool_to_str(c.b);
         if (strcmp(got, c.want) != 0) {
-            fprintf(stderr, LOG_FAILED": bool2str(%d) => %s, want %s\n", c.b, got, c.want);
+            fprintf(stderr, LOG_FAILED": bool_to_str(%d) => %s, want %s\n", c.b, got, c.want);
             return false;
         }
     }
     return true;
 }
 
-bool test_int2str() {
+bool test_int_to_str() {
     struct case_ {
         int x;
         const char* want;
@@ -81,16 +81,16 @@ bool test_int2str() {
     char got[INT_MAX_DIGIT + 1];
     for (int i = 0; i < len; ++i) {
         struct case_ c = cases[i];
-        uint digit = int2str(c.x, got);
+        uint digit = int_to_str(c.x, got);
         if (strcmp(got, c.want) != 0 || digit != c.digit) {
-            fprintf(stderr, LOG_FAILED": int2str(%d) => (%s, %u), want (%s, %u)\n", c.x, got, digit, c.want, c.digit);
+            fprintf(stderr, LOG_FAILED": int_to_str(%d) => (%s, %u), want (%s, %u)\n", c.x, got, digit, c.want, c.digit);
             return false;
         }
 
         if (c.x >= 0) {
-            digit = uint2str((uint)c.x, got);
+            digit = uint_to_str((uint)c.x, got);
             if (strcmp(got, c.want) != 0 || digit != c.digit) {
-                fprintf(stderr, LOG_FAILED": uint2str(%d) => (%s, %u), want (%s, %u)\n", c.x, got, digit, c.want, c.digit);
+                fprintf(stderr, LOG_FAILED": uint_to_str(%d) => (%s, %u), want (%s, %u)\n", c.x, got, digit, c.want, c.digit);
                 return false;
             }
         }
@@ -121,7 +121,7 @@ bool test_str_contains() {
         struct case_ c = cases[i];
         bool got = str_contains(c.s, c.keyword);
         if (got != c.want) {
-            fprintf(stderr, LOG_FAILED": str_contains('%s', '%s') => %s, want %s\n", c.s, c.keyword, bool2str(got), bool2str(c.want));
+            fprintf(stderr, LOG_FAILED": str_contains('%s', '%s') => %s, want %s\n", c.s, c.keyword, bool_to_str(got), bool_to_str(c.want));
             return false;
         }
 

@@ -7,7 +7,7 @@
 #include "../log.h"
 
 // Array Format: [0, -1, 12, -123]
-char* arr2str(const void* arr, size_t len, int type) {
+char* arr_to_str(const void* arr, size_t len, int type) {
     size_t size = 2 + ((len - 1) * 2);
     for (size_t i = 0; i < len; ++i) {
         switch (type) {
@@ -18,14 +18,14 @@ char* arr2str(const void* arr, size_t len, int type) {
             size += digit_ui(((const uint*)arr)[i]);
             break;
         default:
-            fprintf(stderr, LOG_ERROR": arr2str: unsupported type: %d\n", type);
+            fprintf(stderr, LOG_ERROR": arr_to_str: unsupported type: %d\n", type);
             return NULL;        
         }
     }
 
     char* str = (char*)malloc(sizeof(char) * (size + 1));
     if (str == NULL) {
-        fprintf(stderr, LOG_ERROR": arr2str: failed to malloc\n");
+        fprintf(stderr, LOG_ERROR": arr_to_str: failed on malloc\n");
         return NULL;
     }    
 
@@ -35,13 +35,13 @@ char* arr2str(const void* arr, size_t len, int type) {
     for (size_t i = 0; i < len; ++i) {
         switch (type) {
         case TYPE_INT:
-            s += int2str(((const int*)arr)[i], s);
+            s += int_to_str(((const int*)arr)[i], s);
             break;
         case TYPE_UINT:
-            s += uint2str(((const uint*)arr)[i], s);
+            s += uint_to_str(((const uint*)arr)[i], s);
             break;
         default:
-            fprintf(stderr, LOG_ERROR": arr2str: unsupported type: %d\n", type);
+            fprintf(stderr, LOG_ERROR": arr_to_str: unsupported type: %d\n", type);
             return NULL;        
         }
 
@@ -57,12 +57,12 @@ char* arr2str(const void* arr, size_t len, int type) {
     return str;
 }
 
-char* arr2str_i(const int* arr, size_t len) {
-    return arr2str(arr, len, TYPE_INT);
+char* arr_to_str_i(const int* arr, size_t len) {
+    return arr_to_str(arr, len, TYPE_INT);
 }
 
-char* arr2str_ui(const uint* arr, size_t len) {
-    return arr2str(arr, len, TYPE_UINT);
+char* arr_to_str_ui(const uint* arr, size_t len) {
+    return arr_to_str(arr, len, TYPE_UINT);
 }
 
 bool arr_equals(const void* arr1, size_t size1, const void* arr2, size_t size2) {

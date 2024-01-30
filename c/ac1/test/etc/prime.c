@@ -7,7 +7,7 @@
 void init_etc__prime(test_t t[], int* n) {
     int i = *n;
     t[i++] = new_test("test/etc/prime/test_is_prime", test_is_prime);
-    t[i++] = new_test("test/etc/prime/test_new_primes", test_new_primes);
+    t[i++] = new_test("test/etc/prime/test_primes_new", test_primes_new);
     *n = i;
 }
 
@@ -53,7 +53,7 @@ bool test_is_prime() {
         struct case_ c = cases[i];
         bool got = is_prime_basic(c.n);
         if (got != c.want) {
-            fprintf(stderr, LOG_FAILED": is_prime_basic(%u) => %s, want %s\n", c.n, bool2str(got), bool2str(c.want));
+            fprintf(stderr, LOG_FAILED": is_prime_basic(%u) => %s, want %s\n", c.n, bool_to_str(got), bool_to_str(c.want));
             return false;
         }
 
@@ -61,14 +61,14 @@ bool test_is_prime() {
         // NOTE: is_prime_fermat fails with Carmichael numbers, thus, correct the results.
         if (i < carmichael_len) got = !got;
         if (got != c.want) {
-            fprintf(stderr, LOG_FAILED": is_prime_fermat(%u) => %s, want %s\n", c.n, bool2str(got), bool2str(c.want));
+            fprintf(stderr, LOG_FAILED": is_prime_fermat(%u) => %s, want %s\n", c.n, bool_to_str(got), bool_to_str(c.want));
             return false;
         }
     }
     return true;
 }
 
-bool test_new_primes() {
+bool test_primes_new() {
     struct case_ {
         uint max;
         primes_t want;
@@ -94,15 +94,15 @@ bool test_new_primes() {
     int len = sizeof(cases) / sizeof(struct case_);
     for (int i = 0; i < len; ++i) {
         struct case_ c = cases[i];
-        primes_t got = new_primes(c.max);
+        primes_t got = primes_new(c.max);
         if (!primes_equals(&got, &c.want)) {
-            char* s_want = primes2str(&c.want);
-            fprintf(stderr, LOG_FAILED": new_primes(%u) => %s, want %s\n", c.max, primes2str(&got), s_want);
-            delete_primes(&got);
+            char* s_want = primes_to_str(&c.want);
+            fprintf(stderr, LOG_FAILED": primes_new(%u) => %s, want %s\n", c.max, primes_to_str(&got), s_want);
+            primes_delete(&got);
             if (s_want != NULL) free(s_want);
             return false;
         }
-        delete_primes(&got);
+        primes_delete(&got);
     }
     return true;
 }

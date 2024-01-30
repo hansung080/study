@@ -47,11 +47,11 @@ bool is_prime_fermat_times(uint n, uint times) {
  *   11(O)  12(X)  13(O)  14(X)  15(X)  16(X)  17(O)  18(X)  19(O)  20(X)
  *   21(X)  22(X)  23(O)  24(X)  25(X)  26(X)  27(X)  28(X)  29(O)  30(X)
  */
-primes_t new_primes(uint max) {
+primes_t primes_new(uint max) {
     primes_t result = {NULL, 0, NULL};
     bool* not_primes = (bool*)calloc(max + 1, sizeof(bool));
     if (not_primes == NULL) {
-        fprintf(stderr, LOG_ERROR": new_primes: failed to calloc\n");
+        fprintf(stderr, LOG_ERROR": primes_new: failed on calloc\n");
         return result;
     }
 
@@ -70,7 +70,7 @@ primes_t new_primes(uint max) {
 
     uint* primes = (uint*)malloc(sizeof(uint) * count);
     if (primes == NULL) {
-        fprintf(stderr, LOG_ERROR": new_primes: failed to malloc\n");
+        fprintf(stderr, LOG_ERROR": primes_new: failed on malloc\n");
         return result;
     }
 
@@ -89,16 +89,16 @@ bool primes_equals(const primes_t* p1, const primes_t* p2) {
     return arr_equals(p1->arr, p1->len * sizeof(uint), p2->arr, p2->len * sizeof(uint));
 }
 
-char* primes2str(primes_t* p) {
+char* primes_to_str(primes_t* p) {
     if (p->str != NULL) {
         return p->str;
     }
-    char* str = arr2str_ui(p->arr, p->len);
+    char* str = arr_to_str_ui(p->arr, p->len);
     p->str = str;
     return str;
 }
 
-void delete_primes(primes_t* p) {
+void primes_delete(primes_t* p) {
     if (p->arr != NULL) {
         free(p->arr);
         p->arr = NULL;
