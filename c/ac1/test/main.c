@@ -44,6 +44,11 @@ int main(int argc, char* argv[]) {
         }        
     }
 
+    if (n_tests == 0) {
+        fprintf(stderr, LOG_ERROR": no tests found: %s\n", argv[1]);
+        return 1;
+    }
+
     printf("> "blue("test result")": %s - %d passed, %d failed\n",
         (passed == n_tests) ? LOG_OK_UP : LOG_FAILED, passed, n_tests - passed);
     return 0;
