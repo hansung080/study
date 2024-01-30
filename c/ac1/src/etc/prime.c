@@ -48,11 +48,11 @@ bool is_prime_fermat_times(uint n, uint times) {
  *   21(X)  22(X)  23(O)  24(X)  25(X)  26(X)  27(X)  28(X)  29(O)  30(X)
  */
 primes_t new_primes(uint max) {
+    primes_t result = {NULL, 0, NULL};
     bool* not_primes = (bool*)calloc(max + 1, sizeof(bool));
     if (not_primes == NULL) {
         fprintf(stderr, LOG_ERROR": new_primes: failed to calloc\n");
-        primes_t error = {NULL, 0, NULL};
-        return error;
+        return result;
     }
 
     uint half = max / 2;
@@ -71,8 +71,7 @@ primes_t new_primes(uint max) {
     uint* primes = (uint*)malloc(sizeof(uint) * count);
     if (primes == NULL) {
         fprintf(stderr, LOG_ERROR": new_primes: failed to malloc\n");
-        primes_t error = {NULL, 0, NULL};
-        return error;
+        return result;
     }
 
     for (uint i = 2, j = 0; i <= max; ++i) {
@@ -80,8 +79,9 @@ primes_t new_primes(uint max) {
     }
 
     free(not_primes);
-
-    primes_t result = {primes, count, NULL};
+    
+    result.arr = primes;
+    result.len = count;
     return result;
 }
 
