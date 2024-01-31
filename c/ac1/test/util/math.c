@@ -8,6 +8,7 @@ void init_util__math(test_t t[], int* n) {
     t[i++] = new_test("test/util/math/test_square", test_square);
     t[i++] = new_test("test/util/math/test_pow", test_pow);
     t[i++] = new_test("test/util/math/test_powmod", test_powmod);
+    t[i++] = new_test("test/util/math/test_powmod_checked", test_powmod_checked);
     t[i++] = new_test("test/util/math/test_digit", test_digit);
     *n = i;
 }
@@ -138,6 +139,77 @@ bool test_powmod() {
         got = powmod_iter(c.b, c.n, c.m);
         if (got != c.want) {
             fprintf(stderr, LOG_FAILED": powmod_iter(%u, %u, %u) => %u, want %u\n", c.b, c.n, c.m, got, c.want);
+            return false;
+        }
+    }
+    return true;
+}
+
+bool test_powmod_checked() {
+    struct case_ {
+        uint b;
+        uint n;
+        uint m;
+        uint want_powmod;
+        int want_powmod_checked_rec;
+        int want_powmod_checked_iter;
+    };
+
+    int nc = -1; // No-Corrected: powmod_checked doesn't correct powmod. i.e. both are the same.
+
+    struct case_ cases[] = {
+        /* 149 is prime number */
+        {1, 148, 149, 1, nc, nc},
+        {2, 148, 149, 1, nc, nc},
+        {11, 148, 149, 1, nc, nc},
+        {12, 148, 149, 1, nc, nc},
+        {50, 148, 149, 1, nc, nc},
+        {100, 148, 149, 1, nc, nc},
+        {123, 148, 149, 1, nc, nc},
+        {124, 148, 149, 1, nc, nc},
+        {147, 148, 149, 1, nc, nc},
+        {148, 148, 149, 1, nc, nc},
+        /* 299 is not prime number */
+        {1, 298, 299, 1, nc, nc},
+        {2, 298, 299, 140, nc, nc},
+        {11, 298, 299, 127, nc, nc},
+        {12, 298, 299, 196, nc, nc},
+        {50, 298, 299, 257, nc, nc},
+        {100, 298, 299, 100, nc, nc},
+        {123, 298, 299, 238, nc, nc},
+        {124, 298, 299, 147, nc, nc},
+        {297, 298, 299, 140, nc, nc},
+        {298, 298, 299, 1, nc, nc},
+        /* 561 is not prime number (Carmichael number) */
+        {1, 560, 561, 1, nc, nc},
+        {2, 560, 561, 1, nc, nc},
+        {11, 560, 561, 154, nc, nc},
+        {12, 560, 561, 375, nc, nc},
+        {50, 560, 561, 1, nc, nc},
+        {100, 560, 561, 1, nc, 0},
+        {123, 560, 561, 375, nc, nc},
+        {124, 560, 561, 1, 0, nc},
+        {559, 560, 561, 1, nc, nc},
+        {560, 560, 561, 1, nc, nc},
+    };
+
+    int len = sizeof(cases) / sizeof(struct case_);
+    uint want;
+    for (int i = 0; i < len; ++i) {
+        struct case_ c = cases[i];
+        uint got = powmod_checked_rec(c.b, c.n, c.m);
+        if (c.want_powmod_checked_rec != nc) want = c.want_powmod_checked_rec;
+        else want = c.want_powmod;
+        if (got != want) {
+            fprintf(stderr, LOG_FAILED": powmod_checked_rec(%u, %u, %u) => %u, want %u\n", c.b, c.n, c.m, got, want);
+            return false;
+        }
+
+        got = powmod_checked_iter(c.b, c.n, c.m);
+        if (c.want_powmod_checked_iter != nc) want = c.want_powmod_checked_iter;
+        else want = c.want_powmod;
+        if (got != want) {
+            fprintf(stderr, LOG_FAILED": powmod_checked_iter(%u, %u, %u) => %u, want %u\n", c.b, c.n, c.m, got, want);
             return false;
         }
     }

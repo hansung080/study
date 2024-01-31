@@ -136,6 +136,35 @@ uint powmod_iter(uint b, uint n, uint m) {
     return a;
 }
 
+uint sqmod_checked(uint x, uint m) {
+    uint result = (x * x) % m;
+    if (x != 1 && x != m - 1 && result == 1) return 0;
+    return result;
+}
+
+uint powmod_checked_rec(uint b, uint n, uint m) {
+    if (n == 0)
+        return 1;
+    else if (n % 2 == 0)
+        return sqmod_checked(powmod_rec(b, n / 2, m), m);
+    else
+        return (b * powmod_rec(b, n - 1, m)) % m;
+}
+
+uint powmod_checked_iter(uint b, uint n, uint m) {
+    uint a = 1;
+    while (n) {
+        if (n % 2 == 0) {
+            b = sqmod_checked(b, m);
+            n /= 2;
+        } else {
+            a = (a * b) % m;
+            n -= 1;
+        }
+    }
+    return a;
+}
+
 uint digit_i(int x) {
     if (x < 0) return digit_ui(-x) + 1;
     else return digit_ui(x);

@@ -64,6 +64,12 @@ bool test_is_prime() {
             fprintf(stderr, LOG_FAILED": is_prime_fermat(%u) => %s, want %s\n", c.n, bool_to_str(got), bool_to_str(c.want));
             return false;
         }
+
+        got = is_prime_mr(c.n);
+        if (got != c.want) {
+            fprintf(stderr, LOG_FAILED": is_prime_mr(%u) => %s, want %s\n", c.n, bool_to_str(got), bool_to_str(c.want));
+            return false;
+        }
     }
     return true;
 }

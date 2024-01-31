@@ -21,7 +21,7 @@ bool is_prime_basic(uint n) {
  *   => If n is a prime number, the expression succeeds with a 100% probability.
  *   => If n is not a prime number, the expression fails with a high probability, or succeeds with a low probability.
  * 
- * Fermat Test
+ * Fermat Primality Test
  * 1. Select random integer a ranging 0 < a < n.
  * 2. If the expression succeeds, n is a prime number with a high probability.
  *    Thus, try Fermat test again to get a higher probability.
@@ -29,7 +29,7 @@ bool is_prime_basic(uint n) {
  *    Thus, quit Fermat test. 
  */
 bool is_prime_fermat(uint n) {
-    return is_prime_fermat_times(n, DEFAULT_FERMAT_TIMES);
+    return is_prime_fermat_times(n, PRIME_FERMAT_TIMES);
 }
 
 bool is_prime_fermat_times(uint n, uint times) {
@@ -38,6 +38,28 @@ bool is_prime_fermat_times(uint n, uint times) {
     for (int i = 0; i < times; ++i) {
         int a = rand_between(1, n - 1);
         if (powmod(a, n, n) != a) return false;
+    }
+    return true;
+}
+
+/* Miller-Rabin Primality Test
+ * This test improves two things from the Fermat primality test, in order to correct its failure on Carmichael numbers. 
+ * 1. Modify the Fermat's little theorem.
+ *    a^(n-1) % n = 1 % n = 1
+ * 2. Modify the square-modulo operation in the powmod function.
+ *    if a != 1 and a != n-1 and a^2 % n == 1, then 0
+ *    else a^2 % n
+ */
+bool is_prime_mr(uint n) {
+    return is_prime_mr_times(n, PRIME_MR_TIMES);
+}
+
+bool is_prime_mr_times(uint n, uint times) {
+    if (n == 1) return false;
+
+    for (int i = 0; i < times; ++i) {
+        int a = rand_between(1, n - 1);
+        if (powmod_checked(a, (n - 1), n) != 1) return false;
     }
     return true;
 }

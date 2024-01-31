@@ -3,7 +3,8 @@
 
 #include "../types.h"
 
-#define DEFAULT_FERMAT_TIMES 20
+#define PRIME_FERMAT_TIMES 20
+#define PRIME_MR_TIMES     20
 
 #define is_prime is_prime_basic
 
@@ -20,6 +21,8 @@ typedef struct __primes {
 bool is_prime_basic(uint n);
 bool is_prime_fermat(uint n); // NOTE: is_prime_fermat_xx fails with Carmichael numbers.
 bool is_prime_fermat_times(uint n, uint times);
+bool is_prime_mr(uint n);
+bool is_prime_mr_times(uint n, uint times);
 
 primes_t primes_new(uint max); // including max
 bool primes_equals(const primes_t* p1, const primes_t* p2);
