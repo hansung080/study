@@ -57,11 +57,11 @@ char* arr_to_str(const void* arr, size_t len, int type) {
     return str;
 }
 
-char* arr_to_str_i(const int* arr, size_t len) {
+char* arr_to_str_i(const int arr[], size_t len) {
     return arr_to_str(arr, len, TYPE_INT);
 }
 
-char* arr_to_str_ui(const uint* arr, size_t len) {
+char* arr_to_str_ui(const uint arr[], size_t len) {
     return arr_to_str(arr, len, TYPE_UINT);
 }
 
