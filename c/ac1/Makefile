@@ -15,10 +15,12 @@ DYLD_LIBRARY_PATH := $(DYLD_LIBRARY_PATH)
 .PHONY: all
 all:
 	$(MAKE_REC) build
+	make -C $(PROJECT_ROOT)/apps/micromouse build
 
 .PHONY: clean-all
 clean-all:
 	$(MAKE_REC) clean
+	make -C $(PROJECT_ROOT)/apps/micromouse clean
 
 .PHONY: ext
 ext:

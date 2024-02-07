@@ -1,13 +1,15 @@
 #ifndef __MAZE_H__
 #define __MAZE_H__
 
+#include "common.h"
+
 #define MAZE_ROWS    19
 #define MAZE_COLUMNS 19
 
 #define MAZE_SPACE 0
 #define MAZE_WALL  1
 
-int g_maze[MAZE_ROWS][MAZE_COLUMNS] = {
+int g_maze_basic[MAZE_ROWS][MAZE_COLUMNS] = {
     {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
     {0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1},
     {1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1},
@@ -28,5 +30,17 @@ int g_maze[MAZE_ROWS][MAZE_COLUMNS] = {
     {1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
     {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
 };
+
+#pragma pack(push, 1)
+
+typedef struct __maze {
+    const int** arr;
+    int rows;
+    int columns;
+} maze_t;
+
+#pragma pack(pop)
+
+int maze_get_shape(const maze_t* maze, const pos_t* pos);
 
 #endif // __MAZE_H__
