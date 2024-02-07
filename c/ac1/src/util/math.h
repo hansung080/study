@@ -5,12 +5,12 @@
 
 #define min(x, y)       (((x) < (y)) ? (x) : (y))
 #define max(x, y)       (((x) > (y)) ? (x) : (y))
-#define abs(x)          (((x) < 0) ? -(x) : (x))
+#define abs_(x)         (((x) < 0) ? -(x) : (x))
 #define swap(x, y, t)   (((t) = (x)), ((x) = (y)), ((y) = (t)))
 #define swap_t(x, y, T) do { T (t) = (x); (x) = (y); (y) = (t); } while (0)
 
 #define square         square_d
-#define pow            pow_iter
+#define pow_           pow_iter
 #define powmod         powmod_iter
 #define powmod_checked powmod_checked_iter
 

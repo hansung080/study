@@ -82,7 +82,7 @@ double pow_iter(double b, uint n) {
  * 3. (a * b) % m = {(a % m) * (b % m)} % m
  */
 uint powmod_basic(uint b, uint n, uint m) {
-    return (uint)pow(b % m, n) % m;
+    return (uint)pow_(b % m, n) % m;
 }
 
 /* Recursive Power-Modulo
