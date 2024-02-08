@@ -73,7 +73,7 @@ primes_t primes_new(uint max) {
     primes_t result = {NULL, 0, NULL};
     bool* not_primes = (bool*)calloc(max + 1, sizeof(bool));
     if (not_primes == NULL) {
-        fprintf(stderr, LOG_ERROR": primes_new: failed on calloc\n");
+        error("primes_new: failed on calloc\n");
         return result;
     }
 
@@ -92,7 +92,7 @@ primes_t primes_new(uint max) {
 
     uint* primes = (uint*)malloc(sizeof(uint) * count);
     if (primes == NULL) {
-        fprintf(stderr, LOG_ERROR": primes_new: failed on malloc\n");
+        error("primes_new: failed on malloc\n");
         return result;
     }
 

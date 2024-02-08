@@ -18,14 +18,14 @@ char* arr_to_str(const void* arr, size_t len, int type) {
             size += digit_ui(((const uint*)arr)[i]);
             break;
         default:
-            fprintf(stderr, LOG_ERROR": arr_to_str: unsupported type: %d\n", type);
+            error("arr_to_str: unsupported type: %d\n", type);
             return NULL;        
         }
     }
 
     char* str = (char*)malloc(sizeof(char) * (size + 1));
     if (str == NULL) {
-        fprintf(stderr, LOG_ERROR": arr_to_str: failed on malloc\n");
+        error("arr_to_str: failed on malloc\n");
         return NULL;
     }    
 
@@ -41,7 +41,7 @@ char* arr_to_str(const void* arr, size_t len, int type) {
             s += uint_to_str(((const uint*)arr)[i], s);
             break;
         default:
-            fprintf(stderr, LOG_ERROR": arr_to_str: unsupported type: %d\n", type);
+            error("arr_to_str: unsupported type: %d\n", type);
             return NULL;        
         }
 

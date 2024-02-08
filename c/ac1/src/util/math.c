@@ -7,7 +7,7 @@
 
 int rand_between(int min, int max) {
     if (min > max) {
-        fprintf(stderr, LOG_ERROR": rand_between: min(%d) must be less than or equal to max(%d)\n", min, max);
+        error("rand_between: min(%d) must be less than or equal to max(%d)\n", min, max);
         return -1;
     }
 

@@ -10,8 +10,8 @@
 
 int main(int argc, char* argv[]) {
     if (argc > 2) {
-        fprintf(stderr, LOG_ERROR": too many arguments\n");
-        fprintf(stderr, "usage: %s [<test name>]\n", argv[0]);
+        error("too many arguments\n");
+        error_n("usage: %s [<test name>]\n", argv[0]);
         return 1;
     }
 
@@ -28,7 +28,7 @@ int main(int argc, char* argv[]) {
     init_etc__prime(tests, &n);
 
     if (n != len) {
-        fprintf(stderr, LOG_ERROR": mismatched tests length: want %d, got %d\n", len, n);
+        error("mismatched tests length: want %d, got %d\n", len, n);
         return 1;
     }
 
@@ -39,17 +39,17 @@ int main(int argc, char* argv[]) {
         if (argc < 2 || str_contains(t.name, argv[1])) {
             ++n_tests;
             bool ok = t.func();
-            printf("# %d. %s ... %s\n", i + 1, t.name, ok ? LOG_OK_LOW : LOG_FAILED);
+            printf("# %d. %s ... %s\n", i + 1, t.name, ok ? T_OK_LOW : T_FAILED);
             if (ok) ++passed;
         }        
     }
 
     if (n_tests == 0) {
-        fprintf(stderr, LOG_ERROR": no tests found: %s\n", argv[1]);
+        error("no tests found: %s\n", argv[1]);
         return 1;
     }
 
     printf("> "blue("test result")": %s - %d passed, %d failed\n",
-        (passed == n_tests) ? LOG_OK_UP : LOG_FAILED, passed, n_tests - passed);
+        (passed == n_tests) ? T_OK_UP : T_FAILED, passed, n_tests - passed);
     return 0;
 }

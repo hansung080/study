@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include <ac1/src/util/math.h>
 #include "math.h"
 
@@ -19,7 +18,7 @@ static bool test_rand() {
     for (int i = 0; i < 20; ++i) {
         int got = rand_between(min, max);
         if (got < min || got > max) {
-            fprintf(stderr, LOG_FAILED": rand_between(%d, %d) => %d, want (%d ~ %d)\n", min, max, got, min, max);
+            fail("rand_between(%d, %d) => %d, want (%d ~ %d)\n", min, max, got, min, max);
             return false;
         }
     }
@@ -42,19 +41,19 @@ bool test_square() {
         struct case_ c = cases[i];
         int got = square_i(c.x);
         if (got != c.want) {
-            fprintf(stderr, LOG_FAILED": square_i(%d) => %d, want %d\n", c.x, got, c.want);
+            fail("square_i(%d) => %d, want %d\n", c.x, got, c.want);
             return false;
         }
 
         got = (int)square_ui((uint)c.x);
         if (got != c.want) {
-            fprintf(stderr, LOG_FAILED": square_ui(%d) => %d, want %d\n", c.x, got, c.want);
+            fail("square_ui(%d) => %d, want %d\n", c.x, got, c.want);
             return false;
         }
 
         got = (int)square_d((double)c.x);
         if (got != c.want) {
-            fprintf(stderr, LOG_FAILED": square_d(%d) => %d, want %d\n", c.x, got, c.want);
+            fail("square_d(%d) => %d, want %d\n", c.x, got, c.want);
             return false;
         }
     }
@@ -83,13 +82,13 @@ bool test_pow() {
         struct case_ c = cases[i];
         double got = pow_rec(c.b, c.n);
         if (got != c.want) {
-            fprintf(stderr, LOG_FAILED": pow_rec(%f, %u) => %f, want %f\n", c.b, c.n, got, c.want);
+            fail("pow_rec(%f, %u) => %f, want %f\n", c.b, c.n, got, c.want);
             return false;
         }
 
         got = pow_iter(c.b, c.n);
         if (got != c.want) {
-            fprintf(stderr, LOG_FAILED": pow_iter(%f, %u) => %f, want %f\n", c.b, c.n, got, c.want);
+            fail("pow_iter(%f, %u) => %f, want %f\n", c.b, c.n, got, c.want);
             return false;
         }
     }
@@ -126,19 +125,19 @@ bool test_powmod() {
         struct case_ c = cases[i];
         uint got = powmod_basic(c.b, c.n, c.m);
         if (got != c.want) {
-            fprintf(stderr, LOG_FAILED": powmod_basic(%u, %u, %u) => %u, want %u\n", c.b, c.n, c.m, got, c.want);
+            fail("powmod_basic(%u, %u, %u) => %u, want %u\n", c.b, c.n, c.m, got, c.want);
             return false;
         }
 
         got = powmod_rec(c.b, c.n, c.m);
         if (got != c.want) {
-            fprintf(stderr, LOG_FAILED": powmod_rec(%u, %u, %u) => %u, want %u\n", c.b, c.n, c.m, got, c.want);
+            fail("powmod_rec(%u, %u, %u) => %u, want %u\n", c.b, c.n, c.m, got, c.want);
             return false;
         }
 
         got = powmod_iter(c.b, c.n, c.m);
         if (got != c.want) {
-            fprintf(stderr, LOG_FAILED": powmod_iter(%u, %u, %u) => %u, want %u\n", c.b, c.n, c.m, got, c.want);
+            fail("powmod_iter(%u, %u, %u) => %u, want %u\n", c.b, c.n, c.m, got, c.want);
             return false;
         }
     }
@@ -201,7 +200,7 @@ bool test_powmod_checked() {
         if (c.want_powmod_checked_rec != nc) want = c.want_powmod_checked_rec;
         else want = c.want_powmod;
         if (got != want) {
-            fprintf(stderr, LOG_FAILED": powmod_checked_rec(%u, %u, %u) => %u, want %u\n", c.b, c.n, c.m, got, want);
+            fail("powmod_checked_rec(%u, %u, %u) => %u, want %u\n", c.b, c.n, c.m, got, want);
             return false;
         }
 
@@ -209,7 +208,7 @@ bool test_powmod_checked() {
         if (c.want_powmod_checked_iter != nc) want = c.want_powmod_checked_iter;
         else want = c.want_powmod;
         if (got != want) {
-            fprintf(stderr, LOG_FAILED": powmod_checked_iter(%u, %u, %u) => %u, want %u\n", c.b, c.n, c.m, got, want);
+            fail("powmod_checked_iter(%u, %u, %u) => %u, want %u\n", c.b, c.n, c.m, got, want);
             return false;
         }
     }
@@ -237,14 +236,14 @@ bool test_digit() {
         struct case_ c = cases[i];
         uint got = digit_i(c.x);
         if (got != c.want) {
-            fprintf(stderr, LOG_FAILED": digit_i(%d) => %u, want %u\n", c.x, got, c.want);
+            fail("digit_i(%d) => %u, want %u\n", c.x, got, c.want);
             return false;
         }
 
         if (c.x >= 0) {
             got = digit_ui((uint)c.x);
             if (got != c.want) {
-                fprintf(stderr, LOG_FAILED": digit_ui(%d) => %u, want %u\n", c.x, got, c.want);
+                fail("digit_ui(%d) => %u, want %u\n", c.x, got, c.want);
                 return false;
             }
         }

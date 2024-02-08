@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include <stdlib.h>
 #include <ac1/src/etc/prime.h>
 #include <ac1/src/util/string.h>
@@ -53,7 +52,7 @@ bool test_is_prime() {
         struct case_ c = cases[i];
         bool got = is_prime_basic(c.n);
         if (got != c.want) {
-            fprintf(stderr, LOG_FAILED": is_prime_basic(%u) => %s, want %s\n", c.n, bool_to_str(got), bool_to_str(c.want));
+            fail("is_prime_basic(%u) => %s, want %s\n", c.n, bool_to_str(got), bool_to_str(c.want));
             return false;
         }
 
@@ -61,13 +60,13 @@ bool test_is_prime() {
         // NOTE: is_prime_fermat fails with Carmichael numbers, thus, correct the results.
         if (i < carmichael_len) got = !got;
         if (got != c.want) {
-            fprintf(stderr, LOG_FAILED": is_prime_fermat(%u) => %s, want %s\n", c.n, bool_to_str(got), bool_to_str(c.want));
+            fail("is_prime_fermat(%u) => %s, want %s\n", c.n, bool_to_str(got), bool_to_str(c.want));
             return false;
         }
 
         got = is_prime_mr(c.n);
         if (got != c.want) {
-            fprintf(stderr, LOG_FAILED": is_prime_mr(%u) => %s, want %s\n", c.n, bool_to_str(got), bool_to_str(c.want));
+            fail("is_prime_mr(%u) => %s, want %s\n", c.n, bool_to_str(got), bool_to_str(c.want));
             return false;
         }
     }
@@ -103,7 +102,7 @@ bool test_primes_new() {
         primes_t got = primes_new(c.max);
         if (!primes_equals(&got, &c.want)) {
             char* s_want = primes_to_str(&c.want);
-            fprintf(stderr, LOG_FAILED": primes_new(%u) => %s, want %s\n", c.max, primes_to_str(&got), s_want);
+            fail("primes_new(%u) => %s, want %s\n", c.max, primes_to_str(&got), s_want);
             primes_delete(&got);
             if (s_want != NULL) free(s_want);
             return false;

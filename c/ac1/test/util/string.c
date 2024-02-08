@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include <string.h>
 #include <ac1/src/util/string.h>
 #include "string.h"
@@ -29,7 +28,7 @@ bool test_str_to_bool() {
         struct case_ c = cases[i];
         bool got = str_to_bool(c.s);
         if (got != c.want) {
-            fprintf(stderr, LOG_FAILED": str_to_bool(%s) => %d, want %d\n", c.s, got, c.want);
+            fail("str_to_bool(%s) => %d, want %d\n", c.s, got, c.want);
             return false;
         }
     }
@@ -53,7 +52,7 @@ bool test_bool_to_str() {
         struct case_ c = cases[i];
         const char* got = bool_to_str(c.b);
         if (strcmp(got, c.want) != 0) {
-            fprintf(stderr, LOG_FAILED": bool_to_str(%d) => %s, want %s\n", c.b, got, c.want);
+            fail("bool_to_str(%d) => %s, want %s\n", c.b, got, c.want);
             return false;
         }
     }
@@ -83,14 +82,14 @@ bool test_int_to_str() {
         struct case_ c = cases[i];
         uint digit = int_to_str(c.x, got);
         if (strcmp(got, c.want) != 0 || digit != c.digit) {
-            fprintf(stderr, LOG_FAILED": int_to_str(%d) => (%s, %u), want (%s, %u)\n", c.x, got, digit, c.want, c.digit);
+            fail("int_to_str(%d) => (%s, %u), want (%s, %u)\n", c.x, got, digit, c.want, c.digit);
             return false;
         }
 
         if (c.x >= 0) {
             digit = uint_to_str((uint)c.x, got);
             if (strcmp(got, c.want) != 0 || digit != c.digit) {
-                fprintf(stderr, LOG_FAILED": uint_to_str(%d) => (%s, %u), want (%s, %u)\n", c.x, got, digit, c.want, c.digit);
+                fail("uint_to_str(%d) => (%s, %u), want (%s, %u)\n", c.x, got, digit, c.want, c.digit);
                 return false;
             }
         }
@@ -121,7 +120,7 @@ bool test_str_contains() {
         struct case_ c = cases[i];
         bool got = str_contains(c.s, c.keyword);
         if (got != c.want) {
-            fprintf(stderr, LOG_FAILED": str_contains('%s', '%s') => %s, want %s\n", c.s, c.keyword, bool_to_str(got), bool_to_str(c.want));
+            fail("str_contains('%s', '%s') => %s, want %s\n", c.s, c.keyword, bool_to_str(got), bool_to_str(c.want));
             return false;
         }
 

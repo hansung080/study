@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <ac1/src/util/array.h>
@@ -53,7 +52,7 @@ bool test_arr_to_str() {
         struct case_ c = cases[i];
         char* got = arr_to_str_i(c.arr, c.len);
         if (got == NULL || strcmp(got, c.want) != 0) {
-            fprintf(stderr, LOG_FAILED": arr_to_str_i(arr%d, %lu) => %s, want %s\n", i, c.len, got, c.want);
+            fail("arr_to_str_i(arr%d, %lu) => %s, want %s\n", i, c.len, got, c.want);
             if (got != NULL) free(got);
             return false;
         }
@@ -62,7 +61,7 @@ bool test_arr_to_str() {
         if (!c.has_negative) {
             got = arr_to_str_ui((const uint*)c.arr, c.len);
             if (got == NULL || strcmp(got, c.want) != 0) {
-                fprintf(stderr, LOG_FAILED": arr_to_str_ui(arr%d, %lu) => %s, want %s\n", i, c.len, got, c.want);
+                fail("arr_to_str_ui(arr%d, %lu) => %s, want %s\n", i, c.len, got, c.want);
                 if (got != NULL) free(got);
                 return false;
             }
@@ -105,7 +104,7 @@ bool test_arr_equals() {
         if (got != c.want) {
             char* s_arr1 = arr_to_str_i(c.arr1, c.size1 / sizeof(int));
             char* s_arr2 = arr_to_str_i(c.arr2, c.size2 / sizeof(int));
-            fprintf(stderr, LOG_FAILED": arr_equals(%s, %lu, %s, %lu) => %s, want %s\n", s_arr1, c.size1, s_arr2, c.size2, bool_to_str(got), bool_to_str(c.want));
+            fail("arr_equals(%s, %lu, %s, %lu) => %s, want %s\n", s_arr1, c.size1, s_arr2, c.size2, bool_to_str(got), bool_to_str(c.want));
             if (s_arr1 != NULL) free(s_arr1);
             if (s_arr2 != NULL) free(s_arr2);
             return false;
