@@ -2,6 +2,7 @@
 #define __UTIL__TERM_H__
 
 #include <stdio.h>
+#include <wchar.h>
 
 // (x, y) starts with (1, 1) on the top-left corner of the screen.
 inline void gotoxy(int x, int y) {
@@ -12,6 +13,11 @@ inline void gotoxy(int x, int y) {
 inline void putchar_at(int c, int x, int y) {
     gotoxy(x, y);
     putchar(c);
+}
+
+inline void putwchar_at(wchar_t wc, int x, int y) {
+    gotoxy(x, y);
+    putwchar(wc);
 }
 
 inline void clrscr() {

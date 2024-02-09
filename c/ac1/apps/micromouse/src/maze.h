@@ -3,33 +3,38 @@
 
 #include "common.h"
 
+// Reference for ASCII: https://www.asciitable.com/
+// Reference for Unicode: https://symbl.cc/en/unicode/blocks/box-drawing/
+#define U_SPACE                         32     // space (ASCII 32)
+#define U_LIGHT_HORIZONTAL              0x2500 // ─ (Extended ASCII 196)
+#define U_LIGHT_VERTICAL                0x2502 // │ (Extended ASCII 179)
+#define U_LIGHT_DOWN_AND_RIGHT          0x250C // ┌ (Extended ASCII 218)
+#define U_LIGHT_DOWN_AND_LEFT           0x2510 // ┐ (Extended ASCII 191)
+#define U_LIGHT_UP_AND_RIGHT            0x2514 // └ (Extended ASCII 192)
+#define U_LIGHT_UP_AND_LEFT             0x2518 // ┘ (Extended ASCII 217)
+#define U_LIGHT_VERTICAL_AND_RIGHT      0x251C // ├ (Extended ASCII 195)
+#define U_LIGHT_VERTICAL_AND_LEFT       0x2524 // ┤ (Extended ASCII 180)
+#define U_LIGHT_DOWN_AND_HORIZONTAL     0x252C // ┬ (Extended ASCII 194)
+#define U_LIGHT_UP_AND_HORIZONTAL       0x2534 // ┴ (Extended ASCII 193)
+#define U_LIGHT_VERTICAL_AND_HORIZONTAL 0x253C // ┼ (Extended ASCII 197)
+
+#define U_HEAVY_HORIZONTAL              0x2501 // ━
+#define U_HEAVY_VERTICAL                0x2503 // ┃
+#define U_HEAVY_DOWN_AND_RIGHT          0x250F // ┏
+#define U_HEAVY_DOWN_AND_LEFT           0x2513 // ┓
+#define U_HEAVY_UP_AND_RIGHT            0x2517 // ┗
+#define U_HEAVY_UP_AND_LEFT             0x251B // ┛
+#define U_HEAVY_VERTICAL_AND_RIGHT      0x2523 // ┣
+#define U_HEAVY_VERTICAL_AND_LEFT       0x252B // ┫
+#define U_HEAVY_DOWN_AND_HORIZONTAL     0x2533 // ┳
+#define U_HEAVY_UP_AND_HORIZONTAL       0x253B // ┻
+#define U_HEAVY_VERTICAL_AND_HORIZONTAL 0x254B // ╋
+
 #define MAZE_ROWS    19
 #define MAZE_COLUMNS 19
 
 #define MAZE_SPACE 0
 #define MAZE_WALL  1
-
-int g_maze_basic[MAZE_ROWS][MAZE_COLUMNS] = {
-    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-    {0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1},
-    {1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1},
-    {1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1},
-    {1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1},
-    {1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1},
-    {1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1},
-    {1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1},
-    {1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1},
-    {1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1},
-    {1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1},
-    {1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 1},
-    {1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1},
-    {1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1},
-    {1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1},
-    {1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1},
-    {1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1},
-    {1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-};
 
 #pragma pack(push, 1)
 
@@ -41,6 +46,6 @@ typedef struct __maze {
 
 #pragma pack(pop)
 
-int maze_get_shape(const maze_t* maze, const pos_t* pos);
+static wchar_t maze_get_shape(const maze_t* m, const pos_t* p);
 
 #endif // __MAZE_H__

@@ -4,6 +4,7 @@
 
 extern void gotoxy(int x, int y);
 extern void putchar_at(int c, int x, int y);
+extern void putwchar_at(wchar_t wc, int x, int y);
 extern void clrscr();
 
 int getch_() {
