@@ -21,5 +21,6 @@ typedef struct __test {
 
 test_t new_test(const char* name, test_func func);
 void fail(const char* format, ...);
+void fail_n(const char* format, ...);
 
 #endif // __TEST__TEST_H__

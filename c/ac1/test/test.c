@@ -14,3 +14,10 @@ void fail(const char* format, ...) {
     vfprintf(stderr, format, ap);
     va_end(ap);
 }
+
+void fail_n(const char* format, ...) {
+    va_list ap;
+    va_start(ap, format);
+    vfprintf(stderr, format, ap);
+    va_end(ap);
+}

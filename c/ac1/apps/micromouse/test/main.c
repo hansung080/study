@@ -1,6 +1,6 @@
 #include <stdio.h>
 
 int main(int argc, char* argv[]) {
-    printf("Hello, micromouse-test!\n");
+    printf("no tests for micromouse\n");
     return 0;
 }
