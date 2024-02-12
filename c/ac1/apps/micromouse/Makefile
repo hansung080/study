@@ -8,7 +8,7 @@ CFLAGS += -I$(PROJECT_ROOT)/../../..
 LDFLAGS += -L$(PROJECT_ROOT)/../../build/lib -lac1
 DY_FLAGS +=
 TEST_CFLAGS +=
-TEST_LDFLAGS +=
+TEST_LDFLAGS += -L$(PROJECT_ROOT)/../../build/lib -lac1
 LD_LIBRARY_PATH := $(LD_LIBRARY_PATH):$(PROJECT_ROOT)/../../build/lib
 DYLD_LIBRARY_PATH := $(DYLD_LIBRARY_PATH):$(PROJECT_ROOT)/../../build/lib
 
