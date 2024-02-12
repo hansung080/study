@@ -1,6 +1,7 @@
 #ifndef __MAZE_H__
 #define __MAZE_H__
 
+#include <ac1/src/util/array.h>
 #include "common.h"
 
 // Reference for ASCII: https://www.asciitable.com/
@@ -30,22 +31,22 @@
 #define U_HEAVY_UP_AND_HORIZONTAL       0x253B // ┻
 #define U_HEAVY_VERTICAL_AND_HORIZONTAL 0x254B // ╋
 
-#define MAZE_ROWS    19
-#define MAZE_COLUMNS 19
-
 #define MAZE_SPACE 0
 #define MAZE_WALL  1
+
+#define maze_deref(i, j) deref2(maze->arr, maze->columns, (i), (j))
 
 #pragma pack(push, 1)
 
 typedef struct __maze {
-    const int** arr;
+    const int* arr;
     int rows;
     int columns;
 } maze_t;
 
 #pragma pack(pop)
 
-static wchar_t maze_get_shape(const maze_t* m, const pos_t* p);
+static wchar_t maze_get_shape(const maze_t* maze, pos_t pos);
+void maze_draw(const maze_t* maze);
 
 #endif // __MAZE_H__

@@ -1,6 +1,7 @@
 #ifndef __COMMON_H__
 #define __COMMON_H__
 
+#include <ac1/src/types.h>
 #include <ac1/src/util/term.h>
 
 #define UP    1
@@ -20,16 +21,18 @@ typedef struct __pos {
 
 #pragma pack(pop)
 
-inline void gotopos(const pos_t* p) {
-    gotoxy(ORIGIN_X + p->x, ORIGIN_Y + p->y);
+bool pos_equals(pos_t p1, pos_t p2);
+
+inline void gotopos(pos_t p) {
+    gotoxy(ORIGIN_X + p.x, ORIGIN_Y + p.y);
 }
 
-inline void putchar_at_pos(int c, const pos_t* p) {
+inline void putchar_at_pos(int c, pos_t p) {
     gotopos(p);
     putchar(c);
 }
 
-inline void putwchar_at_pos(wchar_t wc, const pos_t* p) {
+inline void putwchar_at_pos(wchar_t wc, pos_t p) {
     gotopos(p);
     putwchar(wc);
 }

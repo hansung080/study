@@ -1,29 +1,8 @@
 #include <wchar.h>
 #include "maze.h"
+#include "common.h"
 
-static int g_maze_basic[MAZE_ROWS][MAZE_COLUMNS] = {
-    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-    {0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1},
-    {1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1},
-    {1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1},
-    {1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1},
-    {1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1},
-    {1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1},
-    {1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1},
-    {1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1},
-    {1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1},
-    {1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1},
-    {1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 1},
-    {1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1},
-    {1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1},
-    {1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1},
-    {1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1},
-    {1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1},
-    {1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-};
-
-wchar_t maze_get_shape(const maze_t* m, const pos_t* p) {
+wchar_t maze_get_shape(const maze_t* maze, pos_t pos) {
     static wchar_t shapes[] = {
         U_SPACE,                         // 0000 - SPACE
         U_LIGHT_VERTICAL,                // 0001 - UP
@@ -44,9 +23,24 @@ wchar_t maze_get_shape(const maze_t* m, const pos_t* p) {
     };
 
     int index = 0;
-    if (p->y > 0 && m->arr[p->y - 1][p->x] == MAZE_WALL) index |= UP;
-    if (p->y < m->rows - 1 && m->arr[p->y + 1][p->x] == MAZE_WALL) index |= DOWN;
-    if (p->x > 0 && m->arr[p->y][p->x - 1] == MAZE_WALL) index |= LEFT;
-    if (p->x < m->columns - 1 && m->arr[p->y][p->x + 1] == MAZE_WALL) index |= RIGHT;
+    if (maze_deref(pos.y, pos.x) == MAZE_WALL) {
+        if (pos.y > 0 && maze_deref(pos.y - 1, pos.x) == MAZE_WALL) 
+            index |= UP;
+        if (pos.y < maze->rows - 1 && maze_deref(pos.y + 1, pos.x) == MAZE_WALL) 
+            index |= DOWN;
+        if (pos.x > 0 && maze_deref(pos.y, pos.x - 1) == MAZE_WALL) 
+            index |= LEFT;
+        if (pos.x < maze->columns - 1 && maze_deref(pos.y, pos.x + 1) == MAZE_WALL) 
+            index |= RIGHT;
+    }
     return shapes[index];
+}
+
+void maze_draw(const maze_t* maze) {
+    for (int y = 0; y < maze->rows; ++y) {
+        for (int x = 0; x < maze->columns; ++x) {
+            pos_t pos = {x, y};
+            putwchar_at_pos(maze_get_shape(maze, pos), pos);
+        }
+    }
 }

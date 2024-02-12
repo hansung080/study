@@ -4,6 +4,8 @@
 #include <stddef.h>
 #include "../types.h"
 
+#define deref2(arr, columns, i, j) (*((arr) + ((i) * (columns)) + (j)))
+
 static char* arr_to_str(const void* arr, size_t len, int type);
 char* arr_to_str_i(const int arr[], size_t len); // Free the returned memory.
 char* arr_to_str_ui(const uint arr[], size_t len); // Free the returned memory.
