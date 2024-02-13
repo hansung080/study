@@ -48,5 +48,6 @@ typedef struct __maze {
 
 static wchar_t maze_get_shape(const maze_t* maze, pos_t pos);
 void maze_draw(const maze_t* maze);
+bool maze_is_wall(const maze_t* maze, pos_t pos);
 
 #endif // __MAZE_H__

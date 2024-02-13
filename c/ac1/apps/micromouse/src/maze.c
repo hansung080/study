@@ -44,3 +44,7 @@ void maze_draw(const maze_t* maze) {
         }
     }
 }
+
+bool maze_is_wall(const maze_t* maze, pos_t pos) {
+    return maze_deref(pos.y, pos.x) == MAZE_WALL;
+}
