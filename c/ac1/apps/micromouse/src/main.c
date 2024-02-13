@@ -13,6 +13,11 @@ int main(int argc, char* argv[]) {
     maze_draw(&maze);
 
     mouse_t mouse = {{maze.columns - 1, maze.rows - 2}, LEFT};
+    path_init(&maze);
     navigate_by_right_hand(&maze, &mouse);
+
+    navigate_by_shortest_path();
+    path_delete();
+    clrscr();
     return 0;
 }
