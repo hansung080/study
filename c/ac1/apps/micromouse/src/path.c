@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <unistd.h>
+#include <string.h>
 #include <ac1/src/log.h>
 #include "path.h"
 
@@ -41,8 +42,11 @@ void path_delete() {
 }
 
 void navigate_by_right_hand(const maze_t* maze, mouse_t* mouse) {
+    const char* title = "Navigation by Right Hand";
     mouse_ready(mouse);
-    sleep(2); // sleep for 2 seconds
+    wait_("Press any key to start for right hand...");
+    print_title(title);
+
     mouse_go_forward(mouse);
     while (mouse_is_in_maze(mouse, maze)) {
         usleep(200000); // sleep for 200 milliseconds
@@ -52,11 +56,15 @@ void navigate_by_right_hand(const maze_t* maze, mouse_t* mouse) {
         }
         mouse_go_forward(mouse);
     }
-    sleep(2);
+    
+    sleep(2); // sleep for 2 seconds
     putchar_at_pos(' ', mouse->pos);
+    clear_title((int)strlen(title));
 }
 
 void navigate_by_shortest_path() {
+    const char* title = "Navigation by Shortest Path";
+
     for (int i = 0; i < path.len; ++i) {
         for (int j = i + 1; j < path.len; ++j) {
             if (pos_equals(path.arr[i], path.arr[j])) {
@@ -68,8 +76,16 @@ void navigate_by_shortest_path() {
 
     for (int i = 0; i < path.len; ++i) {
         putwchar_at_pos(U_MOUSE, path.arr[i]);
-        if (i == 0 || i == path.len - 1) sleep(2);
-        else usleep(200000);
+        if (i == 0) {
+            wait_("Press any key to start for shortest path...");
+            print_title(title);
+        } else if (i == path.len - 1) {
+            sleep(2);
+        } else {
+            usleep(200000);
+        }
         putchar_at_pos(' ', path.arr[i]);
     }
+
+    clear_title((int)strlen(title));
 }

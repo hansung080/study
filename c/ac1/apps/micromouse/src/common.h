@@ -9,8 +9,10 @@
 #define DOWN  4
 #define LEFT  8
 
+#define TITLE_X  1
+#define TITLE_Y  1
 #define ORIGIN_X 1
-#define ORIGIN_Y 1
+#define ORIGIN_Y 2
 
 #pragma pack(push, 1)
 
@@ -36,5 +38,9 @@ inline void putwchar_at_pos(wchar_t wc, pos_t p) {
     gotopos(p);
     putwchar(wc);
 }
+
+void wait_(const char* msg);
+void print_title(const char* title);
+void clear_title(int len);
 
 #endif //__COMMON_H__
