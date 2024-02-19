@@ -1,5 +1,3 @@
-#include <stdio.h>
-#include <stdarg.h>
 #include <stdlib.h>
 #include <ac1/src/util/array.h>
 #include "test.h"
@@ -7,21 +5,6 @@
 test_t new_test(const char* name, test_func func) {
     test_t test = {name, func};
     return test;
-}
-
-void fail(const char* format, ...) {
-    va_list ap;
-    va_start(ap, format);
-    fprintf(stderr, T_FAILED": ");
-    vfprintf(stderr, format, ap);
-    va_end(ap);
-}
-
-void fail_n(const char* format, ...) {
-    va_list ap;
-    va_start(ap, format);
-    vfprintf(stderr, format, ap);
-    va_end(ap);
 }
 
 bool assert_eq_arr(const void* got, size_t got_size, const void* want, size_t want_size, int elem_type, const char* msg) {

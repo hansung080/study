@@ -1,6 +1,8 @@
 #ifndef __LOG_H__
 #define __LOG_H__
 
+#include <stdio.h>
+
 #define S_RESET    "\033[0m"
 #define S_RED      "\033[0;31m"
 #define S_RED_BOLD "\033[1;31m"
@@ -19,13 +21,13 @@
 #define T_WARNING yellow("warning")
 #define T_ERROR   red_bold("error")
 
-void debug(const char* format, ...);
-void debug_n(const char* format, ...);
-void info(const char* format, ...);
-void info_n(const char* format, ...);
-void warn_(const char* format, ...);
-void warn_n(const char* format, ...);
-void error(const char* format, ...);
-void error_n(const char* format, ...);
+#define debug(format, ...)   fprintf(stdout, T_DEBUG": "format, ##__VA_ARGS__)
+#define debug_n(format, ...) fprintf(stdout, format, ##__VA_ARGS__)
+#define info(format, ...)    fprintf(stdout, T_INFO": "format, ##__VA_ARGS__)
+#define info_n(format, ...)  fprintf(stdout, format, ##__VA_ARGS__)
+#define warn_(format, ...)   fprintf(stderr, T_WARNING": "format, ##__VA_ARGS__)
+#define warn_n(format, ...)  fprintf(stderr, format, ##__VA_ARGS__)
+#define error(format, ...)   fprintf(stderr, T_ERROR": "format, ##__VA_ARGS__)
+#define error_n(format, ...) fprintf(stderr, format, ##__VA_ARGS__)
 
 #endif // __LOG_H__
