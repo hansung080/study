@@ -5,6 +5,7 @@ Study on languages, algorithms, and data structures
 - ac1 (Algorithm with C 1)
   - util - math, string, array, term
   - etc - mul, gcd, lcm, prime
+  - ds - linked_list
   - apps - micromouse
 - ypds (Yoon Seong-woo's Passionate Data Structure) 
   - tree - binary_tree, binary_search_tree, avl_tree

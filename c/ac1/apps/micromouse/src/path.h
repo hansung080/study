@@ -18,7 +18,7 @@ typedef struct __path {
 void path_init(const maze_t* maze);
 void path_add(pos_t pos);
 static void path_remove(int i, int j);
-void path_delete();
+void path_destroy();
 
 void navigate_by_right_hand(const maze_t* maze, mouse_t* mouse);
 void navigate_by_shortest_path();

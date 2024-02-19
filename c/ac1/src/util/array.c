@@ -6,6 +6,30 @@
 #include "string.h"
 #include "../log.h"
 
+array_t array_new(size_t elem_size, size_t cap) {
+    array_t array = {NULL, 0, 0};
+    
+    void* arr = malloc(elem_size * cap);
+    if (arr == NULL) {
+        error("array_new: failed on malloc\n");
+        return array;
+    }
+    
+    array.arr = arr;
+    array.elem_size = elem_size;
+    array.len = 0;
+    array.cap = cap;
+    return array;
+}
+
+void array_destroy(array_t* a) {
+    free(a->arr);
+    a->arr = NULL;
+    a->elem_size = 0;
+    a->len = 0;
+    a->cap = 0;
+}
+
 // Array Format: [0, -1, 12, -123]
 char* arr_to_str(const void* arr, size_t len, int type) {
     size_t size = 2 + ((len - 1) * 2);

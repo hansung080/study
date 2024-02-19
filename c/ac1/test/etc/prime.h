@@ -5,6 +5,6 @@
 
 void init_etc__prime(test_t t[], int* n);
 static bool test_is_prime();
-static bool test_primes_new();
+static bool test_primes_t();
 
 #endif // __TEST__ETC__PRIME_H__

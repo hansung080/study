@@ -105,8 +105,8 @@ bool test_arr_equals() {
             char* s_arr1 = arr_to_str_i(c.arr1, c.size1 / sizeof(int));
             char* s_arr2 = arr_to_str_i(c.arr2, c.size2 / sizeof(int));
             fail("arr_equals(%s, %lu, %s, %lu) => %s, want %s\n", s_arr1, c.size1, s_arr2, c.size2, bool_to_str(got), bool_to_str(c.want));
-            if (s_arr1 != NULL) free(s_arr1);
-            if (s_arr2 != NULL) free(s_arr2);
+            free(s_arr1);
+            free(s_arr2);
             return false;
         }
     }

@@ -7,6 +7,7 @@
 #include "etc/gcd.h"
 #include "etc/lcm.h"
 #include "etc/prime.h"
+#include "ds/linked_list.h"
 
 int main(int argc, char* argv[]) {
     if (argc > 2) {
@@ -15,7 +16,7 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    int len = 17;
+    int len = 18;
     test_t tests[len];
     int n = 0;
 
@@ -26,6 +27,7 @@ int main(int argc, char* argv[]) {
     init_etc__gcd(tests, &n);
     init_etc__lcm(tests, &n);
     init_etc__prime(tests, &n);
+    init_ds__linked_list(tests, &n);
 
     if (n != len) {
         error("mismatched tests length: want %d, got %d\n", len, n);

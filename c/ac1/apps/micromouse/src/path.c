@@ -32,11 +32,9 @@ void path_remove(int i, int j) {
     path.len = i;
 }
 
-void path_delete() {
-    if (path.arr != NULL) {
-        free(path.arr);
-        path.arr = NULL;
-    }
+void path_destroy() {
+    free(path.arr);
+    path.arr = NULL;
     path.len = 0;
     path.cap = 0;
 }

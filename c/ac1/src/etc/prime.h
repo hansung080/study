@@ -27,6 +27,6 @@ bool is_prime_mr_times(uint n, uint times);
 primes_t primes_new(uint max); // including max
 bool primes_equals(const primes_t* p1, const primes_t* p2);
 char* primes_to_str(primes_t* p);
-void primes_delete(primes_t* p);
+void primes_destroy(primes_t* p);
 
 #endif // __ETC__PRIME_H__

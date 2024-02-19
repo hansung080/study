@@ -120,11 +120,9 @@ char* primes_to_str(primes_t* p) {
     return str;
 }
 
-void primes_delete(primes_t* p) {
-    if (p->arr != NULL) {
-        free(p->arr);
-        p->arr = NULL;
-    }
+void primes_destroy(primes_t* p) {
+    free(p->arr);
+    p->arr = NULL;
     p->len = 0;
     if (p->str != NULL) {
         free(p->str);

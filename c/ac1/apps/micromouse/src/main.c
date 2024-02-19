@@ -17,7 +17,7 @@ int main(int argc, char* argv[]) {
     navigate_by_right_hand(&maze, &mouse);
 
     navigate_by_shortest_path();
-    path_delete();
+    path_destroy();
     clrscr();
     return 0;
 }

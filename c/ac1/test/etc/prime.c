@@ -6,7 +6,7 @@
 void init_etc__prime(test_t t[], int* n) {
     int i = *n;
     t[i++] = new_test("test/etc/prime/test_is_prime", test_is_prime);
-    t[i++] = new_test("test/etc/prime/test_primes_new", test_primes_new);
+    t[i++] = new_test("test/etc/prime/test_primes_t", test_primes_t);
     *n = i;
 }
 
@@ -73,7 +73,7 @@ bool test_is_prime() {
     return true;
 }
 
-bool test_primes_new() {
+bool test_primes_t() {
     struct case_ {
         uint max;
         primes_t want;
@@ -103,11 +103,11 @@ bool test_primes_new() {
         if (!primes_equals(&got, &c.want)) {
             char* s_want = primes_to_str(&c.want);
             fail("primes_new(%u) => %s, want %s\n", c.max, primes_to_str(&got), s_want);
-            primes_delete(&got);
-            if (s_want != NULL) free(s_want);
+            primes_destroy(&got);
+            free(s_want);
             return false;
         }
-        primes_delete(&got);
+        primes_destroy(&got);
     }
     return true;
 }
