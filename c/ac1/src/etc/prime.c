@@ -1,7 +1,7 @@
-#include <stdio.h>
 #include <stdlib.h>
 #include "prime.h"
 #include "../log.h"
+#include "../util/util.h"
 #include "../util/math.h"
 #include "../util/array.h"
 

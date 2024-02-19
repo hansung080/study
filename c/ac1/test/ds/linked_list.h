@@ -2,9 +2,9 @@
 #define __TEST__DS__LINKED_LIST_H__
 
 #include <ac1/src/ds/linked_list.h>
+#include <ac1/src/util/util.h>
 #include "../test.h"
 
-#define args_len(type, ...)          (sizeof((type[]){__VA_ARGS__}) / sizeof(type))
 #define assert_eq_ll(msg, list, ...) __assert_eq_ll((msg), (list), args_len(ll_data_t, ##__VA_ARGS__), ##__VA_ARGS__)
 
 void init_ds__linked_list(test_t t[], int* n);

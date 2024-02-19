@@ -1,5 +1,5 @@
 #include "gcd.h"
-#include "../util/math.h"
+#include "../util/util.h"
 
 /* Euclidean Algorithm
  * A, B are positive integers, and G is the greatest common divisor of them.

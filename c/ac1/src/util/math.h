@@ -3,18 +3,14 @@
 
 #include "../types.h"
 
-#define min(x, y)       (((x) < (y)) ? (x) : (y))
-#define max(x, y)       (((x) > (y)) ? (x) : (y))
-#define abs_(x)         (((x) < 0) ? -(x) : (x))
-#define swap(x, y, t)   (((t) = (x)), ((x) = (y)), ((y) = (t)))
-#define swap_t(x, y, T) do { T (t) = (x); (x) = (y); (y) = (t); } while (0)
+#define smaller(x, y) (((x) < (y)) ? (x) : (y))
+#define larger(x, y)  (((x) > (y)) ? (x) : (y))
+#define abs_(x)       (((x) < 0) ? -(x) : (x))
 
 #define square         square_d
 #define pow_           pow_iter
 #define powmod         powmod_iter
 #define powmod_checked powmod_checked_iter
-
-int rand_between(int min, int max); // including min and including max
 
 int square_i(int x);
 uint square_ui(uint x);
