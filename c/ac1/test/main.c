@@ -17,7 +17,7 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    int len = 18;
+    int len = 20;
     test_t tests[len];
     int n = 0;
 

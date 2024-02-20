@@ -10,5 +10,7 @@
 void init_ds__linked_list(test_t t[], int* n);
 static bool __assert_eq_ll(const char* msg, const ll_list_t* list, int vargc, ...);
 static bool test_ll_list_t();
+static bool test_ll_insert_by_asc();
+static bool test_ll_insert_by_desc();
 
 #endif // __TEST__DS__LINKED_LIST_H__
