@@ -25,14 +25,14 @@ pos_t mouse_get_pos_ahead(pos_t pos, int direction) {
 }
 
 void mouse_ready(const mouse_t* mouse) {
-    putwchar_at_pos(U_MOUSE, mouse->pos);
+    putwchar_at_pos(mouse->pos, U_MOUSE);
     path_add(mouse->pos);
 }
 
 void mouse_go_forward(mouse_t* mouse) {
-    putchar_at_pos(' ', mouse->pos);
+    putchar_at_pos(mouse->pos, ' ');
     mouse->pos = mouse_get_pos_ahead(mouse->pos, mouse->direction);
-    putwchar_at_pos(U_MOUSE, mouse->pos);
+    putwchar_at_pos(mouse->pos, U_MOUSE);
     path_add(mouse->pos);
 }
 

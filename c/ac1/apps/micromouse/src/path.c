@@ -56,7 +56,7 @@ void navigate_by_right_hand(const maze_t* maze, mouse_t* mouse) {
     }
     
     sleep(2); // sleep for 2 seconds
-    putchar_at_pos(' ', mouse->pos);
+    putchar_at_pos(mouse->pos, ' ');
     clear_title((int)strlen(title));
 }
 
@@ -73,7 +73,7 @@ void navigate_by_shortest_path() {
     }
 
     for (int i = 0; i < path.len; ++i) {
-        putwchar_at_pos(U_MOUSE, path.arr[i]);
+        putwchar_at_pos(path.arr[i], U_MOUSE);
         if (i == 0) {
             wait_("Press any key to start for shortest path...");
             print_title(title);
@@ -82,7 +82,7 @@ void navigate_by_shortest_path() {
         } else {
             usleep(200000);
         }
-        putchar_at_pos(' ', path.arr[i]);
+        putchar_at_pos(path.arr[i], ' ');
     }
 
     clear_title((int)strlen(title));

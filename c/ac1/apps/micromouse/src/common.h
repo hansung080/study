@@ -14,6 +14,9 @@
 #define ORIGIN_X 1
 #define ORIGIN_Y 2
 
+#define putchar_at_pos(p, c)   { gotopos(p); putchar(c); }
+#define putwchar_at_pos(p, wc) { gotopos(p); putwchar(wc); }
+
 #pragma pack(push, 1)
 
 typedef struct __pos {
@@ -27,16 +30,6 @@ bool pos_equals(pos_t p1, pos_t p2);
 
 inline void gotopos(pos_t p) {
     gotoxy(ORIGIN_X + p.x, ORIGIN_Y + p.y);
-}
-
-inline void putchar_at_pos(int c, pos_t p) {
-    gotopos(p);
-    putchar(c);
-}
-
-inline void putwchar_at_pos(wchar_t wc, pos_t p) {
-    gotopos(p);
-    putwchar(wc);
 }
 
 void wait_(const char* msg);

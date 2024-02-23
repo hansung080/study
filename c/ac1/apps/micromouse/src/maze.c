@@ -40,7 +40,7 @@ void maze_draw(const maze_t* maze) {
     for (int y = 0; y < maze->rows; ++y) {
         for (int x = 0; x < maze->columns; ++x) {
             pos_t pos = {x, y};
-            putwchar_at_pos(maze_get_shape(maze, pos), pos);
+            putwchar_at_pos(pos, maze_get_shape(maze, pos));
         }
     }
 }

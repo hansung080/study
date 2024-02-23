@@ -1,4 +1,5 @@
 #include <string.h>
+#include <stddef.h>
 #include "string.h"
 #include "math.h"
 
@@ -33,7 +34,7 @@ uint uint_to_str(uint x, char* s) {
 }
 
 bool str_contains(const char* s, const char* keyword) {
-    int i, j, k;
+    size_t i, j, k;
     bool matched;
     for (i = 0; s[i] != '\0'; ++i) {
         if (s[i] == keyword[0]) {
@@ -48,4 +49,10 @@ bool str_contains(const char* s, const char* keyword) {
         }
     }
     return false;
+}
+
+char* str_to_printable(char* s) {
+    for (size_t i = 0; s[i] != '\0'; ++i)
+        if (s[i] < 32) s[i] = '?';
+    return s;
 }
