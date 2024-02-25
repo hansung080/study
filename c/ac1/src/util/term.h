@@ -6,8 +6,6 @@
 #include <termios.h>
 #include "../types.h"
 
-#define A_ESC 27
-
 #define putchar_at(x, y, c)          { gotoxy(x, y); putchar(c); }
 #define putwchar_at(x, y, wc)        { gotoxy(x, y); putwchar(wc); }
 #define printf_at(x, y, format, ...) { gotoxy(x, y); printf(format, ##__VA_ARGS__); }
