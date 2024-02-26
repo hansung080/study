@@ -1,5 +1,6 @@
 #include <unistd.h>
 #include <stdarg.h>
+#include <sys/ioctl.h>
 #include "term.h"
 #include "../log.h"
 #include "string.h"
@@ -69,6 +70,12 @@ bool getxy(int* x, int* y) {
     
     *x = a, *y = b;
     return true;
+}
+
+void get_winsize(int* x, int* y) {
+    winsize_t ws;
+    ioctl(STDOUT_FILENO, TIOCGWINSZ, &ws);
+    *x = ws.ws_col, *y = ws.ws_row;
 }
 
 int getch_() {

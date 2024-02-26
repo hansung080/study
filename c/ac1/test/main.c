@@ -52,7 +52,7 @@ int main(int argc, char* argv[]) {
             bool ok = t.func();
             printf_at_r(x, y, "%s", ok ? T_OK_LOW : T_FAILED);
             if (ok) ++passed;
-        }        
+        }
     }
 
     if (n_tests == 0) {
