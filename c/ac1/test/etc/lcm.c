@@ -1,10 +1,8 @@
 #include <ac1/src/etc/lcm.h>
 #include "lcm.h"
 
-void init_etc__lcm(test_t t[], int* n) {
-    int i = *n;
-    t[i++] = new_test("test/etc/lcm/test_lcm", test_lcm);
-    *n = i;
+void init_etc__lcm(t_test_t tests[], size_t* n) {
+    tests[(*n)++] = t_new("test/etc/lcm/test_lcm", test_lcm);
 }
 
 bool test_lcm() {
@@ -27,7 +25,7 @@ bool test_lcm() {
         struct case_ c = cases[i];
         uint got = lcm(c.a, c.b);
         if (got != c.want) {
-            fail("lcm(%u, %u) => %u, want %u\n", c.a, c.b, got, c.want);
+            t_fail("lcm(%u, %u) => %u, want %u\n", c.a, c.b, got, c.want);
             return false;
         } 
     }

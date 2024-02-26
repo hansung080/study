@@ -1,9 +1,9 @@
 #ifndef __TEST__UTIL__MATH_H__
 #define __TEST__UTIL__MATH_H__
 
-#include "../test.h"
+#include <ac1/src/testing/test.h>
 
-void init_util__math(test_t t[], int* n);
+void init_util__math(t_test_t tests[], size_t* n);
 static bool test_square();
 static bool test_pow();
 static bool test_powmod();

@@ -1,11 +1,7 @@
 #include <stdlib.h>
-#include <ac1/src/util/array.h>
+#include "assert.h"
 #include "test.h"
-
-test_t new_test(const char* name, test_func func) {
-    test_t test = {name, func};
-    return test;
-}
+#include "../util/array.h"
 
 bool assert_eq_arr(const void* got, size_t got_size, const void* want, size_t want_size, int elem_type, const char* msg) {
     if (!arr_equals(got, got_size, want, want_size)) {
@@ -28,7 +24,7 @@ bool assert_eq_arr(const void* got, size_t got_size, const void* want, size_t wa
             break;
         }
 
-        fail("%s: got=%s, want=%s\n", msg, got_str, want_str);
+        t_fail("%s: got=%s, want=%s\n", msg, got_str, want_str);
         free(got_str);
         free(want_str);
         return false;

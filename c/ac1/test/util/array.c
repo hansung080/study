@@ -4,11 +4,9 @@
 #include <ac1/src/util/string.h>
 #include "array.h"
 
-void init_util__array(test_t t[], int* n) {
-    int i = *n;
-    t[i++] = new_test("test/util/array/test_arr_to_str", test_arr_to_str);
-    t[i++] = new_test("test/util/array/test_arr_equals", test_arr_equals);
-    *n = i;
+void init_util__array(t_test_t tests[], size_t* n) {
+    tests[(*n)++] = t_new("test/util/array/test_arr_to_str", test_arr_to_str);
+    tests[(*n)++] = t_new("test/util/array/test_arr_equals", test_arr_equals);
 }
 
 bool has_negative(const int* arr, size_t len) {
@@ -52,7 +50,7 @@ bool test_arr_to_str() {
         struct case_ c = cases[i];
         char* got = arr_to_str_i(c.arr, c.len);
         if (got == NULL || strcmp(got, c.want) != 0) {
-            fail("arr_to_str_i(arr%d, %lu) => %s, want %s\n", i, c.len, got, c.want);
+            t_fail("arr_to_str_i(arr%d, %lu) => %s, want %s\n", i, c.len, got, c.want);
             if (got != NULL) free(got);
             return false;
         }
@@ -61,7 +59,7 @@ bool test_arr_to_str() {
         if (!c.has_negative) {
             got = arr_to_str_ui((const uint*)c.arr, c.len);
             if (got == NULL || strcmp(got, c.want) != 0) {
-                fail("arr_to_str_ui(arr%d, %lu) => %s, want %s\n", i, c.len, got, c.want);
+                t_fail("arr_to_str_ui(arr%d, %lu) => %s, want %s\n", i, c.len, got, c.want);
                 if (got != NULL) free(got);
                 return false;
             }
@@ -104,7 +102,7 @@ bool test_arr_equals() {
         if (got != c.want) {
             char* s_arr1 = arr_to_str_i(c.arr1, c.size1 / sizeof(int));
             char* s_arr2 = arr_to_str_i(c.arr2, c.size2 / sizeof(int));
-            fail("arr_equals(%s, %lu, %s, %lu) => %s, want %s\n", s_arr1, c.size1, s_arr2, c.size2, bool_to_str(got), bool_to_str(c.want));
+            t_fail("arr_equals(%s, %lu, %s, %lu) => %s, want %s\n", s_arr1, c.size1, s_arr2, c.size2, bool_to_str(got), bool_to_str(c.want));
             free(s_arr1);
             free(s_arr2);
             return false;

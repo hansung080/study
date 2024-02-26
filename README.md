@@ -4,6 +4,7 @@ Study on languages, algorithms, and data structures
 ## C
 - ac1 (Algorithm with C 1)
   - util - util, math, string, array, term
+  - testing - test, assert
   - etc - mul, gcd, lcm, prime
   - ds - linked_list
   - apps - micromouse

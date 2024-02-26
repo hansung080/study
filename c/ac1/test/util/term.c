@@ -1,10 +1,8 @@
 #include <ac1/src/util/term.h>
 #include "term.h"
 
-void init_util__term(test_t t[], int* n) {
-    int i = *n;
-    t[i++] = new_test("test/util/term/test_gotoxy_getxy", test_gotoxy_getxy);
-    *n = i;
+void init_util__term(t_test_t tests[], size_t* n) {
+    tests[(*n)++] = t_new("test/util/term/test_gotoxy_getxy", test_gotoxy_getxy);
 }
 
 bool test_gotoxy_getxy() {
@@ -44,7 +42,7 @@ bool test_gotoxy_getxy() {
         if (!getxy(&got_x, &got_y)) return false;
         if (got_x != c.want_x || got_y != c.want_y) {
             gotoxy(old_x, old_y);        
-            fail("gotoxy(%d, %d) => getxy(%d, %d), want (%d, %d)\n", c.x, c.y, got_x, got_y, c.want_x, c.want_y);
+            t_fail("gotoxy(%d, %d) => getxy(%d, %d), want (%d, %d)\n", c.x, c.y, got_x, got_y, c.want_x, c.want_y);
             return false;
         }
     }

@@ -1,10 +1,8 @@
 #include <ac1/src/etc/mul.h>
 #include "mul.h"
 
-void init_etc__mul(test_t t[], int* n) {
-    int i = *n;
-    t[i++] = new_test("test/etc/mul/test_mul", test_mul);
-    *n = i;
+void init_etc__mul(t_test_t tests[], size_t* n) {
+    tests[(*n)++] = t_new("test/etc/mul/test_mul", test_mul);
 }
 
 bool test_mul() {
@@ -32,13 +30,13 @@ bool test_mul() {
         struct case_ c = cases[i];
         int got = mul_rec(c.x, c.y);
         if (got != c.want) {
-            fail("mul_rec(%d, %d) => %d, want %d\n", c.x, c.y, got, c.want);
+            t_fail("mul_rec(%d, %d) => %d, want %d\n", c.x, c.y, got, c.want);
             return false;
         }
 
         got = mul_iter(c.x, c.y);
         if (got != c.want) {
-            fail("mul_iter(%d, %d) => %d, want %d\n", c.x, c.y, got, c.want);
+            t_fail("mul_iter(%d, %d) => %d, want %d\n", c.x, c.y, got, c.want);
             return false;
         }
     }

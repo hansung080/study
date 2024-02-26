@@ -2,12 +2,10 @@
 #include <ac1/src/util/string.h>
 #include "linked_list.h"
 
-void init_ds__linked_list(test_t t[], int* n) {
-    int i = *n;
-    t[i++] = new_test("test/ds/linked_list/test_ll_list_t", test_ll_list_t);
-    t[i++] = new_test("test/ds/linked_list/test_ll_insert_by_asc", test_ll_insert_by_asc);
-    t[i++] = new_test("test/ds/linked_list/test_ll_insert_by_desc", test_ll_insert_by_desc);
-    *n = i;
+void init_ds__linked_list(t_test_t tests[], size_t* n) {
+    tests[(*n)++] = t_new("test/ds/linked_list/test_ll_list_t", test_ll_list_t);
+    tests[(*n)++] = t_new("test/ds/linked_list/test_ll_insert_by_asc", test_ll_insert_by_asc);
+    tests[(*n)++] = t_new("test/ds/linked_list/test_ll_insert_by_desc", test_ll_insert_by_desc);
 }
 
 bool __assert_eq_ll(const char* msg, const ll_list_t* list, int vargc, ...) {
@@ -38,7 +36,7 @@ bool test_ll_list_t() {
     }
 
     if ((node = ll_insert_prev(&list, 2, 5)) == NULL || node->data != 5) {
-        fail("ll_insert_prev(2, 5) => %d, want 5\n", (node != NULL) ? node->data : 0);
+        t_fail("ll_insert_prev(2, 5) => %d, want 5\n", (node != NULL) ? node->data : 0);
         return false;           
     }
     ll_insert_prev(&list, 4, 6);
@@ -48,7 +46,7 @@ bool test_ll_list_t() {
     }
 
     if ((node = ll_insert_next(&list, 5, 8)) == NULL || node->data != 8) {
-        fail("ll_insert_next(5, 8) => %d, want 8\n", (node != NULL) ? node->data : 0);
+        t_fail("ll_insert_next(5, 8) => %d, want 8\n", (node != NULL) ? node->data : 0);
         return false;
     }
     ll_insert_next(&list, 6, 9);
@@ -60,17 +58,17 @@ bool test_ll_list_t() {
     bool ok;
     node = ll_find(&list, 5);
     if ((ok = ll_delete_after(&list, node)) != true) {
-        fail("ll_delete_after(5) => %s, want true\n", bool_to_str(ok));
+        t_fail("ll_delete_after(5) => %s, want true\n", bool_to_str(ok));
         return false;
     }
     node = ll_find(&list, 6);
     if ((ok = ll_delete_after(&list, node)) != true) {
-        fail("ll_delete_after(6) => %s, want true\n", bool_to_str(ok));
+        t_fail("ll_delete_after(6) => %s, want true\n", bool_to_str(ok));
         return false;
     }
     node = ll_find(&list, 10);
     if ((ok = ll_delete_after(&list, node)) != false) {
-        fail("ll_delete_after(10) => %s, want false\n", bool_to_str(ok));
+        t_fail("ll_delete_after(10) => %s, want false\n", bool_to_str(ok));
         return false;
     }
     if (!assert_eq_ll("ll_delete_after(5, 6, 10)", &list, 5, 2, 1, 6, 4, 7, 3, 10)) {
@@ -78,15 +76,15 @@ bool test_ll_list_t() {
     }
 
     if ((ok = ll_delete(&list, 5)) != true) {
-        fail("ll_delete(5) => %s, want true\n", bool_to_str(ok));
+        t_fail("ll_delete(5) => %s, want true\n", bool_to_str(ok));
         return false;
     }
     if ((ok = ll_delete(&list, 6)) != true) {
-        fail("ll_delete(6) => %s, want true\n", bool_to_str(ok));
+        t_fail("ll_delete(6) => %s, want true\n", bool_to_str(ok));
         return false;
     }
     if ((ok = ll_delete(&list, 10)) != true) {
-        fail("ll_delete(5) => %s, want true\n", bool_to_str(ok));
+        t_fail("ll_delete(5) => %s, want true\n", bool_to_str(ok));
         return false;
     }
     if (!assert_eq_ll("ll_delete(5, 6, 10)", &list, 2, 1, 4, 7, 3)) {
@@ -95,13 +93,13 @@ bool test_ll_list_t() {
 
     size_t count;
     if ((count = ll_count(&list)) != 5) {
-        fail("ll_count() => %lu, want 5\n", count);
+        t_fail("ll_count() => %lu, want 5\n", count);
         return false;
     }
 
     ll_delete_all(&list);
     if ((count = ll_count(&list)) != 0) {
-        fail("ll_count() => %lu, want 0\n", count);
+        t_fail("ll_count() => %lu, want 0\n", count);
         return false;
     }
 

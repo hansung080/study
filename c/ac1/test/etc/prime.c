@@ -3,11 +3,9 @@
 #include <ac1/src/util/string.h>
 #include "prime.h"
 
-void init_etc__prime(test_t t[], int* n) {
-    int i = *n;
-    t[i++] = new_test("test/etc/prime/test_is_prime", test_is_prime);
-    t[i++] = new_test("test/etc/prime/test_primes_t", test_primes_t);
-    *n = i;
+void init_etc__prime(t_test_t tests[], size_t* n) {
+    tests[(*n)++] = t_new("test/etc/prime/test_is_prime", test_is_prime);
+    tests[(*n)++] = t_new("test/etc/prime/test_primes_t", test_primes_t);
 }
 
 bool test_is_prime() {
@@ -52,7 +50,7 @@ bool test_is_prime() {
         struct case_ c = cases[i];
         bool got = is_prime_basic(c.n);
         if (got != c.want) {
-            fail("is_prime_basic(%u) => %s, want %s\n", c.n, bool_to_str(got), bool_to_str(c.want));
+            t_fail("is_prime_basic(%u) => %s, want %s\n", c.n, bool_to_str(got), bool_to_str(c.want));
             return false;
         }
 
@@ -60,13 +58,13 @@ bool test_is_prime() {
         // NOTE: is_prime_fermat fails with Carmichael numbers, thus, correct the results.
         if (i < carmichael_len) got = !got;
         if (got != c.want) {
-            fail("is_prime_fermat(%u) => %s, want %s\n", c.n, bool_to_str(got), bool_to_str(c.want));
+            t_fail("is_prime_fermat(%u) => %s, want %s\n", c.n, bool_to_str(got), bool_to_str(c.want));
             return false;
         }
 
         got = is_prime_mr(c.n);
         if (got != c.want) {
-            fail("is_prime_mr(%u) => %s, want %s\n", c.n, bool_to_str(got), bool_to_str(c.want));
+            t_fail("is_prime_mr(%u) => %s, want %s\n", c.n, bool_to_str(got), bool_to_str(c.want));
             return false;
         }
     }
@@ -102,7 +100,7 @@ bool test_primes_t() {
         primes_t got = primes_new(c.max);
         if (!primes_equals(&got, &c.want)) {
             char* s_want = primes_to_str(&c.want);
-            fail("primes_new(%u) => %s, want %s\n", c.max, primes_to_str(&got), s_want);
+            t_fail("primes_new(%u) => %s, want %s\n", c.max, primes_to_str(&got), s_want);
             primes_destroy(&got);
             free(s_want);
             return false;

@@ -1,10 +1,8 @@
 #include <ac1/src/etc/gcd.h>
 #include "gcd.h"
 
-void init_etc__gcd(test_t t[], int* n) {
-    int i = *n;
-    t[i++] = new_test("test/etc/gcd/test_gcd", test_gcd);
-    *n = i;
+void init_etc__gcd(t_test_t tests[], size_t* n) {
+    tests[(*n)++] = t_new("test/etc/gcd/test_gcd", test_gcd);
 }
 
 bool test_gcd() {
@@ -27,25 +25,25 @@ bool test_gcd() {
         struct case_ c = cases[i];
         uint got = gcd_sub_rec(c.a, c.b);
         if (got != c.want) {
-            fail("gcd_sub_rec(%u, %u) => %u, want %u\n", c.a, c.b, got, c.want);
+            t_fail("gcd_sub_rec(%u, %u) => %u, want %u\n", c.a, c.b, got, c.want);
             return false;
         } 
 
         got = gcd_sub_iter(c.a, c.b);
         if (got != c.want) {
-            fail("gcd_sub_iter(%u, %u) => %u, want %u\n", c.a, c.b, got, c.want);
+            t_fail("gcd_sub_iter(%u, %u) => %u, want %u\n", c.a, c.b, got, c.want);
             return false;
         }
 
         got = gcd_mod_rec(c.a, c.b);
         if (got != c.want) {
-            fail("gcd_mod_rec(%u, %u) => %u, want %u\n", c.a, c.b, got, c.want);
+            t_fail("gcd_mod_rec(%u, %u) => %u, want %u\n", c.a, c.b, got, c.want);
             return false;
         }
 
         got = gcd_mod_iter(c.a, c.b);
         if (got != c.want) {
-            fail("gcd_mod_iter(%u, %u) => %u, want %u\n", c.a, c.b, got, c.want);
+            t_fail("gcd_mod_iter(%u, %u) => %u, want %u\n", c.a, c.b, got, c.want);
             return false;
         }
     }

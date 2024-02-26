@@ -2,13 +2,11 @@
 #include <ac1/src/util/string.h>
 #include "string.h"
 
-void init_util__string(test_t t[], int* n) {
-    int i = *n;
-    t[i++] = new_test("test/util/string/test_str_to_bool", test_str_to_bool);
-    t[i++] = new_test("test/util/string/test_bool_to_str", test_bool_to_str);
-    t[i++] = new_test("test/util/string/test_int_to_str", test_int_to_str);
-    t[i++] = new_test("test/util/string/test_str_contains", test_str_contains);
-    *n = i;
+void init_util__string(t_test_t tests[], size_t* n) {
+    tests[(*n)++] = t_new("test/util/string/test_str_to_bool", test_str_to_bool);
+    tests[(*n)++] = t_new("test/util/string/test_bool_to_str", test_bool_to_str);
+    tests[(*n)++] = t_new("test/util/string/test_int_to_str", test_int_to_str);
+    tests[(*n)++] = t_new("test/util/string/test_str_contains", test_str_contains);
 }
 
 bool test_str_to_bool() {
@@ -28,7 +26,7 @@ bool test_str_to_bool() {
         struct case_ c = cases[i];
         bool got = str_to_bool(c.s);
         if (got != c.want) {
-            fail("str_to_bool(%s) => %d, want %d\n", c.s, got, c.want);
+            t_fail("str_to_bool(%s) => %d, want %d\n", c.s, got, c.want);
             return false;
         }
     }
@@ -52,7 +50,7 @@ bool test_bool_to_str() {
         struct case_ c = cases[i];
         const char* got = bool_to_str(c.b);
         if (strcmp(got, c.want) != 0) {
-            fail("bool_to_str(%d) => %s, want %s\n", c.b, got, c.want);
+            t_fail("bool_to_str(%d) => %s, want %s\n", c.b, got, c.want);
             return false;
         }
     }
@@ -82,14 +80,14 @@ bool test_int_to_str() {
         struct case_ c = cases[i];
         uint digit = int_to_str(c.x, got);
         if (strcmp(got, c.want) != 0 || digit != c.digit) {
-            fail("int_to_str(%d) => (%s, %u), want (%s, %u)\n", c.x, got, digit, c.want, c.digit);
+            t_fail("int_to_str(%d) => (%s, %u), want (%s, %u)\n", c.x, got, digit, c.want, c.digit);
             return false;
         }
 
         if (c.x >= 0) {
             digit = uint_to_str((uint)c.x, got);
             if (strcmp(got, c.want) != 0 || digit != c.digit) {
-                fail("uint_to_str(%d) => (%s, %u), want (%s, %u)\n", c.x, got, digit, c.want, c.digit);
+                t_fail("uint_to_str(%d) => (%s, %u), want (%s, %u)\n", c.x, got, digit, c.want, c.digit);
                 return false;
             }
         }
@@ -120,7 +118,7 @@ bool test_str_contains() {
         struct case_ c = cases[i];
         bool got = str_contains(c.s, c.keyword);
         if (got != c.want) {
-            fail("str_contains('%s', '%s') => %s, want %s\n", c.s, c.keyword, bool_to_str(got), bool_to_str(c.want));
+            t_fail("str_contains('%s', '%s') => %s, want %s\n", c.s, c.keyword, bool_to_str(got), bool_to_str(c.want));
             return false;
         }
 

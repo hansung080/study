@@ -1,14 +1,12 @@
 #include <ac1/src/util/math.h>
 #include "math.h"
 
-void init_util__math(test_t t[], int* n) {
-    int i = *n;
-    t[i++] = new_test("test/util/math/test_square", test_square);
-    t[i++] = new_test("test/util/math/test_pow", test_pow);
-    t[i++] = new_test("test/util/math/test_powmod", test_powmod);
-    t[i++] = new_test("test/util/math/test_powmod_checked", test_powmod_checked);
-    t[i++] = new_test("test/util/math/test_digit", test_digit);
-    *n = i;
+void init_util__math(t_test_t tests[], size_t* n) {
+    tests[(*n)++] = t_new("test/util/math/test_square", test_square);
+    tests[(*n)++] = t_new("test/util/math/test_pow", test_pow);
+    tests[(*n)++] = t_new("test/util/math/test_powmod", test_powmod);
+    tests[(*n)++] = t_new("test/util/math/test_powmod_checked", test_powmod_checked);
+    tests[(*n)++] = t_new("test/util/math/test_digit", test_digit);
 }
 
 bool test_square() {
@@ -27,19 +25,19 @@ bool test_square() {
         struct case_ c = cases[i];
         int got = square_i(c.x);
         if (got != c.want) {
-            fail("square_i(%d) => %d, want %d\n", c.x, got, c.want);
+            t_fail("square_i(%d) => %d, want %d\n", c.x, got, c.want);
             return false;
         }
 
         got = (int)square_ui((uint)c.x);
         if (got != c.want) {
-            fail("square_ui(%d) => %d, want %d\n", c.x, got, c.want);
+            t_fail("square_ui(%d) => %d, want %d\n", c.x, got, c.want);
             return false;
         }
 
         got = (int)square_d((double)c.x);
         if (got != c.want) {
-            fail("square_d(%d) => %d, want %d\n", c.x, got, c.want);
+            t_fail("square_d(%d) => %d, want %d\n", c.x, got, c.want);
             return false;
         }
     }
@@ -68,13 +66,13 @@ bool test_pow() {
         struct case_ c = cases[i];
         double got = pow_rec(c.b, c.n);
         if (got != c.want) {
-            fail("pow_rec(%f, %u) => %f, want %f\n", c.b, c.n, got, c.want);
+            t_fail("pow_rec(%f, %u) => %f, want %f\n", c.b, c.n, got, c.want);
             return false;
         }
 
         got = pow_iter(c.b, c.n);
         if (got != c.want) {
-            fail("pow_iter(%f, %u) => %f, want %f\n", c.b, c.n, got, c.want);
+            t_fail("pow_iter(%f, %u) => %f, want %f\n", c.b, c.n, got, c.want);
             return false;
         }
     }
@@ -111,19 +109,19 @@ bool test_powmod() {
         struct case_ c = cases[i];
         uint got = powmod_basic(c.b, c.n, c.m);
         if (got != c.want) {
-            fail("powmod_basic(%u, %u, %u) => %u, want %u\n", c.b, c.n, c.m, got, c.want);
+            t_fail("powmod_basic(%u, %u, %u) => %u, want %u\n", c.b, c.n, c.m, got, c.want);
             return false;
         }
 
         got = powmod_rec(c.b, c.n, c.m);
         if (got != c.want) {
-            fail("powmod_rec(%u, %u, %u) => %u, want %u\n", c.b, c.n, c.m, got, c.want);
+            t_fail("powmod_rec(%u, %u, %u) => %u, want %u\n", c.b, c.n, c.m, got, c.want);
             return false;
         }
 
         got = powmod_iter(c.b, c.n, c.m);
         if (got != c.want) {
-            fail("powmod_iter(%u, %u, %u) => %u, want %u\n", c.b, c.n, c.m, got, c.want);
+            t_fail("powmod_iter(%u, %u, %u) => %u, want %u\n", c.b, c.n, c.m, got, c.want);
             return false;
         }
     }
@@ -186,7 +184,7 @@ bool test_powmod_checked() {
         if (c.want_powmod_checked_rec != nc) want = c.want_powmod_checked_rec;
         else want = c.want_powmod;
         if (got != want) {
-            fail("powmod_checked_rec(%u, %u, %u) => %u, want %u\n", c.b, c.n, c.m, got, want);
+            t_fail("powmod_checked_rec(%u, %u, %u) => %u, want %u\n", c.b, c.n, c.m, got, want);
             return false;
         }
 
@@ -194,7 +192,7 @@ bool test_powmod_checked() {
         if (c.want_powmod_checked_iter != nc) want = c.want_powmod_checked_iter;
         else want = c.want_powmod;
         if (got != want) {
-            fail("powmod_checked_iter(%u, %u, %u) => %u, want %u\n", c.b, c.n, c.m, got, want);
+            t_fail("powmod_checked_iter(%u, %u, %u) => %u, want %u\n", c.b, c.n, c.m, got, want);
             return false;
         }
     }
@@ -222,14 +220,14 @@ bool test_digit() {
         struct case_ c = cases[i];
         uint got = digit_i(c.x);
         if (got != c.want) {
-            fail("digit_i(%d) => %u, want %u\n", c.x, got, c.want);
+            t_fail("digit_i(%d) => %u, want %u\n", c.x, got, c.want);
             return false;
         }
 
         if (c.x >= 0) {
             got = digit_ui((uint)c.x);
             if (got != c.want) {
-                fail("digit_ui(%d) => %u, want %u\n", c.x, got, c.want);
+                t_fail("digit_ui(%d) => %u, want %u\n", c.x, got, c.want);
                 return false;
             }
         }

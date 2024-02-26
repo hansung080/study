@@ -1,9 +1,9 @@
 #ifndef __TEST__ETC__PRIME_H__
 #define __TEST__ETC__PRIME_H__
 
-#include "../test.h"
+#include <ac1/src/testing/test.h>
 
-void init_etc__prime(test_t t[], int* n);
+void init_etc__prime(t_test_t tests[], size_t* n);
 static bool test_is_prime();
 static bool test_primes_t();
 
