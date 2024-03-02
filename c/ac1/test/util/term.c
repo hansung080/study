@@ -9,8 +9,8 @@ bool test_gotoxy_getxy() {
     int old_x, old_y;
     if (!getxy(&old_x, &old_y)) return false;
 
-    int ws_x, ws_y;
-    get_winsize(&ws_x, &ws_y);
+    int width, height;
+    get_winsize(&width, &height);
 
     struct case_ {
         int x;
@@ -20,18 +20,18 @@ bool test_gotoxy_getxy() {
     };
 
     struct case_ cases[] = {
-        {-1, -1, old_x, old_y},
-        {-1, 2, old_x, old_y},
-        {2, -1, old_x, old_y},
+        {-1, -1, 1, 1},
+        {-1, 2, 1, 2},
+        {2, -1, 2, 1},
         {0, 0, 1, 1},
         {0, 2, 1, 2},
         {2, 0, 2, 1},
-        {ws_x + 1, ws_y + 1, ws_x, ws_y},
-        {ws_x + 1, 2, ws_x, 2},
-        {2, ws_y + 1, 2, ws_y},
+        {width + 1, height + 1, width, height},
+        {width + 1, 2, width, 2},
+        {2, height + 1, 2, height},
         {1, 1, 1, 1},
-        {ws_x / 2, ws_y / 2, ws_x / 2, ws_y / 2},
-        {ws_x, ws_y, ws_x, ws_y},
+        {width / 2, height / 2, width / 2, height / 2},
+        {width, height, width, height},
     };
 
     int len = sizeof(cases) / sizeof(struct case_);

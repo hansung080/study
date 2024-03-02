@@ -72,10 +72,10 @@ bool getxy(int* x, int* y) {
     return true;
 }
 
-void get_winsize(int* x, int* y) {
+void get_winsize(int* width, int* height) {
     winsize_t ws;
     ioctl(STDOUT_FILENO, TIOCGWINSZ, &ws);
-    *x = ws.ws_col, *y = ws.ws_row;
+    *width = ws.ws_col, *height = ws.ws_row;
 }
 
 int getch_() {
