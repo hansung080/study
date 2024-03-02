@@ -6,7 +6,6 @@ include $(PROJECT_ROOT)/lib.mk
 
 CFLAGS +=
 LDFLAGS +=
-DY_FLAGS +=
 TEST_CFLAGS +=
 TEST_LDFLAGS +=
 LD_LIBRARY_PATH := $(LD_LIBRARY_PATH)
@@ -16,18 +15,19 @@ DYLD_LIBRARY_PATH := $(DYLD_LIBRARY_PATH)
 all:
 	$(MAKE_REC) build
 	make -C $(PROJECT_ROOT)/apps/micromouse build
+	make -C $(PROJECT_ROOT)/../ypds build
 
 .PHONY: clean-all
 clean-all:
 	$(MAKE_REC) clean
 	make -C $(PROJECT_ROOT)/apps/micromouse clean
+	make -C $(PROJECT_ROOT)/../ypds clean
 
 .PHONY: ext
 ext:
 	@echo "$(call blue,# Extended Variables)"
 	@echo "CFLAGS=$(CFLAGS);"
 	@echo "LDFLAGS=$(LDFLAGS);"
-	@echo "DY_FLAGS=$(DY_FLAGS);"
 	@echo "TEST_CFLAGS=$(TEST_CFLAGS);"
 	@echo "TEST_LDFLAGS=$(TEST_LDFLAGS);"
 	@echo "LD_LIBRARY_PATH=$(LD_LIBRARY_PATH);"

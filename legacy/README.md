@@ -22,7 +22,9 @@ Legacy code of study on languages, data structures, and algorithms
 * calc
 * thread - count-thread, count-thread-mutex, calc-multi-cond
 * socket - echo-server, echo-client
-* ds - anyfi_test: array list, hash map
+* ds
+  - anyfi_test - array list, hash map
+  - tree - binary_tree, binary_search_tree, avl_tree
 
 # C++
 * thread - count-thread, count-thread-mutex, calc-multi-cond 
