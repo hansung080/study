@@ -9,7 +9,7 @@ Study on languages, algorithms, and data structures
   - ds - linked_list
   - apps - micromouse
 - ypds (Yoon Seong-woo's Passionate Data Structure) 
-  - etc - fact
+  - etc - search, fact
 
 ## Rust
 - trpl (The Rust Programming Language)
