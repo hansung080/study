@@ -57,9 +57,9 @@ dkms.conf
 
 # End of https://www.toptal.com/developers/gitignore/api/c
 
-# Added by hansung
+# Added by hansung080
 
 # C-related files
 *.stackdump
 
-# End of hansung
+# End of hansung080
