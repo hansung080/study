@@ -14,7 +14,7 @@ fn main() {
 
     let mut a = nums[0];
     for b in &nums[1..] {
-        a = gcd::gcd(a, *b);
+        a = gcd::gcd_iter(a, *b);
     }
 
     println!("gcd({nums:?}) => {a}");
