@@ -5,7 +5,7 @@
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio, WebStorm and Rider
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
 
-# Added by hansung
+# Added by hansung080
 .idea/
 
 # User-specific stuff
@@ -181,7 +181,7 @@ GitHub.sublime-settings
 !.vscode/extensions.json
 !.vscode/*.code-snippets
 
-# Added by hansung
+# Added by hansung080
 !.vscode/.gitignore
 !.vscode/c_cpp_properties.json
 
@@ -224,9 +224,9 @@ $RECYCLE.BIN/
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,linux,windows,intellij+all,visualstudiocode,sublimetext
 
-# Added by hansung
+# Added by hansung080
 
 # Make Kit
 build/
 
-# End of hansung
+# End of hansung080
