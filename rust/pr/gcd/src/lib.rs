@@ -1,13 +1,13 @@
 pub fn gcd_rec(a: u64, b: u64) -> u64 {
     if b == 0 {
-        assert_ne!(a, 0, "a and b cannot both be 0");
+        assert_ne!(a, 0, "invalid argument: arguments cannot both be 0");
         return a;
     }
     gcd_rec(b, a % b)
 }
 
 pub fn gcd_iter(mut a: u64, mut b: u64) -> u64 {
-    assert!(a != 0 || b != 0, "a and b cannot both be 0");
+    assert!(a != 0 || b != 0, "invalid argument: arguments cannot both be 0");
     while b != 0 {
         (a, b) = (b, a % b);
     }
@@ -37,13 +37,13 @@ mod tests {
     }
 
     #[test]
-    #[should_panic(expected = "a and b cannot both be 0")]
+    #[should_panic(expected = "invalid argument: arguments cannot both be 0")]
     fn gcd_rec_error() {
         gcd_rec(0, 0);
     }
 
     #[test]
-    #[should_panic(expected = "a and b cannot both be 0")]
+    #[should_panic(expected = "invalid argument: arguments cannot both be 0")]
     fn gcd_iter_error() {
         gcd_iter(0, 0);
     }
