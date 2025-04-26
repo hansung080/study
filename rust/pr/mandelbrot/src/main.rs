@@ -4,9 +4,9 @@ use mandelbrot::image::Image;
 
 fn main() {
     let args = Args::parse();
-    println!("{args:?}");
+    if !args.quiet { println!("{args:?}"); }
     let mut img = Image::from_str(&args.image_size);
-    img.render(&ComplexArea::from_str(&args.upper_left, &args.lower_right));
+    img.render(&ComplexArea::from_str(&args.upper_left, &args.lower_right), args.quiet);
     img.save(&args.image_path).expect("failed to save image");
 }
 
@@ -50,13 +50,19 @@ struct Args {
     )]
     lower_right: String,
 
-    /// The number of threads to run. 0 specifies the same number of CPU cores
+    /// The number of threads to run. 0 specifies the same number as CPU cores
     #[arg(
         short = 't',
         long = "threads",
         value_name = "THREADS",
         default_value = "1",
-        value_parser = clap::value_parser!(u32),
     )]
     threads: u32,
+
+    /// Do not print log messages
+    #[arg(
+        short = 'q',
+        long = "quiet",
+    )]
+    quiet: bool,
 }

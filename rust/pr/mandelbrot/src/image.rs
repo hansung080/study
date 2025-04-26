@@ -34,13 +34,13 @@ impl Image {
         Image::new(width, height)
     }
 
-    pub fn render(&mut self, area: &ComplexArea) {
+    pub fn render(&mut self, area: &ComplexArea, quiet: bool) {
         let mut p = Progresser::new(self.width * self.height, 10);
-        print!("rendering... ");
+        if !quiet { print!("rendering... "); }
         io::stdout().flush().unwrap();
         for y in 0..self.height {
             for x in 0..self.width {
-                p.progress();
+                if !quiet { p.progress(); }
                 let complex = self.pixel_to_complex((x, y), area);
                 self.pixels[y * self.width + x] = match escape_times(complex, 255) {
                     // If `complex` is not a member of Mandelbrot set,
@@ -51,13 +51,13 @@ impl Image {
                 }
             }
         }
-        println!();
+        if !quiet { println!(); }
     }
 
     fn pixel_to_complex(&self, (x, y): (usize, usize), area: &ComplexArea) -> Complex<f64> {
         Complex {
-            re: area.upper_left.re + x as f64 * area.width() / self.width as f64,
-            im: area.upper_left.im - y as f64 * area.height() / self.height as f64,
+            re: area.upper_left().re + x as f64 * area.width() / self.width as f64,
+            im: area.upper_left().im - y as f64 * area.height() / self.height as f64,
         }
     }
 
