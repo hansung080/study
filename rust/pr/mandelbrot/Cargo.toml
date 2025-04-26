@@ -1,0 +1,11 @@
+[package]
+name = "mandelbrot"
+version = "0.1.0"
+edition = "2024"
+authors = ["Han-Seong Kwon <hansung080@hanmail.net>"]
+
+[dependencies]
+anyhow = "1.0.98"
+clap = { version = "4.5.37", features = ["derive"] }
+num = "0.4"
+image = "0.25.6"
