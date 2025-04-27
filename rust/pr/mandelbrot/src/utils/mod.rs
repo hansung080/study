@@ -1,6 +1,7 @@
 pub mod progress;
 
 use std::str::FromStr;
+use std::time::{Duration, Instant};
 use num::Complex;
 
 pub fn parse_pair<T: FromStr>(s: &str, sep: char) -> Option<(T, T)> {
@@ -20,6 +21,12 @@ pub fn parse_complex(s: &str) -> Option<Complex<f64>> {
         Some((re, im)) => Some(Complex { re, im }),
         None => None,
     }
+}
+
+pub fn elapsed_time(f: impl FnOnce()) -> Duration {
+    let start = Instant::now();
+    f();
+    start.elapsed()
 }
 
 #[cfg(test)]

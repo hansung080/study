@@ -22,14 +22,12 @@ impl Progresser {
 
     pub fn progress(&mut self) {
         self.count += 1;
-        if self.count == self.display_num * self.display_count && self.display_count < self.display_times {
-            print!("{}% ", ((self.count as f64 / self.limit as f64) * 100.0) as usize);
-            io::stdout().flush().unwrap();
-            self.display_count += 1;
-        }
-
         if self.count == self.limit {
             print!("100%");
+            io::stdout().flush().unwrap();
+            self.display_count += 1;
+        } else if self.count == self.display_num * self.display_count && self.display_count < self.display_times {
+            print!("{}% ", ((self.count as f64 / self.limit as f64) * 100.0) as usize);
             io::stdout().flush().unwrap();
             self.display_count += 1;
         }

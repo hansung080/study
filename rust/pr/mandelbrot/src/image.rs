@@ -1,14 +1,13 @@
 use std::fs::File;
-use std::io;
-use std::io::Write;
 use std::path::Path;
+use std::slice::ChunksMut;
 use anyhow::Result;
 use image::codecs::png::PngEncoder;
 use image::{ExtendedColorType, ImageEncoder, ImageFormat};
 use num::Complex;
 use crate::complex::ComplexArea;
 use crate::escape_times;
-use crate::utils::parse_pair;
+use crate::utils;
 use crate::utils::progress::Progresser;
 
 const PIXEL_BLACK: u8 = 0;
@@ -30,35 +29,12 @@ impl Image {
     }
 
     pub fn from_str(size: &str) -> Self {
-        let (width, height) = parse_pair(size, 'x').expect("failed to parse image size");
+        let (width, height) = utils::parse_pair(size, 'x').expect("failed to parse image size");
         Image::new(width, height)
     }
 
     pub fn render(&mut self, area: &ComplexArea, quiet: bool) {
-        let mut p = Progresser::new(self.width * self.height, 10);
-        if !quiet { print!("rendering... "); }
-        io::stdout().flush().unwrap();
-        for y in 0..self.height {
-            for x in 0..self.width {
-                if !quiet { p.progress(); }
-                let complex = self.pixel_to_complex((x, y), area);
-                self.pixels[y * self.width + x] = match escape_times(complex, 255) {
-                    // If `complex` is not a member of Mandelbrot set,
-                    // a pixel will be, the farther the distance from Mandelbrot set, the closer to white.
-                    Some(times) => PIXEL_WHITE - times as u8,
-                    // If `complex` is a member of Mandelbrot set, a pixel will be black.
-                    None => PIXEL_BLACK,
-                }
-            }
-        }
-        if !quiet { println!(); }
-    }
-
-    fn pixel_to_complex(&self, (x, y): (usize, usize), area: &ComplexArea) -> Complex<f64> {
-        Complex {
-            re: area.upper_left().re + x as f64 * area.width() / self.width as f64,
-            im: area.upper_left().im - y as f64 * area.height() / self.height as f64,
-        }
+        render(&mut self.pixels, (self.width, self.height), area, quiet);
     }
 
     pub fn save(&self, path: impl AsRef<Path>) -> Result<()> {
@@ -76,6 +52,42 @@ impl Image {
         PngEncoder::new(file).write_image(&self.pixels, self.width as u32, self.height as u32, ExtendedColorType::L8)?;
         Ok(())
     }
+
+    pub fn chunks_mut(&mut self, chunk_size: usize) -> ChunksMut<'_, u8> {
+        self.pixels.chunks_mut(chunk_size)
+    }
+
+    pub fn width(&self) -> usize {
+        self.width
+    }
+
+    pub fn height(&self) -> usize {
+        self.height
+    }
+}
+
+pub fn pixel_to_complex((width, height): (usize, usize), (x, y): (usize, usize), area: &ComplexArea) -> Complex<f64> {
+    Complex {
+        re: area.upper_left().re + x as f64 * area.width() / width as f64,
+        im: area.upper_left().im - y as f64 * area.height() / height as f64,
+    }
+}
+
+pub fn render(pixels: &mut [u8], (width, height): (usize, usize), area: &ComplexArea, quiet: bool) {
+    let mut p = Progresser::new(width * height, 10);
+    for y in 0..height {
+        for x in 0..width {
+            if !quiet { p.progress(); }
+            let complex = pixel_to_complex((width, height), (x, y), area);
+            pixels[y * width + x] = match escape_times(complex, 255) {
+                // If `complex` is not a member of Mandelbrot set,
+                // a pixel will be, the farther the distance from Mandelbrot set, the closer to white.
+                Some(times) => PIXEL_WHITE - times as u8,
+                // If `complex` is a member of Mandelbrot set, a pixel will be black.
+                None => PIXEL_BLACK,
+            }
+        }
+    }
 }
 
 #[cfg(test)]
@@ -83,15 +95,11 @@ mod tests {
     use super::*;
 
     #[test]
-    fn image_pixel_to_complex() {
-        assert_eq!(Image::new(100, 200).pixel_to_complex(
+    fn pixel_to_complex_test() {
+        assert_eq!(pixel_to_complex(
+            (100, 200),
             (25, 175),
             &ComplexArea::new(Complex { re: -1.0, im: 1.0 }, Complex { re: 1.0, im: -1.0 }),
-        ), Complex { re: -0.5, im: -0.75 });
-
-        assert_eq!(Image::from_str("100x200").pixel_to_complex(
-            (25, 175),
-            &ComplexArea::from_str("-1.0,1.0", "1.0,-1.0"),
         ), Complex { re: -0.5, im: -0.75 });
     }
 }

@@ -1,5 +1,5 @@
 use num::Complex;
-use crate::utils::parse_complex;
+use crate::utils;
 
 pub struct ComplexArea {
     upper_left: Complex<f64>,
@@ -14,8 +14,8 @@ impl ComplexArea {
 
     pub fn from_str(upper_left: &str, lower_right: &str) -> Self {
         ComplexArea::new(
-            parse_complex(upper_left).expect("failed to parse upper left point"),
-            parse_complex(lower_right).expect("failed to parse lower right point"),
+            utils::parse_complex(upper_left).expect("failed to parse upper left point"),
+            utils::parse_complex(lower_right).expect("failed to parse lower right point"),
         )
     }
 
