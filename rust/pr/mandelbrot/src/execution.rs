@@ -2,6 +2,7 @@ use std::io;
 use std::io::Write;
 use crate::args::Args;
 use crate::complex::ComplexArea;
+use crate::image;
 use crate::image::Image;
 
 pub struct Executor {
@@ -36,21 +37,13 @@ impl Executor {
     }
 
     fn render_by_scoped_thread(&self, img: &mut Image, area: &ComplexArea) {
-        let img_width = img.width();
-        let img_height = img.height();
-        let rows_per_band = img_height.div_ceil(self.args.threads);
-        let bands: Vec<&mut [u8]> = img.chunks_mut(rows_per_band * img_width).collect();
-        if !self.args.quiet { println!("rendering by {} scoped threads...", bands.len()); }
+        if !self.args.quiet { println!("rendering by {} scoped threads...", self.args.threads); }
+        let rows_per_band = img.height().div_ceil(self.args.threads);
         crossbeam::scope(|spawner| {
-            for (i, band) in bands.into_iter().enumerate() {
-                let top = rows_per_band * i;
-                let width = img_width;
-                let height = band.len() / img_width;
-                let upper_left = crate::image::pixel_to_complex((img_width, img_height), (0, top), area);
-                let lower_right = crate::image::pixel_to_complex((img_width, img_height), (width, top + height), area);
+            for (i, band) in img.bands(area, rows_per_band).enumerate() {
                 spawner.spawn(move |_| {
-                    crate::image::render(band, (width, height), &ComplexArea::new(upper_left, lower_right), true);
-                    if !self.args.quiet { println!("{i}th thread done.") }
+                    image::render(band.pixels, (band.width, band.height), &band.area, true);
+                    if !self.args.quiet { println!("thread {i} done.") }
                 });
             }
         }).unwrap();

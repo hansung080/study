@@ -1,3 +1,5 @@
+pub mod band;
+
 use std::fs::File;
 use std::path::Path;
 use std::slice::ChunksMut;
@@ -7,6 +9,7 @@ use image::{ExtendedColorType, ImageEncoder, ImageFormat};
 use num::Complex;
 use crate::complex::ComplexArea;
 use crate::escape_times;
+use crate::image::band::Bands;
 use crate::utils;
 use crate::utils::progress::Progresser;
 
@@ -55,6 +58,10 @@ impl Image {
 
     pub fn chunks_mut(&mut self, chunk_size: usize) -> ChunksMut<'_, u8> {
         self.pixels.chunks_mut(chunk_size)
+    }
+
+    pub fn bands<'a>(&'a mut self, area: &'a ComplexArea, rows_per_band: usize) -> Bands<'a> {
+        Bands::new(self, area, rows_per_band)
     }
 
     pub fn width(&self) -> usize {
