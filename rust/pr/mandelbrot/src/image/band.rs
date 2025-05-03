@@ -4,29 +4,38 @@ use crate::image;
 use crate::image::Image;
 
 pub struct Band<'a> {
-    pub pixels: &'a mut [u8],
-    pub width: usize,
-    pub height: usize,
-    pub area: ComplexArea,
+    pixels: &'a mut [u8],
+    width: usize,
+    height: usize,
+    area: ComplexArea,
+}
+
+impl<'a> Band<'a> {
+    pub fn render(&mut self, quiet: bool) {
+        image::render(self.pixels, (self.width, self.height), &self.area, quiet);
+    }
 }
 
 pub struct Bands<'a> {
-    img_width: usize,
-    img_height: usize,
-    area: &'a ComplexArea,
     bands: ChunksMut<'a, u8>,
+    width: usize,
+    height: usize,
+    area: ComplexArea,
     index: usize,
     rows_per_band: usize,
 }
 
 impl<'a> Bands<'a> {
-    pub fn new(img: &'a mut Image, area: &'a ComplexArea, rows_per_band: usize) -> Self {
+    pub fn new(image: &'a mut Image, rows_per_band: usize) -> Self {
+        let width= image.width;
+        let height= image.height;
+        let area = image.area.clone();
         Bands {
-            img_width: img.width,
-            img_height: img.height,
+            // let bands: Vec<&mut [u8]> = image.chunks_mut(rows_per_band * width).collect();
+            bands: image.chunks_mut(rows_per_band * width),
+            width,
+            height,
             area,
-            // let bands: Vec<&mut [u8]> = img.chunks_mut(rows_per_band * img.width).collect();
-            bands: img.chunks_mut(rows_per_band * img.width),
             index: 0,
             rows_per_band,
         }
@@ -40,17 +49,17 @@ impl<'a> Iterator for Bands<'a> {
         match self.bands.next() {
             Some(band) => {
                 let top = self.rows_per_band * self.index;
-                let width = self.img_width;
-                let height = band.len() / self.img_width;
+                let width = self.width;
+                let height = band.len() / self.width;
                 let upper_left = image::pixel_to_complex(
-                    (self.img_width, self.img_height),
+                    (self.width, self.height),
                     (0, top),
-                    self.area
+                    &self.area
                 );
                 let lower_right = image::pixel_to_complex(
-                    (self.img_width, self.img_height),
+                    (self.width, self.height),
                     (width, top + height),
-                    self.area
+                    &self.area
                 );
                 self.index += 1;
 

@@ -1,6 +1,7 @@
 use num::Complex;
 use crate::utils;
 
+#[derive(Clone)]
 pub struct ComplexArea {
     upper_left: Complex<f64>,
     lower_right: Complex<f64>,

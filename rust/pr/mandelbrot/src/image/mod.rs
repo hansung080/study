@@ -20,24 +20,26 @@ pub struct Image {
     pixels: Vec<u8>, // grayscale pixels
     width: usize,
     height: usize,
+    area: ComplexArea,
 }
 
 impl Image {
-    pub fn new(width: usize, height: usize) -> Self {
+    pub fn new(width: usize, height: usize, area: ComplexArea) -> Self {
         Image {
             pixels: vec![0; width * height],
             width,
             height,
+            area
         }
     }
 
-    pub fn from_str(size: &str) -> Self {
+    pub fn from_str(size: &str, upper_left: &str, lower_right: &str) -> Self {
         let (width, height) = utils::parse_pair(size, 'x').expect("failed to parse image size");
-        Image::new(width, height)
+        Image::new(width, height, ComplexArea::from_str(upper_left, lower_right))
     }
 
-    pub fn render(&mut self, area: &ComplexArea, quiet: bool) {
-        render(&mut self.pixels, (self.width, self.height), area, quiet);
+    pub fn render(&mut self, quiet: bool) {
+        render(&mut self.pixels, (self.width, self.height), &self.area, quiet);
     }
 
     pub fn save(&self, path: impl AsRef<Path>) -> Result<()> {
@@ -56,12 +58,12 @@ impl Image {
         Ok(())
     }
 
-    pub fn chunks_mut(&mut self, chunk_size: usize) -> ChunksMut<'_, u8> {
-        self.pixels.chunks_mut(chunk_size)
+    pub fn bands(&mut self, rows_per_band: usize) -> Bands {
+        Bands::new(self, rows_per_band)
     }
 
-    pub fn bands<'a>(&'a mut self, area: &'a ComplexArea, rows_per_band: usize) -> Bands<'a> {
-        Bands::new(self, area, rows_per_band)
+    pub fn chunks_mut(&mut self, chunk_size: usize) -> ChunksMut<'_, u8> {
+        self.pixels.chunks_mut(chunk_size)
     }
 
     pub fn width(&self) -> usize {
@@ -81,10 +83,18 @@ pub fn pixel_to_complex((width, height): (usize, usize), (x, y): (usize, usize),
 }
 
 pub fn render(pixels: &mut [u8], (width, height): (usize, usize), area: &ComplexArea, quiet: bool) {
-    let mut p = Progresser::new(width * height, 10);
+    let mut p = if !quiet {
+        Some(Progresser::new(width * height, 10))
+    } else {
+        None
+    };
+
     for y in 0..height {
         for x in 0..width {
-            if !quiet { p.progress(); }
+            if let Some(ref mut p) = p {
+                p.progress();
+            }
+
             let complex = pixel_to_complex((width, height), (x, y), area);
             pixels[y * width + x] = match escape_times(complex, 255) {
                 // If `complex` is not a member of Mandelbrot set,
