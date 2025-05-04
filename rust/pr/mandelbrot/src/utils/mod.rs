@@ -1,4 +1,5 @@
 pub mod progress;
+pub mod thread;
 
 use std::str::FromStr;
 use std::time::{Duration, Instant};

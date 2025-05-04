@@ -49,6 +49,13 @@ pub struct Args {
     )]
     pub threads: usize,
 
+    /// Use thread pool. This option can be used when --threads is not 1.
+    #[arg(
+        short = 'P',
+        long = "thread-pool",
+    )]
+    pub thread_pool: bool,
+
     /// Do not print log messages
     #[arg(
         short = 'q',

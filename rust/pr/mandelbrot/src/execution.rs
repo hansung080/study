@@ -3,6 +3,7 @@ use std::io::Write;
 use clap::Parser;
 use crate::args::Args;
 use crate::image::Image;
+use crate::utils::thread::ScopedThreadPool;
 
 pub struct Executor {
     args: Args,
@@ -22,7 +23,11 @@ impl Executor {
         if self.args.threads == 1 {
             self.render_by_single_thread();
         } else {
-            self.render_by_scoped_thread();
+            if self.args.thread_pool {
+                self.render_by_scoped_thread_pool();
+            } else {
+                self.render_by_scoped_thread();
+            }
         }
         self.image.save(&self.args.image_path).expect("failed to save image");
     }
@@ -38,13 +43,25 @@ impl Executor {
 
     fn render_by_scoped_thread(&mut self) {
         let quiet = self.args.quiet;
-        if !quiet { println!("rendering by {} scoped threads...", self.args.threads); }
-        crossbeam::scope(|spawner| {
+        if !quiet { println!("rendering by {} threads...", self.args.threads); }
+        crossbeam::scope(|scope| {
             let rows_per_band = self.image.height().div_ceil(self.args.threads);
             for (i, mut band) in self.image.bands(rows_per_band).enumerate() {
-                spawner.spawn(move |_| {
+                scope.spawn(move |_| {
                     band.render(true);
-                    if !quiet { println!("thread {i} done."); }
+                    if !quiet { println!("thread {i} terminated."); }
+                });
+            }
+        }).unwrap();
+    }
+
+    fn render_by_scoped_thread_pool(&mut self) {
+        if !self.args.quiet { println!("rendering by {}-sized thread pool...", self.args.threads); }
+        crossbeam::scope(|scope| {
+            let pool = ScopedThreadPool::new(scope, self.args.threads, self.args.quiet);
+            for mut band in self.image.bands(1) {
+                pool.execute(move || {
+                    band.render(true);
                 });
             }
         }).unwrap();
