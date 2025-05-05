@@ -15,7 +15,7 @@ Study on languages, algorithms, and data structures
 - trpl (The Rust Programming Language)
   - guessing-game, restaurant (module example), minigrep, add (workspace example), derive-macro-example, web-server
 - pr (Programming Rust - 2nd Edition)
-  - gcd, actix-gcd, mandelbrot 
+  - gcd, actix-gcd, mandelbrot, quick-replace  
 - horp (Hands-On Rust Programming)
   - chat, hello-actix-web, bmi-actix-web, hello-tide, greeter-tide
 
