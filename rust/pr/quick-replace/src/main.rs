@@ -45,7 +45,7 @@ fn print_usage() {
 fn parse_args() -> Args {
     let args: Vec<String> = env::args().skip(1).collect();
     if args.len() != 4 {
-        eprintln!("{}: wrong number of arguments: expected 4, got: {}", "error".red().bold(), args.len());
+        eprintln!("{}: wrong number of arguments: expected 4, got {}", "error".red().bold(), args.len());
         print_usage();
         process::exit(1);
     }
