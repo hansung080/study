@@ -1,8 +1,8 @@
 [package]
 name = "pancake"
 version = "0.1.0"
-edition = "2021"
+edition = "2024"
 
 [dependencies]
-hello-macro = { path = "../hello-macro" }
-hello-macro-derive = { path = "../hello-macro-derive" }
+hello = { version = "=0.1.0", path = "../hello" }
+hello-derive = { version = "=0.1.0", path = "../hello-derive" }

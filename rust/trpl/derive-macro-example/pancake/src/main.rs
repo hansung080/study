@@ -1,9 +1,9 @@
-use hello_macro::HelloMacro;
-use hello_macro_derive::HelloMacro;
+use hello::HelloName;
+use hello_derive::HelloName;
 
-#[derive(HelloMacro)]
+#[derive(HelloName)]
 struct Pancake;
 
 fn main() {
-    Pancake::hello_macro(); // Hello, macro! My name is Pancake.
+    Pancake::hello_name(); // Hello, Pancake!
 }

@@ -1,6 +1,6 @@
 [workspace]
 members = [
+    "hello",
+    "hello-derive",
     "pancake",
-    "hello-macro",
-    "hello-macro-derive",
 ]
