@@ -19,6 +19,6 @@ Study on languages, algorithms, and data structures
 - Hands-On Rust Programming (horp)
   - chat, hello-actix-web, bmi-actix-web, hello-tide, greeter-tide
 - Programming Rust (2nd Edition) (pr)
-  - gcd, actix-gcd, mandelbrot, quick-replace, macro-examples  
+  - gcd, actix-gcd, mandelbrot, quick-replace, macro-examples, collections-examples  
 - The Rust Programming Language (trpl)
   - guessing-game, restaurant (module example), minigrep, add (workspace example), derive-macro-example, web-server
