@@ -15,6 +15,10 @@ Study on languages, algorithms, and data structures
 - JavaScript and jQuery for Modern Web (jjmw)
   - hello, hello5, pyramid, constructor, inheritance, revolution, moving_letters
 
+## Python
+- Do it! Jump to Python (jp)
+  - game (package example), gugu 
+
 ## Rust
 - Hands-On Rust Programming (horp)
   - chat, hello-actix-web, bmi-actix-web, hello-tide, greeter-tide
