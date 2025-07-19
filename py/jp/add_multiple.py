@@ -19,4 +19,4 @@ if __name__ == "__main__":
     for _m, _n, _end, expected in cases:
         assert_eq(sum_of_multiples(_m, _n, _end), expected)
 
-    print("add_multiple test: ok")
+    print("test: add_multiple: ok")

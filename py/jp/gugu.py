@@ -18,4 +18,4 @@ if __name__ == "__main__":
     for _n, expected in cases:
         assert_eq(gugu(_n), expected)
 
-    print("gugu test: ok")
+    print("test: gugu: ok")

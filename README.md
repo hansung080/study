@@ -17,7 +17,7 @@ Study on languages, algorithms, and data structures
 
 ## Python
 - Do it! Jump to Python (jp)
-  - game (package example), gugu, add_multiple 
+  - game (package example), gugu, add_multiple, paging 
 
 ## Rust
 - Hands-On Rust Programming (horp)
