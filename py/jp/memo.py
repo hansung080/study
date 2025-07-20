@@ -12,6 +12,10 @@ FILE = "memo.txt"
 mode = sys.argv[1]
 
 if mode == "-a":
+    if len(sys.argv) < 3:
+        print("usage: python3 memo.py -a [memos]...", file=sys.stderr)
+        sys.exit(1)
+
     f = open(FILE, "a")
     for memo in sys.argv[2:]:
         f.write(memo)
