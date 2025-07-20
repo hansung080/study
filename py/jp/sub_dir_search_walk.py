@@ -16,7 +16,6 @@ def search(top):
                         print(os.path.join(dirpath, filename))
                 else:
                     print(os.path.join(dirpath, filename))
-
     except PermissionError:
         pass
 
