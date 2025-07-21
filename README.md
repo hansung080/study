@@ -18,7 +18,7 @@ Study on languages, algorithms, and data structures
 ## Python
 - Do it! Jump to Python (jp)
   - game (package example), gugu, add_multiple, paging, memo, tabto4, sub_dir_search, sub_dir_search_walk,
-    closure, decorator
+    closure, decorator, iterator
 
 ## Rust
 - Hands-On Rust Programming (horp)
