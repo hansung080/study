@@ -1,3 +1,4 @@
+# Class
 class Mul:
     def __init__(self, m):
         self.m = m
@@ -6,12 +7,14 @@ class Mul:
         return self.m * n
 
 
+# Closure 1
 def mul(m):
     def wrapper(n):
         return m * n
     return wrapper
 
 
+# Closure 2
 def mul2(m):
     return lambda n: m * n
 
