@@ -27,3 +27,6 @@ Study on languages, algorithms, and data structures
   - gcd, actix-gcd, mandelbrot, quick-replace, macro-examples, collections-examples  
 - The Rust Programming Language (trpl)
   - guessing-game, restaurant (module example), minigrep, add (workspace example), derive-macro-example, web-server
+
+## TypeScript
+- LUVIT My First TypeScript Project (mftp)
