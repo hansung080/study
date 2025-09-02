@@ -13,7 +13,9 @@ Study on languages, algorithms, and data structures
 
 ## JavaScript
 - JavaScript and jQuery for Modern Web (jjmw)
-  - hello, hello5, pyramid, constructor, inheritance, revolution, moving_letters
+  - pyramid, constructor, inheritance, revolution, moving_letters
+- Modern JavaScript Deep Dive (mjdd)
+  - hello, counter 
 
 ## Python
 - Do it! Jump to Python (jp)
@@ -22,7 +24,7 @@ Study on languages, algorithms, and data structures
 
 ## Rust
 - Hands-On Rust Programming (horp)
-  - chat, hello-actix-web, bmi-actix-web, hello-tide, greeter-tide
+  - chat, hello-actix-web, bmi-actix-web, hello-tide, greeter-tide 
 - Programming Rust (2nd Edition) (pr)
   - gcd, actix-gcd, mandelbrot, quick-replace, macro-examples, collections-examples  
 - The Rust Programming Language (trpl)
