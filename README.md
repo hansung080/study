@@ -8,7 +8,6 @@ Study on languages, algorithms, and data structures
   - etc - mul, gcd, lcm, prime
   - ds - linked_list
   - apps - micromouse
-
 - Yoon Seong-woo's Passionate Data Structure (ypds) 
   - etc - search, fact
 
@@ -18,7 +17,6 @@ Study on languages, algorithms, and data structures
 ## JavaScript
 - JavaScript and jQuery for Modern Web (jjmw)
   - pyramid, constructor, inheritance, revolution, moving_letters
- 
 - Modern JavaScript Deep Dive (mjdd)
   - counter 
 
@@ -30,10 +28,8 @@ Study on languages, algorithms, and data structures
 ## Rust
 - Hands-On Rust Programming (horp)
   - chat, hello-actix-web, bmi-actix-web, hello-tide, greeter-tide 
- 
 - Programming Rust (2nd Edition) (pr)
   - gcd, actix-gcd, mandelbrot, quick-replace, macro-examples, collections-examples  
- 
 - The Rust Programming Language (trpl)
   - guessing-game, restaurant (module example), minigrep, add (workspace example), derive-macro-example, web-server
 
