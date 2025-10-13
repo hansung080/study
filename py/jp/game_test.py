@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # <<< How to access items in a package >>>
 # 1. import <module>
 import game.sound.echo
