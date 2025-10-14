@@ -11,22 +11,28 @@ def elapsed(func):
     return wrapper
 
 
-def square(n):
-    print(f"square({n})")
-    return n * n
+def pow1(base, exp):
+    result = base ** exp
+    print(f"pow1({base}, {exp}) -> {result}")
+    return result
+
+
+# Composite Function: pow1(base, exp) => elapsed(pow1(base, exp))
+pow1 = elapsed(pow1)
 
 
 @elapsed
-def power(base, exp):
-    print(f"power({base}, {exp})")
-    return base ** exp
+def pow2(base, exp):
+    result = base ** exp
+    print(f"pow2({base}, {exp}) -> {result}")
+    return result
 
 
 if __name__ == "__main__":
     from testing import assert_eq
 
-    result1 = elapsed(square)(2)
-    result2 = power(2, exp=3)
+    result1 = pow1(2, exp=3)
+    result2 = pow2(2, exp=3)
 
-    assert_eq(result1, 4)
+    assert_eq(result1, 8)
     assert_eq(result2, 8)
