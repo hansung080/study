@@ -21,6 +21,8 @@ Study on languages, algorithms, and data structures
   - counter 
 
 ## Python
+- Fluent Python (2nd Edition) (fp)
+  - french_deck
 - Do it! Jump to Python (jp)
   - game (package example), gugu, add_multiple, paging, memo, tabto4, sub_dir_search, sub_dir_search_walk,
     closure, decorator, decorator2, iterator, generator, generator2
