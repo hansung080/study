@@ -59,7 +59,10 @@ dkms.conf
 
 # Added by hansung080
 
-# C-related files
+# Make Kit
+build/
+
+# Other files
 *.stackdump
 
 # End of hansung080

@@ -1,5 +1,5 @@
 # Study
-Study on languages, algorithms, and data structures
+Studying programming in multiple languages
 
 ## C
 - Algorithm with C 1 (ac1)

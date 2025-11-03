@@ -223,10 +223,3 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,linux,windows,intellij+all,visualstudiocode,sublimetext
-
-# Added by hansung080
-
-# Make Kit
-build/
-
-# End of hansung080
