@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+from __future__ import annotations
+
 import os
 import sys
 
@@ -7,7 +9,7 @@ if len(sys.argv) not in (2, 3):
     sys.exit(1)
 
 
-def search(dirname):
+def search(dirname: str) -> None:
     try:
         filenames = os.listdir(dirname)
         for filename in filenames:

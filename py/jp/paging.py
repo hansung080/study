@@ -1,4 +1,7 @@
-def get_total_pages(total_posts, posts_per_page):
+from __future__ import annotations
+
+
+def get_total_pages(total_posts: int, posts_per_page: int) -> int:
     if total_posts % posts_per_page == 0:
         return total_posts // posts_per_page
     else:
@@ -17,5 +20,3 @@ if __name__ == "__main__":
 
     for m, n, expected in cases:
         assert_eq(get_total_pages(m, n), expected)
-
-    print("test: paging: ok")

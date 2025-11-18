@@ -1,8 +1,17 @@
+from __future__ import annotations
+
 import time
+from numbers import Number
+from typing import Callable, ParamSpec, TypeAlias, TypeVar
+
+P = ParamSpec("P")
+R = TypeVar("R")
+Func: TypeAlias = Callable[P, R]
+Wrapper: TypeAlias = Callable[P, R]
 
 
-def elapsed(func):
-    def wrapper(*args, **kwargs):
+def elapsed(func: Func) -> Wrapper:
+    def wrapper(*args: P.args, **kwargs: P.kwargs) -> R:
         start = time.time()
         result = func(*args, **kwargs)
         end = time.time()
@@ -11,7 +20,10 @@ def elapsed(func):
     return wrapper
 
 
-def pow1(base, exp):
+T = TypeVar("T", bound=Number)
+
+
+def pow1(base: T, exp: T) -> T:
     result = base ** exp
     print(f"pow1({base}, {exp}) -> {result}")
     return result
@@ -22,7 +34,7 @@ pow1 = elapsed(pow1)
 
 
 @elapsed
-def pow2(base, exp):
+def pow2(base: T, exp: T) -> T:
     result = base ** exp
     print(f"pow2({base}, {exp}) -> {result}")
     return result

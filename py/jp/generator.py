@@ -1,14 +1,19 @@
+from __future__ import annotations  # Allows all forward references in this file.
+
+from typing import Callable, Iterator
+
+
 # <<< How to create an iterator >>>
 # 1. Iterator Class
-class SquareIter:
-    def __init__(self, start, end):
-        self.current = start
-        self.end = end
+class SquareIter(Iterator[int]):
+    def __init__(self, start: int, end: int) -> None:
+        self.current: int = start
+        self.end: int = end
 
-    def __iter__(self):
+    def __iter__(self) -> SquareIter:  # forward reference of SquareIter
         return self
 
-    def __next__(self):
+    def __next__(self) -> int:
         if self.current >= self.end:
             raise StopIteration
         current = self.current
@@ -17,14 +22,14 @@ class SquareIter:
 
 
 # 2. Generator Function
-def square_gen(start, end):
+def square_gen(start: int, end: int) -> Iterator[int]:
     for i in range(start, end):
         yield i * i
 
 
 # 4. Closure (not an iterator)
-def square_closure(start, end):
-    def wrapper():
+def square_closure(start: int, end: int) -> Callable[[], int]:
+    def wrapper() -> int:
         nonlocal start
         if start >= end:
             raise StopIteration
@@ -35,31 +40,29 @@ def square_closure(start, end):
 
 
 if __name__ == "__main__":
-    from testing import assert_eq, assert_err
+    from testing import assert_eq, assert_raises
 
     it = SquareIter(1, 4)
     assert_eq(next(it), 1)
     assert_eq(next(it), 4)
     assert_eq(next(it), 9)
-    assert_err(lambda: next(it), error=StopIteration)
+    assert_raises(lambda: next(it), expected=StopIteration)
 
     gen = square_gen(1, 4)
     assert_eq(next(gen), 1)
     assert_eq(next(gen), 4)
     assert_eq(next(gen), 9)
-    assert_err(lambda: next(gen), error=StopIteration)
+    assert_raises(lambda: next(gen), expected=StopIteration)
 
     # 3. Generator Expression (not a tuple comprehension)
     gen = (i * i for i in range(1, 4))
     assert_eq(next(gen), 1)
     assert_eq(next(gen), 4)
     assert_eq(next(gen), 9)
-    assert_err(lambda: next(gen), error=StopIteration)
+    assert_raises(lambda: next(gen), expected=StopIteration)
 
     closure = square_closure(1, 4)
     assert_eq(closure(), 1)
     assert_eq(closure(), 4)
     assert_eq(closure(), 9)
-    assert_err(lambda: closure(), error=StopIteration)
-
-    print("test: generator: ok")
+    assert_raises(lambda: closure(), expected=StopIteration)

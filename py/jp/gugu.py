@@ -1,4 +1,7 @@
-def gugu(n):
+from __future__ import annotations
+
+
+def gugu(n: int) -> list[int]:
     result = []
     i = 1
     while i < 10:
@@ -8,7 +11,7 @@ def gugu(n):
 
 
 if __name__ == "__main__":
-    from testing import *
+    from testing import assert_eq
 
     cases = [
         (2, [2, 4, 6, 8, 10, 12, 14, 16, 18]),
@@ -17,5 +20,3 @@ if __name__ == "__main__":
 
     for _n, expected in cases:
         assert_eq(gugu(_n), expected)
-
-    print("test: gugu: ok")

@@ -1,7 +1,9 @@
+from __future__ import annotations
+
 import time
 
 
-def longtime_job():
+def longtime_job() -> str:
     print("job start")
     time.sleep(1)
     return "done"

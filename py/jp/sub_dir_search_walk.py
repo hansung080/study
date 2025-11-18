@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+from __future__ import annotations
+
 import os
 import sys
 
@@ -7,7 +9,7 @@ if len(sys.argv) not in (2, 3):
     sys.exit(1)
 
 
-def search(top):
+def search(top: str) -> None:
     try:
         for dirpath, _, filenames in os.walk(top):  # os.walk() returns (dirpath, dirnames, filenames)
             for filename in filenames:

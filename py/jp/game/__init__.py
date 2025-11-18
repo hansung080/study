@@ -1,9 +1,11 @@
+from __future__ import annotations
+
 # <<< How to use the '__init__.py' file >>>
 # 1. To define package-level items such as variables, functions, etc.
 VERSION = 3.5
 
 
-def print_version_info():
+def print_version_info() -> None:
     print(f"The version of this game is {VERSION}.")
 
 

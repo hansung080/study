@@ -1,6 +1,18 @@
-def add(n):
-    def decorator(func):
-        def wrapper(*args, **kwargs):
+from __future__ import annotations
+
+from numbers import Number
+from typing import Callable, ParamSpec, TypeAlias, TypeVar
+
+T = TypeVar("T", bound=Number)
+P = ParamSpec("P")
+R = TypeVar("R")
+Func: TypeAlias = Callable[P, R]
+Wrapper: TypeAlias = Callable[P, R]
+
+
+def add(n: T) -> Callable[[Func], Wrapper]:
+    def decorator(func: Func) -> Wrapper:
+        def wrapper(*args: P.args, **kwargs: P.kwargs) -> R:
             m = func(*args, **kwargs)
             result = m + n
             print(f"add({m}, {n}) -> {result}")
@@ -9,9 +21,9 @@ def add(n):
     return decorator
 
 
-def mul(n):
-    def decorator(func):
-        def wrapper(*args, **kwargs):
+def mul(n: T) -> Callable[[Func], Wrapper]:
+    def decorator(func: Func) -> Wrapper:
+        def wrapper(*args: P.args, **kwargs: P.kwargs) -> R:
             m = func(*args, **kwargs)
             result = m * n
             print(f"mul({m}, {n}) -> {result}")
@@ -20,7 +32,7 @@ def mul(n):
     return decorator
 
 
-def pow1(base, exp):
+def pow1(base: T, exp: T) -> T:
     result = base ** exp
     print(f"pow1({base}, {exp}) -> {result}")
     return result
@@ -32,7 +44,7 @@ pow1 = mul(n=2)(add(n=1)(pow1))
 
 @mul(n=2)
 @add(n=1)
-def pow2(base, exp):
+def pow2(base: T, exp: T) -> T:
     result = base ** exp
     print(f"pow2({base}, {exp}) -> {result}")
     return result

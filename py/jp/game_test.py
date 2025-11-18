@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+from __future__ import annotations
+
 # <<< How to access items in a package >>>
 # 1. import <module>
 import game.sound.echo
