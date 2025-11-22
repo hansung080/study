@@ -1,0 +1,90 @@
+#!/usr/bin/env python3
+from __future__ import annotations
+
+import re
+import sys
+from collections import defaultdict
+from typing import Iterator
+
+if len(sys.argv) not in (2, 3):
+    print("usage: python3 word_index.py <file> [mode=5]", file=sys.stderr)
+    print("  mode: 1: WORSE: Key hashing occurs 2 or 3 times per iteration.")
+    print("        2: BAD: Key hashing occurs 1 or 2 times per iteration.")
+    print("        3: BAD: Key hashing occurs 1 or 2 times per iteration.")
+    print("        4: GOOD: Key hashing occurs 1 time per iteration.")
+    print("        5: BETTER: Key hashing occurs 1 time per iteration.")
+    sys.exit(1)
+
+WORD_RE: re.Pattern[str] = re.compile(r"\w+")
+
+
+def parse_argv() -> (str, str):
+    filename: str = sys.argv[1]
+    mode: str = sys.argv[2] if len(sys.argv) > 2 else "5"
+    return filename, mode
+
+
+def iter_word_locations(filename: str) -> Iterator[tuple[str, tuple[int, int]]]:
+    with open(filename, "r", encoding="utf-8") as file:
+        for line_no, line in enumerate(file, 1):
+            for match in WORD_RE.finditer(line):
+                word = match.group()
+                column_no = match.start() + 1
+                location = (line_no, column_no)
+                yield word, location
+
+
+def print_index(index: dict[str, list[tuple[int, int]]] | defaultdict[str, list[tuple[int, int]]]) -> None:
+    # for word in sorted(index, key=str.upper):  # `str.upper` causes the warning by the type checker.
+    for word in sorted(index, key=lambda k: k.upper()):
+        print(f"{word} => {index[word]}")
+
+
+def main(filename: str, mode: str) -> None:
+    # WORSE: Key hashing occurs 2 or 3 times per iteration.
+    if mode == "1":
+        index: dict[str, list[tuple[int, int]]] = {}
+        for word, location in iter_word_locations(filename):
+            if word not in index:
+                index[word] = []
+            index[word].append(location)
+
+    # BAD: Key hashing occurs 1 or 2 times per iteration.
+    elif mode == "2":
+        index: dict[str, list[tuple[int, int]]] = {}
+        for word, location in iter_word_locations(filename):
+            occurrences = index.get(word)
+            if occurrences is None:
+                index[word] = [location]
+            else:
+                occurrences.append(location)
+
+    # BAD: Key hashing occurs 1 or 2 times per iteration.
+    elif mode == "3":
+        index: dict[str, list[tuple[int, int]]] = {}
+        for word, location in iter_word_locations(filename):
+            occurrences = index.get(word, [])
+            occurrences.append(location)
+            if len(occurrences) == 1:
+                index[word] = occurrences
+
+    # GOOD: Key hashing occurs 1 time per iteration.
+    elif mode == "4":
+        index: dict[str, list[tuple[int, int]]] = {}
+        for word, location in iter_word_locations(filename):
+            index.setdefault(word, []).append(location)
+
+    # BETTER: Key hashing occurs 1 time per iteration.
+    elif mode == "5":
+        index: defaultdict[str, list[tuple[int, int]]] = defaultdict(list)
+        for word, location in iter_word_locations(filename):
+            index[word].append(location)
+
+    else:
+        print(f"error: invalid mode: {mode}", file=sys.stderr)
+        sys.exit(1)
+
+    print_index(index)
+
+
+main(*parse_argv())

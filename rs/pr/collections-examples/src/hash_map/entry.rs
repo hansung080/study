@@ -1,68 +1,73 @@
 use std::collections::HashMap;
 
-// NOTE: This function is inefficient, because HashMap query occurs 2 times which is unnecessary.
-pub fn char_frequency1(s: &str) -> HashMap<char, u32> {
-    let mut result = HashMap::new();
+// WORSE: Key hashing occurs 2 or 3 times per iteration.
+pub fn char_counts1(s: &str) -> HashMap<char, u32> {
+    let mut counts = HashMap::new();
     for c in s.chars() {
-        if !result.contains_key(&c) {
-            result.insert(c, 0);
+        if !counts.contains_key(&c) {
+            counts.insert(c, 0);
         }
-        let freq = result.get_mut(&c).unwrap();
-        *freq += 1;
+        let count = counts.get_mut(&c).unwrap();
+        *count += 1;
     }
-    result
+    counts
 }
 
-pub fn char_frequency2(s: &str) -> HashMap<char, u32> {
-    let mut result = HashMap::new();
+// BAD: Key hashing occurs 1 or 2 times per iteration.
+pub fn char_counts2(s: &str) -> HashMap<char, u32> {
+    let mut counts = HashMap::new();
     for c in s.chars() {
-        let freq = result.get_mut(&c);
-        match freq {
-            Some(freq) => *freq += 1,
+        let count = counts.get_mut(&c);
+        match count {
+            Some(count) => *count += 1,
             None => {
-                result.insert(c, 1);
+                counts.insert(c, 1);
             },
         }
     }
-    result
+    counts
 }
 
-pub fn char_frequency3(s: &str) -> HashMap<char, u32> {
-    let mut result = HashMap::new();
+// GOOD: Key hashing occurs 1 time per iteration.
+pub fn char_counts3(s: &str) -> HashMap<char, u32> {
+    let mut counts = HashMap::new();
     for c in s.chars() {
-        let freq = result.entry(c).or_insert(0);
-        *freq += 1;
+        let count = counts.entry(c).or_insert(0);
+        *count += 1;
     }
-    result
+    counts
 }
 
-pub fn char_frequency4(s: &str) -> HashMap<char, u32> {
-    let mut result = HashMap::new();
+// GOOD: Key hashing occurs 1 time per iteration.
+pub fn char_counts4(s: &str) -> HashMap<char, u32> {
+    let mut counts = HashMap::new();
     for c in s.chars() {
-        // let freq = result.entry(c).or_insert_with(|| 0);
-        let freq = result.entry(c).or_insert_with(<u32 as Default>::default);
-        *freq += 1;
+        // let count = counts.entry(c).or_insert_with(|| 0);
+        let count = counts.entry(c).or_insert_with(<u32 as Default>::default);
+        *count += 1;
     }
-    result
+    counts
 }
 
-pub fn char_frequency5(s: &str) -> HashMap<char, u32> {
-    let mut result = HashMap::new();
+// GOOD: Key hashing occurs 1 time per iteration.
+pub fn char_counts5(s: &str) -> HashMap<char, u32> {
+    let mut counts = HashMap::new();
     for c in s.chars() {
-        let freq = result.entry(c).or_default();
-        *freq += 1;
+        let count = counts.entry(c).or_default();
+        *count += 1;
     }
-    result
+    counts
 }
 
-pub fn char_frequency6(s: &str) -> HashMap<char, u32> {
-    let mut result = HashMap::new();
+// GOOD: Key hashing occurs 1 time per iteration.
+pub fn char_counts6(s: &str) -> HashMap<char, u32> {
+    let mut counts = HashMap::new();
     for c in s.chars() {
-        result.entry(c)
-            .and_modify(|freq| *freq += 1)
+        counts.entry(c)
+            .and_modify(|count| *count += 1)
             .or_insert(1);
     }
-    result
+    counts
 }
 
 #[cfg(test)]
@@ -70,7 +75,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn char_frequency() {
+    fn char_counts() {
         let cases = [
             ("", HashMap::from([])),
             ("a", HashMap::from([('a', 1)])),
@@ -79,12 +84,12 @@ mod tests {
         ];
 
         for (s, expected) in cases {
-            assert_eq!(char_frequency1(s), expected);
-            assert_eq!(char_frequency2(s), expected);
-            assert_eq!(char_frequency3(s), expected);
-            assert_eq!(char_frequency4(s), expected);
-            assert_eq!(char_frequency5(s), expected);
-            assert_eq!(char_frequency6(s), expected);
+            assert_eq!(char_counts1(s), expected);
+            assert_eq!(char_counts2(s), expected);
+            assert_eq!(char_counts3(s), expected);
+            assert_eq!(char_counts4(s), expected);
+            assert_eq!(char_counts5(s), expected);
+            assert_eq!(char_counts6(s), expected);
         }
     }
 }

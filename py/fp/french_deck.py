@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 # from collections import namedtuple
+# from typing import Iterator
 from typing import NamedTuple
 
 # Legacy-style named tuple definition
@@ -18,13 +19,16 @@ class FrenchDeck:
     suits: list[str] = "spades diamonds clubs hearts".split()
 
     def __init__(self) -> None:
-        self._cards = [Card(rank, suit) for suit in self.suits for rank in self.ranks]
+        self._cards: list[Card] = [Card(rank, suit) for suit in self.suits for rank in self.ranks]
 
     def __len__(self) -> int:
         return len(self._cards)
 
     def __getitem__(self, position: int) -> Card:
         return self._cards[position]
+
+    # def __iter__(self) -> Iterator[Card]:
+    #     return iter(self._cards)
 
 
 if __name__ == "__main__":
@@ -74,5 +78,8 @@ if __name__ == "__main__":
         return rank_value * len(suit_values) + suit_values[card_.suit]
 
     print("\n# Sort by Spades High")
+    # `deck` is a sequence-like iterable object by implementing __len__ and __getitem__.
+    # However, the type checker doesn't know it and throws the following warning.
+    # To fix the warning, FrenchDeck needs to implement __iter__.
     for card in sorted(deck, key=spades_high):
         print(card)
