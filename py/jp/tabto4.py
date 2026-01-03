@@ -4,7 +4,7 @@ from __future__ import annotations
 import sys
 
 if len(sys.argv) != 3:
-    print("usage: python3 tabto4.py <src> <dst>", file=sys.stderr)
+    print("usage: ./tabto4.py <src> <dst>", file=sys.stderr)
     sys.exit(1)
 
 src: str = sys.argv[1]

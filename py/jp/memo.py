@@ -5,10 +5,13 @@ import os
 import sys
 
 if len(sys.argv) < 2:
-    print("usage: python3 memo.py <mode> [memos]...", file=sys.stderr)
-    print("  mode: -a: append", file=sys.stderr)
-    print("        -r: read", file=sys.stderr)
-    print("        -d: delete", file=sys.stderr)
+    print("Usage:", file=sys.stderr)
+    print("  ./memo.py <mode> [<memos>...]", file=sys.stderr)
+    print(file=sys.stderr)
+    print("Modes:", file=sys.stderr)
+    print("  -a  Append <memos>", file=sys.stderr)
+    print("  -r  Read <memos>", file=sys.stderr)
+    print("  -d  Delete <memos>", file=sys.stderr)
     sys.exit(1)
 
 FILE: str = "memo.txt"

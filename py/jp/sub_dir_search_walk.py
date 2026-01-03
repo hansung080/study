@@ -5,7 +5,7 @@ import os
 import sys
 
 if len(sys.argv) not in (2, 3):
-    print("usage: python3 sub_dir_search_walk.py <dir> [ext]", file=sys.stderr)
+    print("usage: ./sub_dir_search_walk.py <dir> [<ext>]", file=sys.stderr)
     sys.exit(1)
 
 

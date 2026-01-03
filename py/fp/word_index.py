@@ -7,12 +7,15 @@ from collections import defaultdict
 from typing import Iterator
 
 if len(sys.argv) not in (2, 3):
-    print("usage: python3 word_index.py <file> [mode=5]", file=sys.stderr)
-    print("  mode: 1: WORSE: Key hashing occurs 2 or 3 times per iteration.")
-    print("        2: BAD: Key hashing occurs 1 or 2 times per iteration.")
-    print("        3: BAD: Key hashing occurs 1 or 2 times per iteration.")
-    print("        4: GOOD: Key hashing occurs 1 time per iteration.")
-    print("        5: BETTER: Key hashing occurs 1 time per iteration.")
+    print("Usage:", file=sys.stderr)
+    print("  ./word_index.py <file> [<mode>]", file=sys.stderr)
+    print(file=sys.stderr)
+    print("Modes:", file=sys.stderr)
+    print("  1  Key hashing occurs 2 or 3 times per iteration (WORSE)", file=sys.stderr)
+    print("  2  Key hashing occurs 1 or 2 times per iteration (BAD)", file=sys.stderr)
+    print("  3  Key hashing occurs 1 or 2 times per iteration (BAD)", file=sys.stderr)
+    print("  4  Key hashing occurs 1 time per iteration (GOOD)", file=sys.stderr)
+    print("  5  Key hashing occurs 1 time per iteration (BETTER, default)", file=sys.stderr)
     sys.exit(1)
 
 WORD_RE: re.Pattern[str] = re.compile(r"\w+")
