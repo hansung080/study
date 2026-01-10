@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 # from collections import namedtuple
-# from typing import Iterator
+# from collections.abc import Iterator
 from typing import NamedTuple
 
 # Legacy-style named tuple definition
@@ -24,8 +24,8 @@ class FrenchDeck:
     def __len__(self) -> int:
         return len(self._cards)
 
-    def __getitem__(self, position: int) -> Card:
-        return self._cards[position]
+    def __getitem__(self, index: int) -> Card:
+        return self._cards[index]
 
     # def __iter__(self) -> Iterator[Card]:
     #     return iter(self._cards)
