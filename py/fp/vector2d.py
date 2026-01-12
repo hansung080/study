@@ -59,7 +59,7 @@ True
 
 ``format`` Function with Polar Coordinates Examples:
 
->>> format(Vector2d(1, 1), "p")  # doctest:+ELLIPSIS
+>>> format(Vector2d(1, 1), "p")  # doctest: +ELLIPSIS
 '<1.414213..., 0.785398...>'
 >>> format(Vector2d(1, 1), ".3ep")
 '<1.414e+00, 7.854e-01>'
@@ -84,6 +84,15 @@ Hash Examples:
 >>> len({v1, v2})
 2
 
+
+Pattern Match Examples:
+
+>>> v = Vector2d(3, 3)
+>>> kind_kw(v)
+'diagonal'
+>>> kind_po(v)
+'diagonal'
+
 """
 
 from __future__ import annotations
@@ -96,6 +105,7 @@ from typing import Any, Self
 
 class Vector2d:
     __match_args__: tuple[str, str] = ("x", "y")
+    __slots__: tuple[str, str] = ("__x", "__y")
 
     typecode: str = "d"
 
@@ -156,6 +166,34 @@ class Vector2d:
         typecode = chr(octets[0])
         memv = memoryview(octets[1:]).cast(typecode)
         return cls(*memv)
+
+
+def kind_kw(v: Vector2d) -> str:
+    match v:
+        case Vector2d(x=0, y=0):
+            return "zero"
+        case Vector2d(x=0):
+            return "vertical"
+        case Vector2d(y=0):
+            return "horizontal"
+        case Vector2d(x=x, y=y) if x == y:
+            return "diagonal"
+        case _:
+            return "oblique"
+
+
+def kind_po(v: Vector2d) -> str:
+    match v:
+        case Vector2d(0, 0):
+            return "zero"
+        case Vector2d(0):
+            return "vertical"
+        case Vector2d(_, 0):
+            return "horizontal"
+        case Vector2d(x, y) if x == y:
+            return "diagonal"
+        case _:
+            return "oblique"
 
 
 if __name__ == "__main__":
