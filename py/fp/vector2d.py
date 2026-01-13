@@ -139,7 +139,7 @@ class Vector2d:
         return tuple(self) == tuple(other)
 
     def __hash__(self) -> int:
-        return hash((self.x, self.y))
+        return hash(tuple(self))
 
     def __abs__(self) -> float:
         return math.hypot(*self)
