@@ -104,14 +104,14 @@ from typing import Any, Self
 
 
 class Vector2d:
-    __match_args__: tuple[str, str] = ("x", "y")
-    __slots__: tuple[str, str] = ("__x", "__y")
+    __match_args__ = ("x", "y")
+    __slots__ = ("__x", "__y")
 
-    typecode: str = "d"
+    typecode = "d"
 
     def __init__(self, x: float, y: float) -> None:
-        self.__x: float = float(x)
-        self.__y: float = float(y)
+        self.__x = float(x)
+        self.__y = float(y)
 
     @property
     def x(self) -> float:
@@ -122,7 +122,7 @@ class Vector2d:
         return self.__y
 
     def __iter__(self) -> Iterator[float]:
-        return (i for i in (self.x, self.y))
+        return (c for c in (self.x, self.y))
 
     def __repr__(self) -> str:
         class_name = type(self).__name__
@@ -132,8 +132,10 @@ class Vector2d:
         return str(tuple(self))
 
     def __bytes__(self) -> bytes:
-        return (bytes([ord(self.typecode)]) +
-                bytes(array(self.typecode, self)))
+        return (
+            bytes([ord(self.typecode)]) +
+            bytes(array(self.typecode, self))
+        )
 
     def __eq__(self, other: Iterable[Any]) -> bool:
         return tuple(self) == tuple(other)

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 # from collections import namedtuple
 # from collections.abc import Iterator
-from typing import NamedTuple
+from typing import NamedTuple, overload
 
 # Legacy-style named tuple definition
 # Card = namedtuple("Card", ["rank", "suit"])
@@ -24,8 +24,14 @@ class FrenchDeck:
     def __len__(self) -> int:
         return len(self._cards)
 
-    def __getitem__(self, index: int) -> Card:
-        return self._cards[index]
+    @overload
+    def __getitem__(self, key: int) -> Card: ...
+    @overload
+    def __getitem__(self, key: slice) -> list[Card]: ...
+
+    # NOTE: When slicing, returning a `FrenchDeck` rather than a `list[Card]` is generally considered better API design.
+    def __getitem__(self, key):
+        return self._cards[key]
 
     # def __iter__(self) -> Iterator[Card]:
     #     return iter(self._cards)

@@ -43,7 +43,7 @@ class Clock:
         return result
 
 
-DEFAULT_FMT: str = "[{elapsed:0.8f}s] {name}({args}) -> {result}"
+DEFAULT_FMT = "[{elapsed:0.8f}s] {name}({args}) -> {result}"
 
 
 def clock_with(fmt: str = DEFAULT_FMT) -> Callable[[Func], Wrapper]:
