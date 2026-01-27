@@ -4,11 +4,17 @@ from __future__ import annotations
 import re
 import sys
 from collections import defaultdict
+from collections.abc import Sequence
+from pathlib import Path
 from typing import Iterator
 
-if len(sys.argv) not in (2, 3):
+WORD_RE: re.Pattern[str] = re.compile(r"\w+")
+
+
+def print_usage() -> None:
+    filename = Path(__file__).name
     print("Usage:", file=sys.stderr)
-    print("  ./word_index.py <file> [<mode>]", file=sys.stderr)
+    print(f"  ./{filename} <file> [<mode>]", file=sys.stderr)
     print(file=sys.stderr)
     print("Modes:", file=sys.stderr)
     print("  1  Key hashing occurs 2 or 3 times per iteration (WORSE)", file=sys.stderr)
@@ -16,15 +22,27 @@ if len(sys.argv) not in (2, 3):
     print("  3  Key hashing occurs 1 or 2 times per iteration (BAD)", file=sys.stderr)
     print("  4  Key hashing occurs 1 time per iteration (GOOD)", file=sys.stderr)
     print("  5  Key hashing occurs 1 time per iteration (BETTER, default)", file=sys.stderr)
-    sys.exit(1)
-
-WORD_RE: re.Pattern[str] = re.compile(r"\w+")
 
 
-def parse_argv() -> (str, str):
-    filename: str = sys.argv[1]
-    mode: str = sys.argv[2] if len(sys.argv) > 2 else "5"
+def parse_args(args: Sequence[str] | None = None) -> tuple[str, str]:
+    if args is None:
+        args = sys.argv[1:]
+
+    if len(args) not in (1, 2):
+        raise ValueError(f"invalid number of arguments: expected 1 or 2, got {len(args)}")
+
+    filename = args[0]
+    mode = args[1] if len(args) == 2 else "5"
     return filename, mode
+
+
+def parse_args_or_exit(args: Sequence[str] | None = None) -> tuple[str, str]:
+    try:
+        return parse_args(args)
+    except ValueError as e:
+        print(f"Error: {e}\n", file=sys.stderr)
+        print_usage()
+        sys.exit(1)
 
 
 def iter_word_locations(filename: str) -> Iterator[tuple[str, tuple[int, int]]]:
@@ -43,7 +61,9 @@ def print_index(index: dict[str, list[tuple[int, int]]] | defaultdict[str, list[
         print(f"{word} => {index[word]}")
 
 
-def main(filename: str, mode: str) -> None:
+def main() -> None:
+    filename, mode = parse_args_or_exit()
+
     # WORSE: Key hashing occurs 2 or 3 times per iteration.
     if mode == "1":
         index: dict[str, list[tuple[int, int]]] = {}
@@ -51,7 +71,6 @@ def main(filename: str, mode: str) -> None:
             if word not in index:
                 index[word] = []
             index[word].append(location)
-
     # BAD: Key hashing occurs 1 or 2 times per iteration.
     elif mode == "2":
         index: dict[str, list[tuple[int, int]]] = {}
@@ -61,7 +80,6 @@ def main(filename: str, mode: str) -> None:
                 index[word] = [location]
             else:
                 occurrences.append(location)
-
     # BAD: Key hashing occurs 1 or 2 times per iteration.
     elif mode == "3":
         index: dict[str, list[tuple[int, int]]] = {}
@@ -70,24 +88,23 @@ def main(filename: str, mode: str) -> None:
             occurrences.append(location)
             if len(occurrences) == 1:
                 index[word] = occurrences
-
     # GOOD: Key hashing occurs 1 time per iteration.
     elif mode == "4":
         index: dict[str, list[tuple[int, int]]] = {}
         for word, location in iter_word_locations(filename):
             index.setdefault(word, []).append(location)
-
     # BETTER: Key hashing occurs 1 time per iteration.
     elif mode == "5":
         index: defaultdict[str, list[tuple[int, int]]] = defaultdict(list)
         for word, location in iter_word_locations(filename):
             index[word].append(location)
-
     else:
-        print(f"error: invalid mode: {mode}", file=sys.stderr)
+        print(f"Error: invalid mode: {mode!r}\n", file=sys.stderr)
+        print_usage()
         sys.exit(1)
 
     print_index(index)
 
 
-main(*parse_argv())
+if __name__ == "__main__":
+    main()

@@ -10,7 +10,7 @@ Func: TypeAlias = Callable[P, R]
 Wrapper: TypeAlias = Callable[P, R]
 
 
-def add(n: T) -> Callable[[Func], Wrapper]:
+def add(*, n: T) -> Callable[[Func], Wrapper]:
     def decorator(func: Func) -> Wrapper:
         def wrapper(*args: P.args, **kwargs: P.kwargs) -> R:
             m = func(*args, **kwargs)
@@ -21,7 +21,7 @@ def add(n: T) -> Callable[[Func], Wrapper]:
     return decorator
 
 
-def mul(n: T) -> Callable[[Func], Wrapper]:
+def mul(*, n: T) -> Callable[[Func], Wrapper]:
     def decorator(func: Func) -> Wrapper:
         def wrapper(*args: P.args, **kwargs: P.kwargs) -> R:
             m = func(*args, **kwargs)

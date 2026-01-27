@@ -93,6 +93,17 @@ Pattern Match Examples:
 >>> kind_po(v)
 'diagonal'
 
+
+``__complex__`` and ``fromcomplex`` Methods Examples:
+
+>>> v = Vector2d(3, 4)
+>>> isinstance(v, SupportsComplex)
+True
+>>> complex(v)
+(3+4j)
+>>> Vector2d.fromcomplex(3+4j)
+Vector2d(3.0, 4.0)
+
 """
 
 from __future__ import annotations
@@ -100,7 +111,7 @@ from __future__ import annotations
 import math
 from array import array
 from collections.abc import Iterable, Iterator
-from typing import Any, Self
+from typing import Any, Self, SupportsComplex, SupportsFloat
 
 
 class Vector2d:
@@ -109,7 +120,7 @@ class Vector2d:
 
     typecode = "d"
 
-    def __init__(self, x: float, y: float) -> None:
+    def __init__(self, x: SupportsFloat, y: SupportsFloat) -> None:
         self.__x = float(x)
         self.__y = float(y)
 
@@ -144,7 +155,7 @@ class Vector2d:
         return hash(tuple(self))
 
     def __abs__(self) -> float:
-        return math.hypot(*self)
+        return math.hypot(self.x, self.y)
 
     def __bool__(self) -> bool:
         return bool(abs(self))
@@ -163,11 +174,19 @@ class Vector2d:
         components = (format(c, spec) for c in coords)
         return outer.format(*components)
 
+    def __complex__(self) -> complex:
+        return complex(self.x, self.y)
+
     @classmethod
     def frombytes(cls, octets: bytes | bytearray | memoryview) -> Self:
         typecode = chr(octets[0])
         memv = memoryview(octets[1:]).cast(typecode)
         return cls(*memv)
+
+    @classmethod
+    def fromcomplex(cls, datum: SupportsComplex) -> Self:
+        c = complex(datum)
+        return cls(c.real, c.imag)
 
 
 def kind_kw(v: Vector2d) -> str:
