@@ -6,7 +6,7 @@ import sys
 from collections import defaultdict
 from collections.abc import Sequence
 from pathlib import Path
-from typing import Iterator
+from typing import Iterator, NamedTuple
 
 WORD_RE: re.Pattern[str] = re.compile(r"\w+")
 
@@ -24,7 +24,12 @@ def print_usage() -> None:
     print("  5  Key hashing occurs 1 time per iteration (BETTER, default)", file=sys.stderr)
 
 
-def parse_args(args: Sequence[str] | None = None) -> tuple[str, str]:
+class Args(NamedTuple):
+    filename: str
+    mode: str
+
+
+def parse_args(args: Sequence[str] | None = None) -> Args:
     if args is None:
         args = sys.argv[1:]
 
@@ -33,10 +38,10 @@ def parse_args(args: Sequence[str] | None = None) -> tuple[str, str]:
 
     filename = args[0]
     mode = args[1] if len(args) == 2 else "5"
-    return filename, mode
+    return Args(filename, mode)
 
 
-def parse_args_or_exit(args: Sequence[str] | None = None) -> tuple[str, str]:
+def parse_args_or_exit(args: Sequence[str] | None = None) -> Args:
     try:
         return parse_args(args)
     except ValueError as e:

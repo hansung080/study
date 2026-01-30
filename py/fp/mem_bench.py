@@ -7,9 +7,10 @@ import resource
 import sys
 import time
 from collections.abc import Sequence
+from dataclasses import dataclass
 from pathlib import Path
 from types import ModuleType
-from typing import Any, Callable
+from typing import Any, Callable, Self
 
 
 def print_usage() -> None:
@@ -18,27 +19,33 @@ def print_usage() -> None:
     print(f"  e.g. ./{filename} vector2d 'Vector2d(3, 4)' 1000000", file=sys.stderr)
 
 
-def parse_args(args: Sequence[str] | None = None) -> tuple[ModuleType, str, int]:
-    if args is None:
-        args = sys.argv[1:]
+@dataclass(frozen=True)
+class Args:
+    module: ModuleType
+    expr: str
+    count: int
 
-    if len(args) not in (2, 3):
-        raise ValueError(f"invalid number of arguments: expected 2 or 3, got {len(args)}")
+    @classmethod
+    def from_argv(cls, argv: Sequence[str]) -> Self:
+        args = argv[1:]
 
-    module_name = args[0].replace(".py", "")
-    module = importlib.import_module(module_name)
-    expr = args[1]
-    count = int(args[2]) if len(args) == 3 else 1
-    return module, expr, count
+        if len(args) not in (2, 3):
+            raise ValueError(f"invalid number of arguments: expected 2 or 3, got {len(args)}")
 
+        module_name = args[0].replace(".py", "")
+        module = importlib.import_module(module_name)
+        expr = args[1]
+        count = int(args[2]) if len(args) == 3 else 1
+        return cls(module, expr, count)
 
-def parse_args_or_exit(args: Sequence[str] | None = None) -> tuple[ModuleType, str, int]:
-    try:
-        return parse_args(args)
-    except (ValueError, ModuleNotFoundError) as e:
-        print(f"error: {e}", file=sys.stderr)
-        print_usage()
-        sys.exit(1)
+    @classmethod
+    def from_argv_or_exit(cls, argv: Sequence[str]) -> Self:
+        try:
+            return cls.from_argv(argv)
+        except (ValueError, ModuleNotFoundError) as e:
+            print(f"error: {e}", file=sys.stderr)
+            print_usage()
+            sys.exit(1)
 
 
 def benchmark_expression(module: ModuleType, expr: str, count: int) -> list[Any]:
@@ -69,8 +76,8 @@ def measure_time(func: Callable[[], Any]) -> None:
 
 
 def main() -> None:
-    module, expr, count = parse_args_or_exit()
-    measure_time(lambda: measure_memory(lambda: benchmark_expression(module, expr, count)))
+    args = Args.from_argv_or_exit(sys.argv)
+    measure_time(lambda: measure_memory(lambda: benchmark_expression(args.module, args.expr, args.count)))
 
 
 if __name__ == "__main__":
