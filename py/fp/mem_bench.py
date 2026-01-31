@@ -28,7 +28,6 @@ class Args:
     @classmethod
     def from_argv(cls, argv: Sequence[str]) -> Self:
         args = argv[1:]
-
         if len(args) not in (2, 3):
             raise ValueError(f"invalid number of arguments: expected 2 or 3, got {len(args)}")
 
