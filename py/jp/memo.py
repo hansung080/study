@@ -31,10 +31,10 @@ elif mode == "-r":
             content = file.read()
         print(content, end="")
     except FileNotFoundError:
-        print(f"error: file not found: '{FILE}'", file=sys.stderr)
+        print(f"error: file not found: {FILE!r}", file=sys.stderr)
         sys.exit(1)
     except PermissionError:
-        print(f"error: permission denied: '{FILE}'", file=sys.stderr)
+        print(f"error: permission denied: {FILE!r}", file=sys.stderr)
         sys.exit(1)
     except OSError as e:
         print(f"error: os: {e}", file=sys.stderr)
@@ -43,5 +43,5 @@ elif mode == "-d":
     if os.path.exists(FILE):
         os.remove(FILE)
 else:
-    print(f"error: invalid mode: {mode}", file=sys.stderr)
+    print(f"error: unknown mode: {mode!r}", file=sys.stderr)
     sys.exit(1)
