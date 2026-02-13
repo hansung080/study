@@ -104,14 +104,31 @@ True
 >>> Vector2d.fromcomplex(3+4j)
 Vector2d(3.0, 4.0)
 
+
+``SupportsAbs`` Generic Protocol and ``is_unit`` Function Examples:
+
+>>> issubclass(Vector2d, SupportsAbs)
+True
+>>> is_unit(Vector2d(0, 1))
+True
+>>> is_unit(Vector2d(math.sqrt(2) / 2, math.sqrt(2) / 2))
+True
+>>> is_unit(Vector2d(1, 1))
+False
+>>> is_unit(complex(0.5, math.sqrt(3) / 2))
+True
+>>> is_unit(1)
+True
+
 """
 
 from __future__ import annotations
 
 import math
+from abc import abstractmethod
 from array import array
 from collections.abc import Iterable, Iterator
-from typing import Any, Self, SupportsComplex, SupportsFloat
+from typing import Any, Protocol, Self, SupportsComplex, SupportsFloat, TypeVar, runtime_checkable
 
 
 class Vector2d:
@@ -215,6 +232,22 @@ def kind_po(v: Vector2d) -> str:
             return "diagonal"
         case _:
             return "oblique"
+
+
+T_co = TypeVar("T_co", covariant=True)
+
+
+@runtime_checkable
+class SupportsAbs(Protocol[T_co]):
+    __slots__ = ()
+
+    @abstractmethod
+    def __abs__(self) -> T_co:
+        pass
+
+
+def is_unit(v: SupportsAbs[float]) -> bool:
+    return math.isclose(abs(v), 1.0)
 
 
 if __name__ == "__main__":
