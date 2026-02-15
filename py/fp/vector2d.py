@@ -127,8 +127,8 @@ from __future__ import annotations
 import math
 from abc import abstractmethod
 from array import array
-from collections.abc import Iterable, Iterator
-from typing import Any, Protocol, Self, SupportsComplex, SupportsFloat, TypeVar, runtime_checkable
+from collections.abc import Iterator
+from typing import Protocol, Self, SupportsAbs, SupportsComplex, SupportsFloat, TypeVar, runtime_checkable
 
 
 class Vector2d:
@@ -165,7 +165,9 @@ class Vector2d:
             bytes(array(self.typecode, self))
         )
 
-    def __eq__(self, other: Iterable[Any]) -> bool:
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, Vector2d):
+            return NotImplemented
         return tuple(self) == tuple(other)
 
     def __hash__(self) -> int:
@@ -237,8 +239,10 @@ def kind_po(v: Vector2d) -> str:
 T_co = TypeVar("T_co", covariant=True)
 
 
+# User-defined generic protocols do not support automatic type argument inference in structural typing,
+# whereas `typing.SupportsAbs` is a specially handled built-in protocol and thus does not suffer from this limitation.
 @runtime_checkable
-class SupportsAbs(Protocol[T_co]):
+class MySupportsAbs(Protocol[T_co]):
     __slots__ = ()
 
     @abstractmethod
