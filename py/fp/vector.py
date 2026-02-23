@@ -273,6 +273,80 @@ Traceback (most recent call last):
   ...
 TypeError: unsupported operand type(s) for +: 'Vector' and 'str'
 
+
+``*`` Operator Basic Examples:
+
+>>> v = Vector([1, 2, 3])
+>>> v * 10
+Vector([10.0, 20.0, 30.0])
+>>> 10 * v
+Vector([10.0, 20.0, 30.0])
+
+
+``*`` Operator with an Unusual but Valid Operand Examples:
+
+>>> v * True
+Vector([1.0, 2.0, 3.0])
+>>> from fractions import Fraction
+>>> v * Fraction(1, 3)  # doctest: +ELLIPSIS
+Vector([0.3333..., 0.6666..., 1.0])
+
+
+``*`` Operator with an Unsuitable Operand Examples:
+
+>>> v * (1, 2)
+Traceback (most recent call last):
+  ...
+TypeError: can't multiply sequence by non-int of type 'Vector'
+
+
+``@`` Operator Examples:
+
+>>> v1 = Vector([1, 2, 3])
+>>> v2 = Vector([5, 6, 7])
+>>> v1 @ v2 == 38.0  # 1 * 5 + 2 * 6 + 3 * 7
+True
+>>> [10, 20, 30] @ v2
+380.0
+>>> v1 @ 3
+Traceback (most recent call last):
+  ...
+TypeError: unsupported operand type(s) for @: 'Vector' and 'int'
+
+
+``@`` Operator with Different-Sized Operands Examples:
+
+>>> v1 = Vector([1, 2, 3])
+>>> v2 = Vector([1, 2])
+>>> v1 @ v2
+Traceback (most recent call last):
+  ...
+ValueError: @ requires vectors of equal length
+
+
+``==`` Operator Examples:
+
+>>> v1 = Vector(range(1, 4))
+>>> v2 = Vector([1.0, 2.0, 3.0])
+>>> v1 == v2
+True
+>>> v3 = Vector([1, 2])
+>>> v4 = Vector2d(1, 2)
+>>> v3 == v4
+False
+>>> v1 == (1, 2, 3)
+False
+
+
+``!=`` Operator Examples:
+
+>>> v1 != v2
+False
+>>> v3 != v4
+True
+>>> v1 != (1, 2, 3)
+True
+
 """
 
 from __future__ import annotations
@@ -281,10 +355,10 @@ import math
 import operator
 import reprlib
 from array import array
-from collections.abc import Iterable, Iterator
+from collections.abc import Iterable, Iterator, Sized
 from functools import reduce
 from itertools import chain, zip_longest
-from typing import Self, SupportsFloat, overload
+from typing import Any, Self, SupportsFloat, TypeGuard, overload
 
 
 class Vector:
@@ -417,6 +491,33 @@ class Vector:
     # __radd__ = __add__
     def __radd__(self, other: Iterable[SupportsFloat]) -> Self:
         return self + other
+
+    def __mul__(self, scalar: SupportsFloat) -> Self:
+        try:
+            factor = float(scalar)
+        except TypeError:
+            return NotImplemented
+        return type(self)(x * factor for x in self)
+
+    def __rmul__(self, scalar: SupportsFloat) -> Self:
+        return self * scalar
+
+    def __matmul__(self, other: Iterable[SupportsFloat] & Sized) -> float:
+        if not _is_sized_iterable(other):
+            return NotImplemented
+        if len(self) != len(other):
+            raise ValueError("@ requires vectors of equal length")
+        return sum(x * y for x, y in zip(self, other))
+
+    def __rmatmul__(self, other: Iterable[SupportsFloat] & Sized) -> float:
+        return self @ other
+
+
+# Type checkers do not support runtime-flow-based intersection inference.
+# Instead, the last `isinstance` check simply overwrites the effects of the previous checks.
+# This issue can be resolved by using `TypeGuard`.
+def _is_sized_iterable(obj: object) -> TypeGuard[Iterable[Any] & Sized]:
+    return isinstance(obj, Sized) and isinstance(obj, Iterable)
 
 
 if __name__ == "__main__":
