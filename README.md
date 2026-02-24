@@ -22,10 +22,10 @@ Studying programming in multiple languages
 
 ## Python
 - Fluent Python (2nd Edition) (fp)
-  - french_deck, word_index, registration, clock, vector2d, mem_bench, vector, double
+  - french_deck, word_indexes, registration, clocks, vector2d, mem_bench, vector, double
 - Do it! Jump to Python (jp)
   - game (package example), gugu, add_multiple, paging, memo, tabto4, sub_dir_search, sub_dir_search_walk,
-    closure, decorator, decorator2, iterator, generator, generator2
+    closures, decorators, decorators2, iterators, generators, generators2
 
 ## Rust
 - Hands-On Rust Programming (horp)
