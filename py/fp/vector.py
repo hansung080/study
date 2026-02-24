@@ -397,6 +397,14 @@ class Vector:
             all(x == y for x, y in zip(self, other))
         )
 
+    # The `__ne__` method inherited from object behaves the same as the following code,
+    # except that its original implementation is written in C.
+    # def __ne__(self, other: object) -> bool:
+    #     eq_result = self == other
+    #     if eq_result is NotImplemented:
+    #         return NotImplemented
+    #     return not eq_result
+
     def __hash__(self) -> int:
         hashes = (hash(x) for x in self)
         return reduce(operator.xor, hashes, 0)
