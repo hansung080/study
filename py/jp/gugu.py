@@ -2,7 +2,7 @@ from __future__ import annotations
 
 
 def gugu(n: int) -> list[int]:
-    result = []
+    result: list[int] = []
     i = 1
     while i < 10:
         result.append(n * i)

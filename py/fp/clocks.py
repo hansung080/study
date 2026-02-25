@@ -30,15 +30,15 @@ def clock(func: Func) -> Wrapper:
 
 class Clock:
     def __init__(self, func: Func) -> None:
-        self.func = func
+        self._func = func
         wraps(func)(self)
 
     def __call__(self, *args: P.args, **kwargs: P.kwargs) -> R:
         start = time.perf_counter()
-        result = self.func(*args, **kwargs)
+        result = self._func(*args, **kwargs)
         elapsed = time.perf_counter() - start
 
-        name = self.func.__name__
+        name = self._func.__name__
         arg_list = [repr(arg) for arg in args]
         arg_list.extend(f"{k}={v!r}" for k, v in kwargs.items())
         arg_str = ", ".join(arg_list)
@@ -72,7 +72,7 @@ def clock_with(*, fmt: str = DEFAULT_FMT) -> Callable[[Func], Wrapper]:
 
 class ClockWith:
     def __init__(self, *, fmt: str = DEFAULT_FMT) -> None:
-        self.fmt = fmt
+        self._fmt = fmt
 
     def __call__(self, func: Func) -> Wrapper:
         @wraps(func)
@@ -86,7 +86,7 @@ class ClockWith:
             arg_list.extend(f"{k}={v!r}" for k, v in kwargs.items())
             arg_str = ", ".join(arg_list)
 
-            print(self.fmt.format(elapsed=elapsed, name=name, args=arg_str, result=repr(result)))
+            print(self._fmt.format(elapsed=elapsed, name=name, args=arg_str, result=repr(result)))
             return result
         return wrapper
 
@@ -115,16 +115,16 @@ def clock_both(func: Func | None = None, *, fmt: str = DEFAULT_FMT) -> Callable[
 
 class ClockBoth:
     def __init__(self, func: Func | None = None, *, fmt: str = DEFAULT_FMT) -> None:
-        self.func = func
-        self.fmt = fmt
+        self._func = func
+        self._fmt = fmt
         if func is not None:
             wraps(func)(self)
 
     def __call__(self, *args: P.args, **kwargs: P.kwargs) -> Wrapper | R:
-        if self.func is None:
+        if self._func is None:
             func = args[0]
         else:
-            func = self.func
+            func = self._func
 
         @wraps(func)
         def wrapper(*args_: P.args, **kwargs_: P.kwargs) -> R:
@@ -137,10 +137,10 @@ class ClockBoth:
             arg_list.extend(f"{k}={v!r}" for k, v in kwargs_.items())
             arg_str = ", ".join(arg_list)
 
-            print(self.fmt.format(elapsed=elapsed, name=name, args=arg_str, result=repr(result)))
+            print(self._fmt.format(elapsed=elapsed, name=name, args=arg_str, result=repr(result)))
             return result
 
-        if self.func is None:
+        if self._func is None:
             return wrapper
         return wrapper(*args, **kwargs)
 

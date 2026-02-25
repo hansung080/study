@@ -29,7 +29,7 @@ class FrenchDeck:
     @overload
     def __getitem__(self, key: slice) -> list[Card]: ...
 
-    # NOTE: When slicing, returning a `FrenchDeck` rather than a `list[Card]` is generally considered better API design.
+    # NOTE: When slicing, returning a `Self` rather than a `list[Card]` is generally considered better API design.
     def __getitem__(self, key):
         return self._cards[key]
 
@@ -84,8 +84,8 @@ if __name__ == "__main__":
         return rank_value * len(suit_values) + suit_values[card_.suit]
 
     print("\n# Sort by Spades High")
-    # `deck` is a sequence-like iterable object by implementing __len__ and __getitem__.
+    # `deck` is a sequence-like iterable object by implementing `__len__` and `__getitem__`.
     # However, the type checker doesn't know it and throws the following warning.
-    # To fix the warning, FrenchDeck needs to implement __iter__.
+    # To fix the warning, `FrenchDeck` needs to implement `__iter__`.
     for card in sorted(deck, key=spades_high):
         print(card)

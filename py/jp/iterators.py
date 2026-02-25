@@ -1,39 +1,40 @@
 from __future__ import annotations  # Allows all forward references in this file.
 
-from typing import Generic, Iterator, TypeVar
+from collections.abc import Iterator
+from typing import Generic, TypeVar
 
 T = TypeVar("T")
 
 
 class MyIterator(Generic[T], Iterator[T]):
     def __init__(self, data: list[T]) -> None:
-        self.data: list[T] = data
-        self.pos: int = 0
+        self._data = data
+        self._pos = 0
 
     def __iter__(self) -> MyIterator[T]:  # forward reference of MyIterator
         return self
 
     def __next__(self) -> T:
-        if self.pos >= len(self.data):
+        if self._pos >= len(self._data):
             raise StopIteration
-        item = self.data[self.pos]
-        self.pos += 1
+        item = self._data[self._pos]
+        self._pos += 1
         return item
 
 
 class ReverseIterator(Generic[T], Iterator[T]):
     def __init__(self, data: list[T]) -> None:
-        self.data: list[T] = data
-        self.pos: int = len(data) - 1
+        self._data = data
+        self._pos = len(data) - 1
 
     def __iter__(self) -> ReverseIterator[T]:  # forward reference of ReverseIterator
         return self
 
     def __next__(self) -> T:
-        if self.pos < 0:
+        if self._pos < 0:
             raise StopIteration
-        item = self.data[self.pos]
-        self.pos -= 1
+        item = self._data[self._pos]
+        self._pos -= 1
         return item
 
 

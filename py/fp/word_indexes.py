@@ -4,14 +4,14 @@ from __future__ import annotations
 import re
 import sys
 from collections import defaultdict
-from collections.abc import Sequence
+from collections.abc import Iterator, Sequence
 from pathlib import Path
-from typing import Iterator, NamedTuple
+from typing import NamedTuple
 
 ALLOWED_MODES = ("1", "2", "3", "4", "5")
 DEFAULT_MODE = "5"
 
-WORD_RE: re.Pattern[str] = re.compile(r"\w+")
+RE_WORD: re.Pattern[str] = re.compile(r"\w+")
 
 
 def print_usage() -> None:
@@ -57,7 +57,7 @@ def parse_args_or_exit(args: Sequence[str] | None = None) -> Args:
 def iter_word_locations(filename: str) -> Iterator[tuple[str, tuple[int, int]]]:
     with open(filename, "r", encoding="utf-8") as file:
         for line_no, line in enumerate(file, 1):
-            for match in WORD_RE.finditer(line):
+            for match in RE_WORD.finditer(line):
                 word = match.group()
                 column_no = match.start() + 1
                 location = (line_no, column_no)

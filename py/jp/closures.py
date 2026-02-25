@@ -13,10 +13,10 @@ T = TypeVar("T", bound=Number)
 # Class
 class Mul(Generic[T]):
     def __init__(self, m: T) -> None:
-        self.m: T = m
+        self._m = m
 
     def __call__(self, n: T) -> T:
-        return self.m * n
+        return self._m * n
 
 
 # Closure 1
