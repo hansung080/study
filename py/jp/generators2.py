@@ -10,13 +10,13 @@ def longtime_job() -> str:
 
 
 if __name__ == "__main__":
-    # BAD: 'longtime_job' is called 3 times, even though only the 0-th job is used.
+    # BAD: The `longtime_job` function is called 3 times, even though only the 0-th job is used.
     print("# list comprehension")
     jobs = [longtime_job() for _ in range(3)]
     print(jobs[0])
     print()
 
-    # GOOD: 'longtime_job' is called only 1 time because of lazy evaluation.
+    # GOOD: The `longtime_job` function is called only 1 time, because of lazy evaluation.
     print("# generator expression")
     jobs = (longtime_job() for _ in range(3))
     print(next(jobs))

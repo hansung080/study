@@ -1,4 +1,4 @@
-from __future__ import annotations  # Allows all forward references in this file.
+from __future__ import annotations  # This allows all forward references in this file.
 
 from collections.abc import Iterator
 from typing import Generic, TypeVar
@@ -11,7 +11,7 @@ class MyIterator(Generic[T], Iterator[T]):
         self._data = data
         self._pos = 0
 
-    def __iter__(self) -> MyIterator[T]:  # forward reference of MyIterator
+    def __iter__(self) -> MyIterator[T]:  # A forward reference of `MyIterator`
         return self
 
     def __next__(self) -> T:
@@ -27,7 +27,7 @@ class ReverseIterator(Generic[T], Iterator[T]):
         self._data = data
         self._pos = len(data) - 1
 
-    def __iter__(self) -> ReverseIterator[T]:  # forward reference of ReverseIterator
+    def __iter__(self) -> ReverseIterator[T]:  # A forward reference of `ReverseIterator`
         return self
 
     def __next__(self) -> T:

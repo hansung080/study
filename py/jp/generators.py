@@ -1,4 +1,4 @@
-from __future__ import annotations  # Allows all forward references in this file.
+from __future__ import annotations  # This allows all forward references in this file.
 
 from collections.abc import Iterator
 from typing import Callable
@@ -11,7 +11,7 @@ class SquareIter(Iterator[int]):
         self._current = start
         self._end = end
 
-    def __iter__(self) -> SquareIter:  # forward reference of SquareIter
+    def __iter__(self) -> SquareIter:  # A forward reference of `SquareIter`
         return self
 
     def __next__(self) -> int:
