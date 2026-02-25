@@ -9,32 +9,32 @@ T = TypeVar("T")
 class MyIterator(Generic[T], Iterator[T]):
     def __init__(self, data: list[T]) -> None:
         self._data = data
-        self._pos = 0
+        self._index = 0
 
     def __iter__(self) -> MyIterator[T]:  # A forward reference of `MyIterator`
         return self
 
     def __next__(self) -> T:
-        if self._pos >= len(self._data):
+        if self._index >= len(self._data):
             raise StopIteration
-        item = self._data[self._pos]
-        self._pos += 1
+        item = self._data[self._index]
+        self._index += 1
         return item
 
 
 class ReverseIterator(Generic[T], Iterator[T]):
     def __init__(self, data: list[T]) -> None:
         self._data = data
-        self._pos = len(data) - 1
+        self._index = len(data) - 1
 
     def __iter__(self) -> ReverseIterator[T]:  # A forward reference of `ReverseIterator`
         return self
 
     def __next__(self) -> T:
-        if self._pos < 0:
+        if self._index < 0:
             raise StopIteration
-        item = self._data[self._pos]
-        self._pos -= 1
+        item = self._data[self._index]
+        self._index -= 1
         return item
 
 

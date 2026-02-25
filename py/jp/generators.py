@@ -7,15 +7,15 @@ from typing import Callable
 # <<< How to create an iterator >>>
 # 1. Iterator Class
 class SquareIter(Iterator[int]):
-    def __init__(self, start: int, end: int) -> None:
+    def __init__(self, start: int, stop: int) -> None:
         self._current = start
-        self._end = end
+        self._stop = stop
 
     def __iter__(self) -> SquareIter:  # A forward reference of `SquareIter`
         return self
 
     def __next__(self) -> int:
-        if self._current >= self._end:
+        if self._current >= self._stop:
             raise StopIteration
         current = self._current
         self._current += 1
@@ -23,16 +23,16 @@ class SquareIter(Iterator[int]):
 
 
 # 2. Generator Function
-def square_gen(start: int, end: int) -> Iterator[int]:
-    for i in range(start, end):
+def square_gen(start: int, stop: int) -> Iterator[int]:
+    for i in range(start, stop):
         yield i * i
 
 
 # 4. Closure (not an iterator)
-def square_closure(start: int, end: int) -> Callable[[], int]:
+def square_closure(start: int, stop: int) -> Callable[[], int]:
     def wrapper() -> int:
         nonlocal start
-        if start >= end:
+        if start >= stop:
             raise StopIteration
         current = start
         start += 1
