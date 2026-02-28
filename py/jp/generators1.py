@@ -1,17 +1,17 @@
-from __future__ import annotations  # This allows all forward references in this file.
+from __future__ import annotations
 
 from collections.abc import Iterator
 from typing import Callable
 
 
-# <<< How to create an iterator >>>
+# <<< How to Make an Iterator >>>
 # 1. Iterator Class
 class SquareIter(Iterator[int]):
     def __init__(self, start: int, stop: int) -> None:
         self._current = start
         self._stop = stop
 
-    def __iter__(self) -> SquareIter:  # A forward reference of `SquareIter`
+    def __iter__(self) -> Iterator[int]:
         return self
 
     def __next__(self) -> int:

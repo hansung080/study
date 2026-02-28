@@ -25,7 +25,7 @@ Studying programming in multiple languages
   - french_deck, word_indexes, registration, clocks, vector2d, mem_bench, vector, double, sentences
 - Do it! Jump to Python (jp)
   - game (package example), gugu, add_multiple, paging, memo, tabto4, sub_dir_search, sub_dir_search_walk,
-    closures, decorators, decorators2, iterators, generators, generators2
+    closures, decorators1, decorators2, iterators, generators1, generators2
 
 ## Rust
 - Hands-On Rust Programming (horp)
