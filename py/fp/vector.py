@@ -355,13 +355,13 @@ import math
 import operator
 import reprlib
 from array import array
-from collections.abc import Iterable, Iterator, Sized
+from collections.abc import Iterable, Iterator, Sequence, Sized
 from functools import reduce
 from itertools import chain, zip_longest
 from typing import Any, Self, SupportsFloat, TypeGuard, overload
 
 
-class Vector:
+class Vector(Sequence[float]):
     typecode = "d"
 
     _components: array  # type annotation of instance attribute `_components` (not required)

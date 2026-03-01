@@ -2,19 +2,20 @@ from __future__ import annotations
 
 # from collections import namedtuple
 # from collections.abc import Iterator
+from collections.abc import Sequence
 from typing import NamedTuple, overload
 
-# Legacy-style named tuple definition
+# Legacy-style Named Tuple Definition
 # Card = namedtuple("Card", ["rank", "suit"])
 
 
-# Modern-style named tuple definition
+# Modern-style Named Tuple Definition
 class Card(NamedTuple):
     rank: str
     suit: str
 
 
-class FrenchDeck:
+class FrenchDeck(Sequence[Card]):
     ranks: list[str] = [str(n) for n in range(2, 11)] + list("JQKA")
     suits: list[str] = "spades diamonds clubs hearts".split()
 
@@ -84,8 +85,8 @@ if __name__ == "__main__":
         return rank_value * len(suit_values) + suit_values[card_.suit]
 
     print("\n# Sort by Spades High")
-    # `deck` is a sequence-like iterable object by implementing `__len__` and `__getitem__`.
-    # However, the type checker doesn't know it and throws the following warning.
-    # To fix the warning, `FrenchDeck` needs to implement `__iter__`.
+    # Suppressed the warning on `deck`:
+    # 1. FrenchDeck inherits from the Sequence ABC (selected).
+    # 2. FrenchDeck defines the __iter__ method.
     for card in sorted(deck, key=spades_high):
         print(card)
