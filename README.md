@@ -22,7 +22,8 @@ Studying programming in multiple languages
 
 ## Python
 - Fluent Python (2nd Edition) (fp)
-  - french_deck, word_indexes, registration, clocks, vector2d, mem_bench, vector, double, sentences, subgenerators
+  - french_deck, word_indexes, registration, clocks, vector2d, mem_bench, vector, double, sentences, subgenerators,
+    tree
 - Do it! Jump to Python (jp)
   - game (package example), gugu, add_multiple, paging, memo, tabto4, sub_dir_search, sub_dir_search_walk, closures,
     decorators1, decorators2, iterators, generators1, generators2
