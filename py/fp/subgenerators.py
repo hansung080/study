@@ -1,15 +1,15 @@
 from __future__ import annotations
 
-from collections.abc import Iterable, Iterator
+from collections.abc import Generator, Iterable, Iterator
 
 
-def sub_gen() -> Iterator[float]:
+def sub_gen() -> Generator[float, None, str]:
     yield 1.1
     yield 1.2
     return "done"  # raise StopIteration("done")
 
 
-# Yielding items from a subgenerator (legacy style)
+# Yield items from subgenerator (legacy style: for loop)
 def gen1() -> Iterator[float]:
     yield 1
     for item in sub_gen():
@@ -17,14 +17,14 @@ def gen1() -> Iterator[float]:
     yield 2
 
 
-# Yielding items from a subgenerator (modern style)
+# Yield items from subgenerator (modern style: yield from)
 def gen2() -> Iterator[float]:
     yield 1
     yield from sub_gen()
     yield 2
 
 
-# Getting the return value from a subgenerator (legacy style)
+# Get return value from subgenerator (legacy style: StopIteration)
 def gen3() -> Iterator[float]:
     yield 1
 
@@ -40,7 +40,7 @@ def gen3() -> Iterator[float]:
     yield 2
 
 
-# Getting the return value from a subgenerator (modern style)
+# Get return value from subgenerator (modern style: yield from)
 def gen4() -> Iterator[float]:
     yield 1
     result = yield from sub_gen()
@@ -48,14 +48,14 @@ def gen4() -> Iterator[float]:
     yield 2
 
 
-# Chain implementation (legacy style)
+# Chain implementation (legacy style: for loop)
 def chain1(*iterables: Iterable[object]) -> Iterator[object]:
     for iterable in iterables:
         for item in iterable:
             yield item
 
 
-# Chain implementation (modern style)
+# Chain implementation (modern style: yield from)
 def chain2(*iterables: Iterable[object]) -> Iterator[object]:
     for iterable in iterables:
         yield from iterable
