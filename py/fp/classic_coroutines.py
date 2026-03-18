@@ -4,9 +4,11 @@ from collections.abc import Generator
 from typing import NamedTuple
 
 # <<< Two Roles of Generator >>>
+#
 # 1. Generator-based Iterator
 #    - The generator behaves as a producer (data flow: generator -> caller).
 #    - Type annotation: Iterator[_YieldT_co] or Generator[_YieldT_co, None, None]
+#
 # 2. Generator-based Coroutine (Classic Coroutine)
 #    - The generator behaves as a consumer (data flow: caller -> generator).
 #    - Type annotation: Generator[_YieldT_co, _SendT_contra, _ReturnT_co]
