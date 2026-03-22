@@ -33,9 +33,9 @@ b'd\\x00\\x00\\x00\\x00\\x00\\x00\\x08@\\x00\\x00\\x00\\x00\\x00\\x00\\x10@'
 (True, False)
 
 
-``frombytes`` Method Examples:
+``from_bytes`` Method Examples:
 
->>> v_clone = Vector.frombytes(bytes(v))
+>>> v_clone = Vector.from_bytes(bytes(v))
 >>> v_clone
 Vector([3.0, 4.0])
 >>> v == v_clone
@@ -70,10 +70,10 @@ Vector([0.0, 1.0, 2.0, 3.0, 4.0, ...])
 9.53939201...
 
 
-``frombytes`` Method Examples:
+``from_bytes`` Method Examples:
 
 >>> v = Vector([3, 4, 5])
->>> v_clone = Vector.frombytes(bytes(v))
+>>> v_clone = Vector.from_bytes(bytes(v))
 >>> v_clone
 Vector([3.0, 4.0, 5.0])
 >>> v == v_clone
@@ -483,7 +483,7 @@ class Vector(Sequence[float]):
         return outer.format(", ".join(components))
 
     @classmethod
-    def frombytes(cls, octets: bytes | bytearray | memoryview) -> Self:
+    def from_bytes(cls, octets: bytes | bytearray | memoryview) -> Self:
         typecode = chr(octets[0])
         memv = memoryview(octets[1:]).cast(typecode)
         return cls(memv)

@@ -25,9 +25,9 @@ b'd\\x00\\x00\\x00\\x00\\x00\\x00\\x08@\\x00\\x00\\x00\\x00\\x00\\x00\\x10@'
 (True, False)
 
 
-``frombytes`` Method Examples:
+``from_bytes`` Method Examples:
 
->>> v_clone = Vector2d.frombytes(bytes(v))
+>>> v_clone = Vector2d.from_bytes(bytes(v))
 >>> v_clone
 Vector2d(3.0, 4.0)
 >>> v == v_clone
@@ -94,14 +94,14 @@ Pattern Match Examples:
 'diagonal'
 
 
-``__complex__`` and ``fromcomplex`` Methods Examples:
+``__complex__`` and ``from_complex`` Methods Examples:
 
 >>> v = Vector2d(3, 4)
 >>> isinstance(v, SupportsComplex)
 True
 >>> complex(v)
 (3+4j)
->>> Vector2d.fromcomplex(3+4j)
+>>> Vector2d.from_complex(3+4j)
 Vector2d(3.0, 4.0)
 
 
@@ -197,13 +197,13 @@ class Vector2d:
         return complex(self.x, self.y)
 
     @classmethod
-    def frombytes(cls, octets: bytes | bytearray | memoryview) -> Self:
+    def from_bytes(cls, octets: bytes | bytearray | memoryview) -> Self:
         typecode = chr(octets[0])
         memv = memoryview(octets[1:]).cast(typecode)
         return cls(*memv)
 
     @classmethod
-    def fromcomplex(cls, datum: SupportsComplex) -> Self:
+    def from_complex(cls, datum: SupportsComplex) -> Self:
         c = complex(datum)
         return cls(c.real, c.imag)
 
