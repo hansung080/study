@@ -21,6 +21,8 @@ Studying programming in multiple languages
   - counter 
 
 ## Python
+- ETC (etc)
+  - mathx 
 - Fluent Python (2nd Edition) (fp)
   - french_deck, word_indexes, registration, clocks, vector2d, mem_bench, vector, double, sentences, subgenerators,
     tree, classic_coroutines
