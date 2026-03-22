@@ -4,17 +4,17 @@ import math
 
 
 def floor_div(m: int, n: int) -> int:
-    """Return floor(m / n); n != 0."""
+    """Return floor(m / n) for n != 0."""
     return m // n
 
 
 def ceil_div(m: int, n: int) -> int:
-    """Return ceil(m / n); m >= 0 (not required in Python), n > 0."""
+    """Return ceil(m / n) for m >= 0 (not required in Python) and n > 0."""
     return (m + n - 1) // n
 
 
 def trunc_div(m: int, n: int) -> int:
-    """Return trunc(m / n); n != 0."""
+    """Return trunc(m / n) for n != 0."""
     return int(m / n)
 
 
