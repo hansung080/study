@@ -2,10 +2,10 @@ from __future__ import annotations
 
 import math
 
-# <<< Integer-division Semantics >>>
-# 1. Trunc-division Semantics: C, C++, Java, Kotlin, Go, Rust (truncation toward zero)
-# 2. Floor-division Semantics: Python, Ruby
-# 3. No Integer Division: JavaScript, TypeScript
+# <<< Integer Division Semantics >>>
+# 1. Truncation Division Semantics: C, C++, Java, Kotlin, Go, Rust (truncation toward zero)
+# 2. Floor Division Semantics     : Python, Ruby
+# 3. No Integer Division          : JavaScript, TypeScript
 
 
 def floor_div(m: int, n: int) -> int:
@@ -13,8 +13,8 @@ def floor_div(m: int, n: int) -> int:
     return m // n
 
 
-# Under floor-division semantics, correct for all m, n != 0.
-# Under trunc-division semantics, correct only if n > 0 and m >= 0 or n < 0 and m <= 0.
+# Under floor division semantics, correct for all m, n != 0.
+# Under truncation division semantics, correct only if n > 0 and m >= 0 or n < 0 and m <= 0.
 def ceil_div1(m: int, n: int) -> int:
     """Return ceil(m / n) for n != 0."""
     if n > 0:
@@ -23,8 +23,8 @@ def ceil_div1(m: int, n: int) -> int:
         return (m + n + 1) // n
 
 
-# Under floor-division semantics, correct for all m, n != 0.
-# Under trunc-division semantics, not correct.
+# Under floor division semantics, correct for all m, n != 0.
+# Under truncation division semantics, not correct.
 def ceil_div2(m: int, n: int) -> int:
     """Return ceil(m / n) for n != 0."""
     return -(-m // n)
