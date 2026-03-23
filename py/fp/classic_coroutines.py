@@ -3,7 +3,7 @@ from __future__ import annotations
 from collections.abc import Generator
 from typing import NamedTuple
 
-# <<< Two Roles of Generator >>>
+# <<< Two Roles of a Generator >>>
 #
 # 1. Generator-based Iterator
 #    - The generator behaves as a producer (data flow: generator -> caller).
