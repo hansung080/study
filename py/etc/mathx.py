@@ -14,20 +14,20 @@ def floor_div(m: int, n: int) -> int:
 
 
 # Under floor division semantics, correct for all m, n != 0.
-# Under truncation division semantics, correct only if n > 0 and m >= 0 or n < 0 and m <= 0.
+# Under truncation division semantics, correct only if m * n >= 0 and n != 0.
 def ceil_div1(m: int, n: int) -> int:
     """Return ceil(m / n) for n != 0."""
     if n > 0:
-        return (m + n - 1) // n
+        return (m + n - 1) // n  # recommended for an inline code when n > 0 and m >= 0
     else:
         return (m + n + 1) // n
 
 
 # Under floor division semantics, correct for all m, n != 0.
-# Under truncation division semantics, not correct.
+# Under truncation division semantics, correct only if m * n <= 0 and n != 0.
 def ceil_div2(m: int, n: int) -> int:
     """Return ceil(m / n) for n != 0."""
-    return -(-m // n)
+    return -(-m // n)  # recommended for a function when n != 0
 
 
 def trunc_div(m: int, n: int) -> int:
