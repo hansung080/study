@@ -35,7 +35,7 @@ class Args:
         module = importlib.import_module(module_name)
         expr = args[1]
         count = int(args[2]) if len(args) == 3 else 1
-        return cls(module, expr, count)
+        return cls(module=module, expr=expr, count=count)
 
     @classmethod
     def from_argv_or_exit(cls, argv: Sequence[str]) -> Self:
