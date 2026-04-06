@@ -1,7 +1,8 @@
 from __future__ import annotations
 
 import sys
-from typing import Any, Callable, TypeVar
+from collections.abc import Callable
+from typing import Any, TypeVar
 
 T = TypeVar("T")
 

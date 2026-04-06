@@ -6,11 +6,11 @@ import importlib
 import resource
 import sys
 import time
-from collections.abc import Sequence
+from collections.abc import Sequence, Callable
 from dataclasses import dataclass
 from pathlib import Path
 from types import ModuleType
-from typing import Any, Callable, Self
+from typing import Any, Self
 
 
 def print_usage() -> None:

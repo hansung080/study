@@ -1,7 +1,8 @@
 from __future__ import annotations
 
+from collections.abc import Callable
 from numbers import Number
-from typing import Callable, Generic, TypeVar
+from typing import Generic, TypeVar
 
 # Type Constraints: Generic type parameter `T` allows int or float.
 # T = TypeVar("T", int, float)

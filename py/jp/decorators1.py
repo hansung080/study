@@ -1,8 +1,9 @@
 from __future__ import annotations
 
 import time
+from collections.abc import Callable
 from numbers import Number
-from typing import Callable, ParamSpec, TypeAlias, TypeVar
+from typing import ParamSpec, TypeAlias, TypeVar
 
 P = ParamSpec("P")
 R = TypeVar("R")
