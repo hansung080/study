@@ -13,6 +13,23 @@ YKCOWREBBAJ
 >>> print("Back to normal.")
 Back to normal.
 
+
+``LookingGlass`` Class without ``with`` Block Examples:
+
+>>> manager = LookingGlass()
+>>> manager  # doctest: +ELLIPSIS
+<__main__.LookingGlass object at 0x...>
+>>> monster = manager.__enter__()
+>>> monster == "JABBERWOCKY"
+eurT
+>>> monster
+'YKCOWREBBAJ'
+>>> manager  # doctest: +ELLIPSIS
+>...x0 ta tcejbo ssalGgnikooL.__niam__<
+>>> manager.__exit__(None, None, None)
+>>> monster
+'JABBERWOCKY'
+
 """
 
 from __future__ import annotations
@@ -36,12 +53,11 @@ class LookingGlass:
         exc_type: type[BaseException] | None,
         exc_value: BaseException | None,
         traceback: TracebackType | None,
-    ) -> bool:
+    ) -> bool | None:
         sys.stdout.write = self.original_write
         if exc_type is ZeroDivisionError:
             print("Please DO NOT divide by zero!")
-            return True
-        return False
+            return True  # True: suppress the exception, None or False: propagate the exception
 
 
 if __name__ == "__main__":
