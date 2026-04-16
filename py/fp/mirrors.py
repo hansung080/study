@@ -36,6 +36,7 @@ from __future__ import annotations
 
 import sys
 from collections.abc import Callable
+from contextlib import contextmanager
 from types import TracebackType
 
 
@@ -58,6 +59,11 @@ class LookingGlass:
         if exc_type is ZeroDivisionError:
             print("Please DO NOT divide by zero!")
             return True  # True: suppress the exception, None or False: propagate the exception
+
+
+@contextmanager
+def looking_glass():
+    pass
 
 
 if __name__ == "__main__":

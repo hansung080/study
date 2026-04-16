@@ -236,17 +236,17 @@ def kind_po(v: Vector2d) -> str:
             return "oblique"
 
 
-T_co = TypeVar("T_co", covariant=True)
+_T_co = TypeVar("_T_co", covariant=True)
 
 
 # User-defined generic protocols do not support automatic type argument inference in structural typing,
 # whereas `typing.SupportsAbs` is a specially handled built-in protocol and thus does not suffer from this limitation.
 @runtime_checkable
-class MySupportsAbs(Protocol[T_co]):
+class MySupportsAbs(Protocol[_T_co]):
     __slots__ = ()
 
     @abstractmethod
-    def __abs__(self) -> T_co:
+    def __abs__(self) -> _T_co:
         pass
 
 

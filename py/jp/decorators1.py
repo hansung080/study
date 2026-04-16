@@ -5,26 +5,26 @@ from collections.abc import Callable
 from numbers import Number
 from typing import ParamSpec, TypeAlias, TypeVar
 
-P = ParamSpec("P")
-R = TypeVar("R")
-Func: TypeAlias = Callable[P, R]
-Wrapper: TypeAlias = Callable[P, R]
+_P = ParamSpec("_P")
+_R = TypeVar("_R")
+_Wrapped: TypeAlias = Callable[_P, _R]
+_Wrapper: TypeAlias = Callable[_P, _R]
 
 
-def elapsed(func: Func) -> Wrapper:
-    def wrapper(*args: P.args, **kwargs: P.kwargs) -> R:
+def elapsed(wrapped: _Wrapped) -> _Wrapper:
+    def wrapper(*args: _P.args, **kwargs: _P.kwargs) -> _R:
         start = time.time()
-        result = func(*args, **kwargs)
+        result = wrapped(*args, **kwargs)
         end = time.time()
         print("elapsed time: %fs" % (end - start))
         return result
     return wrapper
 
 
-T = TypeVar("T", bound=Number)
+_T = TypeVar("_T", bound=Number)
 
 
-def pow1(base: T, exp: T) -> T:
+def pow1(base: _T, exp: _T) -> _T:
     result = base ** exp
     print(f"pow1({base}, {exp}) -> {result}")
     return result
@@ -35,7 +35,7 @@ pow1 = elapsed(pow1)
 
 
 @elapsed
-def pow2(base: T, exp: T) -> T:
+def pow2(base: _T, exp: _T) -> _T:
     result = base ** exp
     print(f"pow2({base}, {exp}) -> {result}")
     return result

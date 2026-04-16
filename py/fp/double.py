@@ -2,18 +2,18 @@ from __future__ import annotations
 
 from typing import Protocol, TypeVar, runtime_checkable
 
-T = TypeVar("T")
+_T = TypeVar("_T")
 
 
 @runtime_checkable  # not required
 class Repeatable(Protocol):
-    def __mul__(self: T, repeat_count: int) -> T: ...
+    def __mul__(self: _T, repeat_count: int) -> _T: ...
 
 
-RT = TypeVar("RT", bound=Repeatable)
+_RT = TypeVar("_RT", bound=Repeatable)
 
 
-def double(x: RT) -> RT:
+def double(x: _RT) -> _RT:
     return x * 2
 
 

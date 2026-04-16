@@ -3,19 +3,19 @@ from __future__ import annotations
 from collections.abc import Callable
 from typing import ParamSpec, TypeAlias, TypeVar
 
-P = ParamSpec("P")
-R = TypeVar("R")
-Func: TypeAlias = Callable[P, R]
+_P = ParamSpec("_P")
+_R = TypeVar("_R")
+_Func: TypeAlias = Callable[_P, _R]
 
 # In Python, generic type variables (`TypeVar`, `ParamSpec`) are instantiated only as type parameters of functions or
 # classes. Even if a generic type is used in a global variable annotation, the variable itself is not fixed to
 # a single concrete type. Therefore, the code below represents a list of Callables whose elements may each have
 # their own distinct `P` and `R`. In other words, this is not a generic container, but a container holding generic
 # elements, and in practice it behaves almost like `list[Callable[..., Any]]`.
-registry: list[Func] = []
+registry: list[_Func] = []
 
 
-def register(func: Func) -> Func:
+def register(func: _Func) -> _Func:
     print(f"running register({func})")
     registry.append(func)
     return func

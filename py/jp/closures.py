@@ -5,30 +5,30 @@ from numbers import Number
 from typing import Generic, TypeVar
 
 # Type Constraints: Generic type parameter `T` allows int or float.
-# T = TypeVar("T", int, float)
+# _T = TypeVar("_T", int, float)
 
 # Type Bound: Generic type parameter `T` allows subtypes of Number.
-T = TypeVar("T", bound=Number)
+_T = TypeVar("_T", bound=Number)
 
 
 # Class
-class Mul(Generic[T]):
-    def __init__(self, m: T) -> None:
+class Mul(Generic[_T]):
+    def __init__(self, m: _T) -> None:
         self._m = m
 
-    def __call__(self, n: T) -> T:
+    def __call__(self, n: _T) -> _T:
         return self._m * n
 
 
 # Closure 1
-def mul1(m: T) -> Callable[[T], T]:
-    def wrapper(n: T) -> T:
+def mul1(m: _T) -> Callable[[_T], _T]:
+    def wrapper(n: _T) -> _T:
         return m * n
     return wrapper
 
 
 # Closure 2
-def mul2(m: T) -> Callable[[T], T]:
+def mul2(m: _T) -> Callable[[_T], _T]:
     return lambda n: m * n
 
 

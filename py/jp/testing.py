@@ -4,16 +4,16 @@ import sys
 from collections.abc import Callable
 from typing import Any, TypeVar
 
-T = TypeVar("T")
+_T = TypeVar("_T")
 
 
-def assert_eq(left: T, right: T, *, msg: str = "") -> None:
+def assert_eq(left: _T, right: _T, *, msg: str = "") -> None:
     if left != right:
         print(f"assert_eq failed: {msg}\n  left: {left}\n right: {right}", file=sys.stderr)
         sys.exit(1)
 
 
-def assert_ne(left: T, right: T, *, msg: str = "") -> None:
+def assert_ne(left: _T, right: _T, *, msg: str = "") -> None:
     if left == right:
         print(f"assert_ne failed: {msg}\n  left: {left}\n right: {right}", file=sys.stderr)
         sys.exit(1)
