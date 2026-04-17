@@ -5,6 +5,8 @@ from collections.abc import Callable
 from functools import wraps
 from typing import ParamSpec, TypeAlias, TypeVar
 
+# ParamSpec is not supported in PEP 695 type aliases (TypeVar only, e.g. type Func[T, R] = Callable[[T], R]),
+# so legacy TypeAlias is required.
 _P = ParamSpec("_P")
 _R = TypeVar("_R")
 _Wrapped: TypeAlias = Callable[_P, _R]

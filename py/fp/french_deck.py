@@ -1,15 +1,17 @@
 from __future__ import annotations
 
-# from collections import namedtuple
-# from collections.abc import Iterator
 from collections.abc import Sequence
 from typing import NamedTuple, overload
 
-# Legacy-style Named Tuple Definition
+# Legacy-style Named Tuple (not recommended)
+# ```
+# from collections import namedtuple
+#
 # Card = namedtuple("Card", ["rank", "suit"])
+# ```
 
 
-# Modern-style Named Tuple Definition
+# Modern-style Named Tuple (recommended)
 class Card(NamedTuple):
     rank: str
     suit: str

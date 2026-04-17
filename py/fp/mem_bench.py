@@ -64,14 +64,14 @@ def measure_memory(func: Callable[[], Any]) -> None:
     start = get_max_rss_bytes()
     _ = func()
     delta = get_max_rss_bytes() - start
-    print(f"  Memory increase (peak RSS): {delta / (1024 ** 2):,.0f} MiB ({delta:,} bytes)")
+    print(f"  Memory Increase (peak RSS): {delta / (1024 ** 2):,.0f} MiB ({delta:,} bytes)")
 
 
 def measure_time(func: Callable[[], Any]) -> None:
     start = time.perf_counter()
     _ = func()
     elapsed = time.perf_counter() - start
-    print(f"  Elapsed time              : {elapsed:0.8f}s")
+    print(f"  Elapsed Time:               {elapsed:0.8f}s")
 
 
 def main() -> None:
