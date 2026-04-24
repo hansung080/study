@@ -1,18 +1,18 @@
 from __future__ import annotations
 
 from collections.abc import Callable
-from numbers import Number
 from typing import ParamSpec, TypeAlias, TypeVar
 
+from typingx import SupportsAddAndMul
+
 _P = ParamSpec("_P")
-_R = TypeVar("_R")
+_R = TypeVar("_R", bound=SupportsAddAndMul)
 _Wrapped: TypeAlias = Callable[_P, _R]
 _Wrapper: TypeAlias = Callable[_P, _R]
-_T = TypeVar("_T", bound=Number)
 
 
-def add(*, n: _T) -> Callable[[_Wrapped], _Wrapper]:
-    def decorator(wrapped: _Wrapped) -> _Wrapper:
+def add(*, n: float) -> Callable[[_Wrapped[_P, _R]], _Wrapper[_P, _R]]:
+    def decorator(wrapped: _Wrapped[_P, _R]) -> _Wrapper[_P, _R]:
         def wrapper(*args: _P.args, **kwargs: _P.kwargs) -> _R:
             m = wrapped(*args, **kwargs)
             result = m + n
@@ -22,8 +22,8 @@ def add(*, n: _T) -> Callable[[_Wrapped], _Wrapper]:
     return decorator
 
 
-def mul(*, n: _T) -> Callable[[_Wrapped], _Wrapper]:
-    def decorator(wrapped: _Wrapped) -> _Wrapper:
+def mul(*, n: float) -> Callable[[_Wrapped[_P, _R]], _Wrapper[_P, _R]]:
+    def decorator(wrapped: _Wrapped[_P, _R]) -> _Wrapper[_P, _R]:
         def wrapper(*args: _P.args, **kwargs: _P.kwargs) -> _R:
             m = wrapped(*args, **kwargs)
             result = m * n
@@ -33,7 +33,7 @@ def mul(*, n: _T) -> Callable[[_Wrapped], _Wrapper]:
     return decorator
 
 
-def pow1(base: _T, exp: _T) -> _T:
+def pow1(base: float, exp: float) -> float:
     result = base ** exp
     print(f"pow1({base}, {exp}) -> {result}")
     return result
@@ -45,7 +45,7 @@ pow1 = mul(n=2)(add(n=1)(pow1))
 
 @mul(n=2)
 @add(n=1)
-def pow2(base: _T, exp: _T) -> _T:
+def pow2(base: float, exp: float) -> float:
     result = base ** exp
     print(f"pow2({base}, {exp}) -> {result}")
     return result
