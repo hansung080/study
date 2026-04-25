@@ -159,52 +159,52 @@ def factorial(n: int) -> int:
 
 
 @clock
-def pow1(base: float, *, exp: float) -> float:
+def pow1(base: float, exp: float) -> float:
     return base ** exp
 
 
 @Clock
-def pow2(base: float, *, exp: float) -> float:
+def pow2(base: float, exp: float) -> float:
     return base ** exp
 
 
 @clock_with()
-def pow3(base: float, *, exp: float) -> float:
+def pow3(base: float, exp: float) -> float:
     return base ** exp
 
 
 @clock_with(fmt="{name}: {elapsed}s")
-def pow4(base: float, *, exp: float) -> float:
+def pow4(base: float, exp: float) -> float:
     return base ** exp
 
 
 @ClockWith()
-def pow5(base: float, *, exp: float) -> float:
+def pow5(base: float, exp: float) -> float:
     return base ** exp
 
 
 @ClockWith(fmt="{name}: {elapsed}s")
-def pow6(base: float, *, exp: float) -> float:
+def pow6(base: float, exp: float) -> float:
     return base ** exp
 
 
 @clock_both
-def pow7(base: float, *, exp: float) -> float:
+def pow7(base: float, exp: float) -> float:
     return base ** exp
 
 
 @clock_both(fmt="{name}: {elapsed}s")
-def pow8(base: float, *, exp: float) -> float:
+def pow8(base: float, exp: float) -> float:
     return base ** exp
 
 
 @ClockBoth
-def pow9(base: float, *, exp: float) -> float:
+def pow9(base: float, exp: float) -> float:
     return base ** exp
 
 
 @ClockBoth(fmt="{name}: {elapsed}s")
-def pow10(base: float, *, exp: float) -> float:
+def pow10(base: float, exp: float) -> float:
     return base ** exp
 
 
@@ -233,8 +233,6 @@ if __name__ == "__main__":
     # [0.00004467s] factorial(4) -> 24
     # [0.00005729s] factorial(5) -> 120
 
-    # NOTE: Ignore this false-positive warning from IntelliJ IDEA:
-    #       Parameter(s) unfilled. Possible callees: (base: float, ..., exp: float)
     assert pow1(2, exp=3) == 8
     # Output: [0.00000413s] pow1(2, exp=3) -> 8
 
