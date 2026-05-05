@@ -3,7 +3,7 @@ from __future__ import annotations
 import time
 from collections.abc import Callable
 from functools import wraps
-from typing import ParamSpec, TypeAlias, TypeVar
+from typing import Any, Generic, ParamSpec, TypeAlias, TypeVar, overload
 
 # ParamSpec is not supported in PEP 695 type aliases (TypeVar only, e.g. type Func[T, R] = Callable[[T], R]),
 # so legacy TypeAlias is required.
@@ -13,7 +13,7 @@ _Wrapped: TypeAlias = Callable[_P, _R]
 _Wrapper: TypeAlias = Callable[_P, _R]
 
 
-def clock(wrapped: _Wrapped) -> _Wrapper:
+def clock(wrapped: _Wrapped[_P, _R]) -> _Wrapper[_P, _R]:
     @wraps(wrapped)
     def wrapper(*args: _P.args, **kwargs: _P.kwargs) -> _R:
         start = time.perf_counter()
@@ -31,8 +31,10 @@ def clock(wrapped: _Wrapped) -> _Wrapper:
     return wrapper
 
 
-class Clock:
-    def __init__(self, wrapped: _Wrapped) -> None:
+class Clock(Generic[_P, _R]):
+    __name__: str
+
+    def __init__(self, wrapped: _Wrapped[_P, _R]) -> None:
         self._wrapped = wrapped
         wraps(wrapped)(self)
 
@@ -53,8 +55,8 @@ class Clock:
 DEFAULT_FMT = "[{elapsed:0.8f}s] {name}({args}) -> {result}"
 
 
-def clock_with(*, fmt: str = DEFAULT_FMT) -> Callable[[_Wrapped], _Wrapper]:
-    def decorator(wrapped: _Wrapped) -> _Wrapper:
+def clock_with(*, fmt: str = DEFAULT_FMT) -> Callable[[_Wrapped[_P, _R]], _Wrapper[_P, _R]]:
+    def decorator(wrapped: _Wrapped[_P, _R]) -> _Wrapper[_P, _R]:
         @wraps(wrapped)
         def wrapper(*args: _P.args, **kwargs: _P.kwargs) -> _R:
             start = time.perf_counter()
@@ -77,7 +79,7 @@ class ClockWith:
     def __init__(self, *, fmt: str = DEFAULT_FMT) -> None:
         self._fmt = fmt
 
-    def __call__(self, wrapped: _Wrapped) -> _Wrapper:
+    def __call__(self, wrapped: _Wrapped[_P, _R]) -> _Wrapper[_P, _R]:
         @wraps(wrapped)
         def wrapper(*args: _P.args, **kwargs: _P.kwargs) -> _R:
             start = time.perf_counter()
@@ -94,8 +96,18 @@ class ClockWith:
         return wrapper
 
 
-def clock_both(wrapped: _Wrapped | None = None, *, fmt: str = DEFAULT_FMT) -> Callable[[_Wrapped], _Wrapper] | _Wrapper:
-    def decorator(wrapped_: _Wrapped) -> _Wrapper:
+@overload
+def clock_dual(wrapped: _Wrapped[_P, _R]) -> _Wrapper[_P, _R]: ...
+@overload
+def clock_dual(*, fmt: str = ...) -> Callable[[_Wrapped[_P, _R]], _Wrapper[_P, _R]]: ...
+
+
+def clock_dual(
+    wrapped: _Wrapped[_P, _R] | None = None,
+    *,
+    fmt: str = DEFAULT_FMT,
+) -> _Wrapper[_P, _R] | Callable[[_Wrapped[_P, _R]], _Wrapper[_P, _R]]:
+    def decorator(wrapped_: _Wrapped[_P, _R]) -> _Wrapper[_P, _R]:
         @wraps(wrapped_)
         def wrapper(*args: _P.args, **kwargs: _P.kwargs) -> _R:
             start = time.perf_counter()
@@ -111,41 +123,49 @@ def clock_both(wrapped: _Wrapped | None = None, *, fmt: str = DEFAULT_FMT) -> Ca
             return result
         return wrapper
 
-    if wrapped is None:
-        return decorator
-    return decorator(wrapped)
+    if wrapped is not None:
+        return decorator(wrapped)
+    return decorator
 
 
-class ClockBoth:
-    def __init__(self, wrapped: _Wrapped | None = None, *, fmt: str = DEFAULT_FMT) -> None:
+_P2 = ParamSpec("_P2")
+_R2 = TypeVar("_R2")
+
+
+class ClockDual(Generic[_P, _R]):
+    __name__: str
+
+    def __init__(self, wrapped: _Wrapped[_P, _R] | None = None, *, fmt: str = DEFAULT_FMT) -> None:
         self._wrapped = wrapped
         self._fmt = fmt
         if wrapped is not None:
             wraps(wrapped)(self)
 
-    def __call__(self, *args: _P.args, **kwargs: _P.kwargs) -> _Wrapper | _R:
-        if self._wrapped is None:
-            wrapped = args[0]
-        else:
-            wrapped = self._wrapped
+    @overload
+    def __call__(self, *args: _P.args, **kwargs: _P.kwargs) -> _R: ...
+    @overload
+    def __call__(self, wrapped: _Wrapped[_P2, _R2]) -> _Wrapper[_P2, _R2]: ...
 
+    def __call__(self, *args: Any, **kwargs: Any) -> Any:
+        if self._wrapped is not None:
+            return self._make_wrapper(self._wrapped)(*args, **kwargs)
+        return self._make_wrapper(args[0])
+
+    def _make_wrapper(self, wrapped: _Wrapped[_P2, _R2]) -> _Wrapper[_P2, _R2]:
         @wraps(wrapped)
-        def wrapper(*args_: _P.args, **kwargs_: _P.kwargs) -> _R:
+        def wrapper(*args: _P2.args, **kwargs: _P2.kwargs) -> _R2:
             start = time.perf_counter()
-            result = wrapped(*args_, **kwargs_)
+            result = wrapped(*args, **kwargs)
             elapsed = time.perf_counter() - start
 
             name = wrapped.__name__
-            arg_list = [repr(arg) for arg in args_]
-            arg_list.extend(f"{k}={v!r}" for k, v in kwargs_.items())
+            arg_list = [repr(arg) for arg in args]
+            arg_list.extend(f"{k}={v!r}" for k, v in kwargs.items())
             arg_str = ", ".join(arg_list)
 
             print(self._fmt.format(elapsed=elapsed, name=name, args=arg_str, result=repr(result)))
             return result
-
-        if self._wrapped is None:
-            return wrapper
-        return wrapper(*args, **kwargs)
+        return wrapper
 
 
 @clock
@@ -188,22 +208,22 @@ def pow6(base: float, exp: float) -> float:
     return base ** exp
 
 
-@clock_both
+@clock_dual
 def pow7(base: float, exp: float) -> float:
     return base ** exp
 
 
-@clock_both(fmt="{name}: {elapsed}s")
+@clock_dual(fmt="{name}: {elapsed}s")
 def pow8(base: float, exp: float) -> float:
     return base ** exp
 
 
-@ClockBoth
+@ClockDual
 def pow9(base: float, exp: float) -> float:
     return base ** exp
 
 
-@ClockBoth(fmt="{name}: {elapsed}s")
+@ClockDual(fmt="{name}: {elapsed}s")
 def pow10(base: float, exp: float) -> float:
     return base ** exp
 
