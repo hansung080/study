@@ -6,7 +6,7 @@ _T_co = TypeVar("_T_co", covariant=True)
 _T_contra = TypeVar("_T_contra", contravariant=True)
 
 
-# Legacy-style Generic Protocols
+# --- Legacy-style Generic Protocols ---
 class SupportsAdd(Protocol[_T_contra, _T_co]):
     def __add__(self, other: _T_contra, /) -> _T_co: ...
 

@@ -1,19 +1,17 @@
 from __future__ import annotations
 
 from collections.abc import Callable
-from typing import ParamSpec, TypeAlias, TypeVar
 
-from typingx import SupportsAddAndMul
+from typingx import SupportsAdd, SupportsMul
 
-_P = ParamSpec("_P")
-_R = TypeVar("_R", bound=SupportsAddAndMul)
-_Wrapped: TypeAlias = Callable[_P, _R]
-_Wrapper: TypeAlias = Callable[_P, _R]
+# --- Modern-style Generics and Type Aliases (PEP 695) ---
+type _Wrapped[**P, R] = Callable[P, R]
+type _Wrapper[**P, R] = Callable[P, R]
 
 
-def add(*, n: float) -> Callable[[_Wrapped[_P, _R]], _Wrapper[_P, _R]]:
-    def decorator(wrapped: _Wrapped[_P, _R]) -> _Wrapper[_P, _R]:
-        def wrapper(*args: _P.args, **kwargs: _P.kwargs) -> _R:
+def add[**P, R: SupportsAdd](*, n: float) -> Callable[[_Wrapped[P, R]], _Wrapper[P, R]]:
+    def decorator(wrapped: _Wrapped[P, R]) -> _Wrapper[P, R]:
+        def wrapper(*args: P.args, **kwargs: P.kwargs) -> R:
             m = wrapped(*args, **kwargs)
             result = m + n
             print(f"add({m}, {n}) -> {result}")
@@ -22,9 +20,9 @@ def add(*, n: float) -> Callable[[_Wrapped[_P, _R]], _Wrapper[_P, _R]]:
     return decorator
 
 
-def mul(*, n: float) -> Callable[[_Wrapped[_P, _R]], _Wrapper[_P, _R]]:
-    def decorator(wrapped: _Wrapped[_P, _R]) -> _Wrapper[_P, _R]:
-        def wrapper(*args: _P.args, **kwargs: _P.kwargs) -> _R:
+def mul[**P, R: SupportsMul](*, n: float) -> Callable[[_Wrapped[P, R]], _Wrapper[P, R]]:
+    def decorator(wrapped: _Wrapped[P, R]) -> _Wrapper[P, R]:
+        def wrapper(*args: P.args, **kwargs: P.kwargs) -> R:
             m = wrapped(*args, **kwargs)
             result = m * n
             print(f"mul({m}, {n}) -> {result}")

@@ -13,7 +13,7 @@ type NumberLike = (
 )
 
 
-# Modern-style Generic Protocols (PEP 695)
+# --- Modern-style Generic Protocols (PEP 695) ---
 class SupportsAdd[T, R](Protocol):
     def __add__(self, other: T, /) -> R: ...
 

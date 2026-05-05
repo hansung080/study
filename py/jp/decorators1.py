@@ -4,6 +4,7 @@ import time
 from collections.abc import Callable
 from typing import ParamSpec, TypeAlias, TypeVar
 
+# --- Legacy-style Generics and Type Aliases ---
 _P = ParamSpec("_P")
 _R = TypeVar("_R")
 _Wrapped: TypeAlias = Callable[_P, _R]
