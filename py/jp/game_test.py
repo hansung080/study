@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
-# <<< How to Access Items in a Package >>>
+# --- How to Access Items in a Package ---
 # 1. import <module>
 import game.sound.echo
 game.sound.echo.echo_test()
@@ -27,7 +27,7 @@ game.sound.echo.echo_test()
 #   -> ModuleNotFoundError: No module named 'game.sound.echo.echo_test'; 'game.sound.echo' is not a package
 # import game.sound.echo.echo_test
 
-# <<< How to Use the `__init__.py` File >>>
+# --- How to Use the `__init__.py` File ---
 # 2. To import items in a package in advance.
 import game
 game.render_test()

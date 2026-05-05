@@ -26,13 +26,13 @@ class LazySentence(BaseSentence):
     pass
 
 
-# <<< ABC Inheritance Principle >>>
+# --- ABC Inheritance Principle ---
 # - Inheritance Recommended (Nominal Typing): ABCs that define the identity
 #   e.g. Iterator, Sequence, MutableSequence, Mapping, MutableMapping
 # - Inheritance Not Recommended (Structural Typing): ABCs that provide a capability
 #   e.g. Iterable, Reversible, Sized, Container
 
-# <<< How to Make an Iterable >>>
+# --- How to Make an Iterable ---
 # 1. EagerSentence as Sequence
 class Sentence1(EagerSentence, Sequence[str]):
     def __len__(self) -> int:

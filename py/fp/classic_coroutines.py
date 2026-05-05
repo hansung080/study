@@ -4,7 +4,7 @@ from collections.abc import Generator
 from enum import Enum, auto
 from typing import NamedTuple
 
-# <<< Two Roles of a Generator >>>
+# --- Two Roles of a Generator ---
 #
 # 1. Generator-based Iterator
 #    - The generator behaves as a producer (data flow: generator -> caller).

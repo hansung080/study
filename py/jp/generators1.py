@@ -3,7 +3,7 @@ from __future__ import annotations
 from collections.abc import Callable, Iterator
 
 
-# <<< How to Make an Iterator >>>
+# --- How to Make an Iterator ---
 # 1. Iterator Class
 class SquareIter(Iterator[int]):
     def __init__(self, start: int, stop: int) -> None:
