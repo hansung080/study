@@ -2,10 +2,10 @@ from __future__ import annotations
 
 import math
 
-# --- Integer Division Semantics ---
+# === Integer Division Semantics ===
 # 1. Truncation Division Semantics: C, C++, Java, Kotlin, Go, Rust (truncation toward zero)
-# 2. Floor Division Semantics     : Python, Ruby
-# 3. No Integer Division          : JavaScript, TypeScript
+# 2. Floor Division Semantics:      Python, Ruby
+# 3. No Integer Division:           JavaScript, TypeScript
 
 
 def floor_div(m: int, n: int) -> int:
