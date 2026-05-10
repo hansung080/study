@@ -3,7 +3,7 @@ from __future__ import annotations
 from collections.abc import Iterable, Iterator, Reversible, Sequence
 
 
-# GOOD: This implements an `Iterator` manually to demonstrate its internal implementation.
+# GOOD: This implements an Iterator manually to demonstrate its internal implementation.
 class MyIterator1[T](Iterator[T]):
     def __init__(self, items: Sequence[T]) -> None:
         self._items = items
@@ -20,9 +20,9 @@ class MyIterator1[T](Iterator[T]):
         return item
 
 
-# BETTER: This delegates the `Iterator` implementation to the built-in `iter` function.
-#         In this case, the `MyIterator2` class is essentially unnecessary,
-#         and the client code can simply call `iter(iterable)` directly.
+# BETTER: This delegates the Iterator implementation to the built-in iter function.
+#         In this case, the MyIterator2 class is essentially unnecessary,
+#         and the client code can simply call iter(iterable) directly.
 class MyIterator2[T](Iterator[T]):
     def __init__(self, iterable: Iterable[T]) -> None:
         self._it = iter(iterable)

@@ -64,23 +64,24 @@ def iter_word_locations(filename: str) -> Iterator[tuple[str, tuple[int, int]]]:
                 yield word, location
 
 
-def print_index(index: dict[str, list[tuple[int, int]]] | defaultdict[str, list[tuple[int, int]]]) -> None:
-    # for word in sorted(index, key=str.upper):  # `str.upper` causes the warning by the type checker.
+def print_index(index: dict[str, list[tuple[int, int]]]) -> None:
+    # for word in sorted(index, key=str.upper):  # str.upper causes the warning by the type checker.
     for word in sorted(index, key=lambda k: k.upper()):
         print(f"{word} => {index[word]}")
 
 
 def main() -> None:
     filename, mode = parse_args_or_exit()
+    index: dict[str, list[tuple[int, int]]]
     match mode:
         case "1":  # WORSE: Key hashing occurs 2 or 3 times per iteration.
-            index: dict[str, list[tuple[int, int]]] = {}
+            index = {}
             for word, location in iter_word_locations(filename):
                 if word not in index:
                     index[word] = []
                 index[word].append(location)
         case "2":  # BAD: Key hashing occurs 1 or 2 times per iteration.
-            index: dict[str, list[tuple[int, int]]] = {}
+            index = {}
             for word, location in iter_word_locations(filename):
                 occurrences = index.get(word)
                 if occurrences is None:
@@ -88,18 +89,18 @@ def main() -> None:
                 else:
                     occurrences.append(location)
         case "3":  # BAD: Key hashing occurs 1 or 2 times per iteration.
-            index: dict[str, list[tuple[int, int]]] = {}
+            index = {}
             for word, location in iter_word_locations(filename):
                 occurrences = index.get(word, [])
                 occurrences.append(location)
                 if len(occurrences) == 1:
                     index[word] = occurrences
         case "4":  # GOOD: Key hashing occurs 1 time per iteration.
-            index: dict[str, list[tuple[int, int]]] = {}
+            index = {}
             for word, location in iter_word_locations(filename):
                 index.setdefault(word, []).append(location)
         case "5":  # BETTER: Key hashing occurs 1 time per iteration.
-            index: defaultdict[str, list[tuple[int, int]]] = defaultdict(list)
+            index = defaultdict(list)
             for word, location in iter_word_locations(filename):
                 index[word].append(location)
         case _:

@@ -32,8 +32,8 @@ class FrenchDeck(Sequence[Card]):
     @overload
     def __getitem__(self, key: slice) -> list[Card]: ...
 
-    # NOTE: When slicing, returning a `Self` rather than a `list[Card]` is generally considered better API design.
-    def __getitem__(self, key):
+    # NOTE: When slicing, returning Self rather than list[Card] is generally considered better API design.
+    def __getitem__(self, key: int | slice) -> Card | list[Card]:
         return self._cards[key]
 
     # def __iter__(self) -> Iterator[Card]:

@@ -127,7 +127,7 @@ from __future__ import annotations
 import math
 from abc import abstractmethod
 from array import array
-from collections.abc import Iterator
+from collections.abc import Iterable, Iterator
 from typing import Protocol, Self, SupportsAbs, SupportsComplex, SupportsFloat, TypeVar, runtime_checkable
 
 
@@ -185,7 +185,7 @@ class Vector2d:
     def __format__(self, spec: str = "") -> str:
         if spec.endswith("p"):
             spec = spec[:-1]
-            coords = (abs(self), self.angle())
+            coords: Iterable[float] = (abs(self), self.angle())
             outer = "<{}, {}>"
         else:
             coords = self
@@ -199,7 +199,7 @@ class Vector2d:
     @classmethod
     def from_bytes(cls, octets: bytes | bytearray | memoryview) -> Self:
         typecode = chr(octets[0])
-        memv = memoryview(octets[1:]).cast(typecode)
+        memv = memoryview(octets[1:]).cast(typecode)  # type: ignore[call-overload]
         return cls(*memv)
 
     @classmethod
@@ -240,9 +240,10 @@ _T_co = TypeVar("_T_co", covariant=True)
 
 
 # User-defined generic protocols do not support automatic type argument inference in structural typing,
-# whereas `typing.SupportsAbs` is a specially handled built-in protocol and thus does not suffer from this limitation.
+# whereas typing.SupportsAbs is a specially handled built-in protocol and thus does not suffer from this limitation.
 @runtime_checkable
 class MySupportsAbs(Protocol[_T_co]):
+    """An ABC with one abstract method __abs__ that is covariant in its return type."""
     __slots__ = ()
 
     @abstractmethod

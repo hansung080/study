@@ -63,6 +63,8 @@ if __name__ == "__main__":
     assert_raises(lambda: (), expected=None)
 
     # The following assertions will be failed.
+    # ```
     # assert_raises(raise_value_error, expected=TypeError)
     # assert_raises(raise_value_error, expected=None)
     # assert_raises(lambda: (), expected=ValueError)
+    # ```

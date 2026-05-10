@@ -358,16 +358,26 @@ from array import array
 from collections.abc import Iterable, Iterator, Sequence, Sized
 from functools import reduce
 from itertools import chain, zip_longest
-from typing import Any, Self, SupportsFloat, TypeGuard, overload
+from typing import Any, Protocol, Self, SupportsFloat, TypeGuard, overload, runtime_checkable
+
+
+# collections.abc.Collection[T] can be used instead of SizedIterable[T].
+@runtime_checkable
+class SizedIterable[T](Protocol):
+    def __len__(self) -> int: ...
+    def __iter__(self) -> Iterator[T]: ...
+
+
+# Use @runtime_checkable Protocol instead of TypeGuard.
+def _is_sized_iterable(obj: object) -> TypeGuard[SizedIterable[Any]]:
+    return isinstance(obj, Sized) and isinstance(obj, Iterable)
 
 
 class Vector(Sequence[float]):
     typecode = "d"
 
-    _components: array  # type annotation of instance attribute `_components` (not required)
-
-    # Passing `list[int]` to `Iterable[SupportsFloat]` is OK,
-    # because `Iterable` is covariant and `int` implements `SupportsFloat` (note that `list` is invariant).
+    # Passing list[int] to Iterable[SupportsFloat] is OK,
+    # because Iterable is covariant and int implements SupportsFloat (note that list is invariant).
     def __init__(self, components: Iterable[SupportsFloat]) -> None:
         self._components = array(self.typecode, map(float, components))
 
@@ -397,13 +407,15 @@ class Vector(Sequence[float]):
             all(x == y for x, y in zip(self, other))
         )
 
-    # The `__ne__` method inherited from object behaves the same as the following code,
+    # The __ne__ method inherited from object behaves the same as the following code,
     # except that its original implementation is written in C.
+    # ```
     # def __ne__(self, other: object) -> bool:
     #     eq_result = self == other
     #     if eq_result is NotImplemented:
     #         return NotImplemented
     #     return not eq_result
+    # ```
 
     def __hash__(self) -> int:
         hashes = (hash(x) for x in self)
@@ -474,7 +486,7 @@ class Vector(Sequence[float]):
     def __format__(self, spec: str = "") -> str:
         if spec.endswith("h"):
             spec = spec[:-1]
-            coords = chain([abs(self)], self.angles())
+            coords: Iterable[float] = chain([abs(self)], self.angles())
             outer = "<{}>"
         else:
             coords = self
@@ -485,18 +497,17 @@ class Vector(Sequence[float]):
     @classmethod
     def from_bytes(cls, octets: bytes | bytearray | memoryview) -> Self:
         typecode = chr(octets[0])
-        memv = memoryview(octets[1:]).cast(typecode)
+        memv = memoryview(octets[1:]).cast(typecode)  # type: ignore[call-overload]
         return cls(memv)
 
     def __add__(self, other: Iterable[SupportsFloat]) -> Self:
         try:
-            pairs = zip_longest(self, other, fillvalue=0.0)
+            pairs = zip_longest(self, map(float, other), fillvalue=0.0)
             return type(self)(x + y for x, y in pairs)
         except TypeError:
             return NotImplemented
 
-    # The following two `__radd__` implementations are the same.
-    # __radd__ = __add__
+    # `__radd__ = __add__` can be used instead of the following __radd__ implementation.
     def __radd__(self, other: Iterable[SupportsFloat]) -> Self:
         return self + other
 
@@ -510,22 +521,15 @@ class Vector(Sequence[float]):
     def __rmul__(self, scalar: SupportsFloat) -> Self:
         return self * scalar
 
-    def __matmul__(self, other: Iterable[SupportsFloat] & Sized) -> float:
-        if not _is_sized_iterable(other):
+    def __matmul__(self, other: SizedIterable[SupportsFloat]) -> float:
+        if not isinstance(other, SizedIterable):
             return NotImplemented
         if len(self) != len(other):
             raise ValueError("@ requires vectors of equal length")
-        return sum(x * y for x, y in zip(self, other))
+        return sum(x * y for x, y in zip(self, map(float, other)))
 
-    def __rmatmul__(self, other: Iterable[SupportsFloat] & Sized) -> float:
+    def __rmatmul__(self, other: SizedIterable[SupportsFloat]) -> float:
         return self @ other
-
-
-# Type checkers do not support runtime-flow-based intersection inference.
-# Instead, the last `isinstance` check simply overwrites the effects of the previous checks.
-# This issue can be resolved by using `TypeGuard`.
-def _is_sized_iterable(obj: object) -> TypeGuard[Iterable[Any] & Sized]:
-    return isinstance(obj, Sized) and isinstance(obj, Iterable)
 
 
 if __name__ == "__main__":

@@ -19,7 +19,7 @@ from typing import NamedTuple
 
 
 class Result(NamedTuple):
-    count: int  # type: ignore
+    count: int  # type: ignore[assignment]
     average: float
 
 
@@ -75,7 +75,7 @@ def averager2(*, verbose: bool = False) -> Generator[None, int | StopType, Resul
 
 
 if __name__ == "__main__":
-    # No coroutine return value
+    # No coroutine return value.
     coro_avg1 = averager1()
     assert next(coro_avg1) == 0.0  # `coro_avg1.send(None)` can be used instead of `next(coro_avg1)`.
     assert coro_avg1.send(10) == 10.0
@@ -90,7 +90,7 @@ if __name__ == "__main__":
     except StopIteration as e:
         assert e.value is None
 
-    # Get coroutine return value from `StopIteration`
+    # Get coroutine return value from StopIteration.
     coro_avg2 = averager2()
     assert next(coro_avg2) is None
     assert coro_avg2.send(10) is None
@@ -103,7 +103,7 @@ if __name__ == "__main__":
     except StopIteration as e:
         assert e.value == Result(4, 16.25)
 
-    # Get coroutine return value from `yield from`
+    # Get coroutine return value from `yield from`.
     def computer() -> Generator[None, int | StopType, Result]:
         result = yield from averager2(verbose=True)
         print(f"computed: {result!r}")

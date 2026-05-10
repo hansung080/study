@@ -43,7 +43,7 @@ class Sentence1(EagerSentence, Sequence[str]):
     @overload
     def __getitem__(self, key: slice) -> list[str]: ...
 
-    # NOTE: When slicing, returning a `Self` rather than a `list[str]` is generally considered better API design.
+    # NOTE: When slicing, returning Self rather than list[str] is generally considered better API design.
     def __getitem__(self, key):
         return self._words[key]
 
@@ -106,27 +106,27 @@ if __name__ == "__main__":
     text_ = '"The time has come," the Walrus said,'
     expected = ["The", "time", "has", "come", "the", "Walrus", "said"]
 
-    s = Sentence1(text_)
-    assert repr(s) == 'Sentence1(\'"The time ha... Walrus said,\')'
-    assert len(s) == 7
-    assert s[0] == "The"
-    assert s[1:3] == ["time", "has"]
-    assert list(s) == expected
+    s1 = Sentence1(text_)
+    assert repr(s1) == 'Sentence1(\'"The time ha... Walrus said,\')'
+    assert len(s1) == 7
+    assert s1[0] == "The"
+    assert s1[1:3] == ["time", "has"]
+    assert list(s1) == expected
 
-    s = Sentence2(text_)
-    assert list(s) == expected
+    s2 = Sentence2(text_)
+    assert list(s2) == expected
 
-    s = Sentence3(text_)
-    assert list(s) == expected
+    s3 = Sentence3(text_)
+    assert list(s3) == expected
 
-    s = Sentence4(text_)
-    assert list(s) == expected
+    s4 = Sentence4(text_)
+    assert list(s4) == expected
 
-    s = Sentence5(text_)
-    assert list(s) == expected
+    s5 = Sentence5(text_)
+    assert list(s5) == expected
 
-    s = Sentence6(text_)
-    assert list(s) == expected
+    s6 = Sentence6(text_)
+    assert list(s6) == expected
 
-    s = Sentence7(text_)
-    assert list(s) == expected
+    s7 = Sentence7(text_)
+    assert list(s7) == expected

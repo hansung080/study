@@ -21,7 +21,7 @@ def display(cls: type, *, max_level: int | None = None) -> None:
 
 if __name__ == "__main__":
     try:
-        max_level_ = int(sys.argv[1])
+        max_level_: int | None = int(sys.argv[1])
     except (IndexError, ValueError):
         max_level_ = None
     display(BaseException, max_level=max_level_)

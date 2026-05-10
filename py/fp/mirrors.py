@@ -43,7 +43,7 @@ from types import TracebackType
 class LookingGlass:
     def __enter__(self) -> str:
         self.original_write: Callable[[str], int] = sys.stdout.write
-        sys.stdout.write = self.write_reversed
+        sys.stdout.write = self.write_reversed  # type: ignore[method-assign]
         return "JABBERWOCKY"
 
     def write_reversed(self, text: str) -> int:
@@ -55,10 +55,11 @@ class LookingGlass:
         exc_value: BaseException | None,
         traceback: TracebackType | None,
     ) -> bool | None:
-        sys.stdout.write = self.original_write
+        sys.stdout.write = self.original_write  # type: ignore[method-assign]
         if exc_type is ZeroDivisionError:
             print("Please DO NOT divide by zero!")
-            return True  # True: suppress the exception, None or False: propagate the exception
+            return True  # True: suppress the exception
+        return None  # None or False: propagate the exception
 
 
 @contextmanager
