@@ -3,8 +3,8 @@ from __future__ import annotations
 from collections.abc import Callable, Iterator
 
 
-# --- How to Make an Iterator ---
-# 1. Iterator Class
+# --- Iterator Implementation Patterns ---
+# Pattern 1. Iterator Class
 class SquareIter(Iterator[int]):
     def __init__(self, start: int, stop: int) -> None:
         self._current = start
@@ -21,13 +21,13 @@ class SquareIter(Iterator[int]):
         return current * current
 
 
-# 2. Generator Function
+# Pattern 2. Generator Function
 def square_gen(start: int, stop: int) -> Iterator[int]:
     for i in range(start, stop):
         yield i * i
 
 
-# 4. Closure (not an iterator)
+# Pattern 4. Closure (not an iterator)
 def square_closure(start: int, stop: int) -> Callable[[], int]:
     def wrapper() -> int:
         nonlocal start
@@ -54,7 +54,7 @@ if __name__ == "__main__":
     assert_eq(next(gen1), 9)
     assert_raises(lambda: next(gen1), expected=StopIteration)
 
-    # 3. Generator Expression (not a tuple comprehension)
+    # Pattern 3. Generator Expression (not a tuple comprehension)
     gen2 = (i * i for i in range(1, 4))
     assert_eq(next(gen2), 1)
     assert_eq(next(gen2), 4)

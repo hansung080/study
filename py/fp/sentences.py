@@ -27,13 +27,15 @@ class LazySentence(BaseSentence):
 
 
 # === ABC Inheritance Principle ===
-# - Inheritance Recommended (Nominal Typing): ABCs that define the identity
+#
+# Inheritance Recommended (for nominal typing): ABCs that define the identity
 #   e.g. Iterator, Sequence, MutableSequence, Mapping, MutableMapping
-# - Inheritance Not Recommended (Structural Typing): ABCs that provide a capability
+#
+# Inheritance Not Recommended (for structural typing): ABCs that provide a capability
 #   e.g. Iterable, Reversible, Sized, Container
 
-# --- How to Make an Iterable ---
-# 1. EagerSentence as Sequence
+# --- Iterable Implementation Patterns ---
+# Pattern 1. EagerSentence as Sequence
 class Sentence1(EagerSentence, Sequence[str]):
     def __len__(self) -> int:
         return len(self._words)
@@ -48,7 +50,7 @@ class Sentence1(EagerSentence, Sequence[str]):
         return self._words[key]
 
 
-# 2. EagerSentence as Iterable with Custom Iterator
+# Pattern 2. EagerSentence as Iterable with Custom Iterator
 class Sentence2(EagerSentence):
     def __iter__(self) -> Iterator[str]:
         return SentenceIterator(self._words)
@@ -70,33 +72,33 @@ class SentenceIterator(Iterator[str]):
         return word
 
 
-# 3. EagerSentence as Iterable with Delegating Iterator
+# Pattern 3. EagerSentence as Iterable with Delegating Iterator
 class Sentence3(EagerSentence):
     def __iter__(self) -> Iterator[str]:
         return iter(self._words)
 
 
-# 4. EagerSentence as Iterable with Generator
+# Pattern 4. EagerSentence as Iterable with Generator
 class Sentence4(EagerSentence):
     def __iter__(self) -> Iterator[str]:
         for word in self._words:
             yield word
 
 
-# 5. EagerSentence as Iterable with Delegating Generator
+# Pattern 5. EagerSentence as Iterable with Delegating Generator
 class Sentence5(EagerSentence):
     def __iter__(self) -> Iterator[str]:
         yield from self._words
 
 
-# 6. LazySentence as Iterable with Generator
+# Pattern 6. LazySentence as Iterable with Generator
 class Sentence6(LazySentence):
     def __iter__(self) -> Iterator[str]:
         for match in RE_WORD.finditer(self._text):
             yield match.group()
 
 
-# 7. LazySentence as Iterable with Generator Expression
+# Pattern 7. LazySentence as Iterable with Generator Expression
 class Sentence7(LazySentence):
     def __iter__(self) -> Iterator[str]:
         return (match.group() for match in RE_WORD.finditer(self._text))

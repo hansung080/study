@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-# --- How to Use the __init__.py File ---
-# 1. To define package-level items such as variables, functions, etc.
+# --- All Uses of __init__.py ---
+# Use 1. Defining package-level items such as variables, functions, etc
 VERSION = 3.5
 
 
@@ -9,11 +9,10 @@ def print_version_info() -> None:
     print(f"The version of this game is {VERSION}.")
 
 
-# 2. To import items in a package in advance.
+# Use 2. Importing items in a package in advance
 from .graphic.render import render_test
 
-# 3. To write the package initialization code.
+# Use 3. Writing the package initialization code
 print("Initializing game...")
 
-# 4. To define the __all__ variable.
-#   -> See the game/sound/__init__.py file.
+# Use 4. Defining the __all__ variable (See game/sound/__init__.py)

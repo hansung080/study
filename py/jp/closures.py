@@ -8,11 +8,13 @@ from typing import Generic, TypeVar
 from typingx import SupportsMul
 
 # Type Bound: _T1 is restricted to SupportsMul and its subtypes.
-# - numbers.Number is intended for runtime checks, not static typing, due to ABC.register-based virtual subclassing.
+# Notes:
+#   - numbers.Number is intended for runtime checks, not static typing, due to ABC.register-based virtual subclassing.
 _T1 = TypeVar("_T1", bound=SupportsMul)
 
 # Type Constraints: _T2 is restricted to int, float, complex, Decimal, or Fraction.
-# - bool is a numeric type, but does not satisfy T * T -> T (bool * bool -> int).
+# Notes:
+#   - bool is a numeric type, but does not satisfy T * T -> T (bool * bool -> int).
 _T2 = TypeVar("_T2", int, float, complex, Decimal, Fraction)
 
 

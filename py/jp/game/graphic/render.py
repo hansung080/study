@@ -1,7 +1,6 @@
 from __future__ import annotations
 
-# --- How to Use the Relative Import ---
-from ..sound.echo import echo_test
+from ..sound.echo import echo_test  # relative import
 
 
 def render_test() -> None:
