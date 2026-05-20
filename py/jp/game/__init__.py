@@ -14,7 +14,7 @@ from .graphic.render import render_test as render_test  # explicit re-export
 
 # === Re-export Patterns ===
 #
-# Implicit Re-export: [attr-defined] error occurs from mypy --strict which enables implicit_reexport = false.
+# Implicit Re-export: [attr-defined] error occurs from mypy --strict which enables --no-implicit-reexport.
 # ```
 # from .graphic.render import render_test
 # ```
