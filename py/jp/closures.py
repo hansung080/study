@@ -5,12 +5,12 @@ from decimal import Decimal
 from fractions import Fraction
 from typing import Generic, TypeVar
 
-from typingx import SupportsMul
+from typingx import SupportsMulSelfToSelf
 
 # Type Bound: _T1 is restricted to SupportsMul and its subtypes.
 # Notes:
 #   - numbers.Number is intended for runtime checks, not static typing, due to ABC.register-based virtual subclassing.
-_T1 = TypeVar("_T1", bound=SupportsMul)
+_T1 = TypeVar("_T1", bound=SupportsMulSelfToSelf)
 
 # Type Constraints: _T2 is restricted to int, float, complex, Decimal, or Fraction.
 # Notes:
@@ -37,7 +37,7 @@ class Mul2(Generic[_T2]):
 
 
 # Generic Class 3 (PEP 695 bounded TypeVar)
-class Mul3[T: SupportsMul]:
+class Mul3[T: SupportsMulSelfToSelf]:
     def __init__(self, m: T) -> None:
         self._m: T = m
 
@@ -69,7 +69,7 @@ def mul2(m: _T2) -> Callable[[_T2], _T2]:
 
 
 # Generic Function with Closure 3 (PEP 695 bounded TypeVar)
-def mul3[T: SupportsMul](m: T) -> Callable[[T], T]:
+def mul3[T: SupportsMulSelfToSelf](m: T) -> Callable[[T], T]:
     return lambda n: m * n
 
 

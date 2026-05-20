@@ -2,14 +2,14 @@ from __future__ import annotations
 
 from collections.abc import Callable
 
-from typingx import SupportsAdd, SupportsMul
+from typingx import SupportsAddToSelf, SupportsMulToSelf
 
 # --- Modern-style Generics and Type Aliases (PEP 695) ---
 type _Wrapped[**P, R] = Callable[P, R]
 type _Wrapper[**P, R] = Callable[P, R]
 
 
-def add[**P, R: SupportsAdd](*, n: float) -> Callable[[_Wrapped[P, R]], _Wrapper[P, R]]:
+def add[**P, R: SupportsAddToSelf[float]](*, n: float) -> Callable[[_Wrapped[P, R]], _Wrapper[P, R]]:
     def decorator(wrapped: _Wrapped[P, R]) -> _Wrapper[P, R]:
         def wrapper(*args: P.args, **kwargs: P.kwargs) -> R:
             m = wrapped(*args, **kwargs)
@@ -20,7 +20,7 @@ def add[**P, R: SupportsAdd](*, n: float) -> Callable[[_Wrapped[P, R]], _Wrapper
     return decorator
 
 
-def mul[**P, R: SupportsMul](*, n: float) -> Callable[[_Wrapped[P, R]], _Wrapper[P, R]]:
+def mul[**P, R: SupportsMulToSelf[float]](*, n: float) -> Callable[[_Wrapped[P, R]], _Wrapper[P, R]]:
     def decorator(wrapped: _Wrapped[P, R]) -> _Wrapper[P, R]:
         def wrapper(*args: P.args, **kwargs: P.kwargs) -> R:
             m = wrapped(*args, **kwargs)
@@ -32,7 +32,7 @@ def mul[**P, R: SupportsMul](*, n: float) -> Callable[[_Wrapped[P, R]], _Wrapper
 
 
 def pow1(base: float, exp: float) -> float:
-    result = base ** exp
+    result: float = base ** exp
     print(f"pow1({base}, {exp}) -> {result}")
     return result
 
@@ -44,7 +44,7 @@ pow1 = mul(n=2)(add(n=1)(pow1))
 @mul(n=2)
 @add(n=1)
 def pow2(base: float, exp: float) -> float:
-    result = base ** exp
+    result: float = base ** exp
     print(f"pow2({base}, {exp}) -> {result}")
     return result
 

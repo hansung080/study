@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from decimal import Decimal
 from fractions import Fraction
-from typing import Protocol
+from typing import Protocol, Self
 
 type NumberLike = (
     int
@@ -16,6 +16,18 @@ type NumberLike = (
 # --- Modern-style Generic Protocols (PEP 695) ---
 class SupportsAdd[T, R](Protocol):
     def __add__(self, other: T, /) -> R: ...
+
+
+class SupportsAddSelfTo[R](Protocol):
+    def __add__(self, other: Self, /) -> R: ...
+
+
+class SupportsAddToSelf[T](Protocol):
+    def __add__(self, other: T, /) -> Self: ...
+
+
+class SupportsAddSelfToSelf(Protocol):
+    def __add__(self, other: Self, /) -> Self: ...
 
 
 class SupportsRAdd[T, R](Protocol):
@@ -32,6 +44,18 @@ class SupportsRSub[T, R](Protocol):
 
 class SupportsMul[T, R](Protocol):
     def __mul__(self, other: T, /) -> R: ...
+
+
+class SupportsMulSelfTo[R](Protocol):
+    def __mul__(self, other: Self, /) -> R: ...
+
+
+class SupportsMulToSelf[T](Protocol):
+    def __mul__(self, other: T, /) -> Self: ...
+
+
+class SupportsMulSelfToSelf(Protocol):
+    def __mul__(self, other: Self, /) -> Self: ...
 
 
 class SupportsRMul[T, R](Protocol):

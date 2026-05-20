@@ -46,7 +46,7 @@ class Sentence1(EagerSentence, Sequence[str]):
     def __getitem__(self, key: slice) -> list[str]: ...
 
     # NOTE: When slicing, returning Self rather than list[str] is generally considered better API design.
-    def __getitem__(self, key):
+    def __getitem__(self, key: int | slice) -> str | list[str]:
         return self._words[key]
 
 

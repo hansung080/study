@@ -62,9 +62,9 @@ class LookingGlass:
         return None  # None or False: propagate the exception
 
 
-@contextmanager
-def looking_glass():
-    pass
+# @contextmanager
+# def looking_glass():
+#     pass
 
 
 if __name__ == "__main__":

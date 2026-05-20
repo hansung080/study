@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Protocol, TypeVar
+from typing import Protocol, Self, TypeVar
 
 _T_co = TypeVar("_T_co", covariant=True)
 _T_contra = TypeVar("_T_contra", contravariant=True)
@@ -9,6 +9,18 @@ _T_contra = TypeVar("_T_contra", contravariant=True)
 # --- Legacy-style Generic Protocols ---
 class SupportsAdd(Protocol[_T_contra, _T_co]):
     def __add__(self, other: _T_contra, /) -> _T_co: ...
+
+
+class SupportsAddSelfTo(Protocol[_T_co]):
+    def __add__(self, other: Self, /) -> _T_co: ...
+
+
+class SupportsAddToSelf(Protocol[_T_contra]):
+    def __add__(self, other: _T_contra, /) -> Self: ...
+
+
+class SupportsAddSelfToSelf(Protocol):
+    def __add__(self, other: Self, /) -> Self: ...
 
 
 class SupportsRAdd(Protocol[_T_contra, _T_co]):
@@ -25,6 +37,18 @@ class SupportsRSub(Protocol[_T_contra, _T_co]):
 
 class SupportsMul(Protocol[_T_contra, _T_co]):
     def __mul__(self, other: _T_contra, /) -> _T_co: ...
+
+
+class SupportsMulSelfTo(Protocol[_T_co]):
+    def __mul__(self, other: Self, /) -> _T_co: ...
+
+
+class SupportsMulToSelf(Protocol[_T_contra]):
+    def __mul__(self, other: _T_contra, /) -> Self: ...
+
+
+class SupportsMulSelfToSelf(Protocol):
+    def __mul__(self, other: Self, /) -> Self: ...
 
 
 class SupportsRMul(Protocol[_T_contra, _T_co]):

@@ -22,7 +22,7 @@ def elapsed(wrapped: _Wrapped[_P, _R]) -> _Wrapper[_P, _R]:
 
 
 def pow1(base: float, exp: float) -> float:
-    result = base ** exp
+    result: float = base ** exp
     print(f"pow1({base}, {exp}) -> {result}")
     return result
 
@@ -33,7 +33,7 @@ pow1 = elapsed(pow1)
 
 @elapsed
 def pow2(base: float, exp: float) -> float:
-    result = base ** exp
+    result: float = base ** exp
     print(f"pow2({base}, {exp}) -> {result}")
     return result
 

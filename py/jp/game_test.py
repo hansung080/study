@@ -30,7 +30,7 @@ game.sound.echo.echo_test()
 # ```
 
 # --- Some Uses of __init__.py ---
-# Use 2. Importing items in a package in advance
+# Use 2. Importing items in a package in advance (re-export)
 import game
 game.render_test()
 

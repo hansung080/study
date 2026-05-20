@@ -441,7 +441,7 @@ class Vector(Sequence[float]):
     @overload
     def __getitem__(self, key: slice) -> Self: ...
 
-    def __getitem__(self, key):
+    def __getitem__(self, key: int | slice) -> float | Self:
         if isinstance(key, slice):
             return type(self)(self._components[key])
         index = operator.index(key)

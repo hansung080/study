@@ -3,7 +3,7 @@ from __future__ import annotations
 import time
 from collections.abc import Callable
 from functools import wraps
-from typing import Any, overload
+from typing import Any, cast, overload
 
 type _Wrapped[**P, R] = Callable[P, R]
 type _Wrapper[**P, R] = Callable[P, R]
@@ -172,52 +172,52 @@ def factorial(n: int) -> int:
 
 @clock
 def pow1(base: float, exp: float) -> float:
-    return base ** exp
+    return cast(float, base ** exp)
 
 
 @Clock
 def pow2(base: float, exp: float) -> float:
-    return base ** exp
+    return cast(float, base ** exp)
 
 
 @clock_with()
 def pow3(base: float, exp: float) -> float:
-    return base ** exp
+    return cast(float, base ** exp)
 
 
 @clock_with(fmt="{name}: {elapsed}s")
 def pow4(base: float, exp: float) -> float:
-    return base ** exp
+    return cast(float, base ** exp)
 
 
 @ClockWith()
 def pow5(base: float, exp: float) -> float:
-    return base ** exp
+    return cast(float, base ** exp)
 
 
 @ClockWith(fmt="{name}: {elapsed}s")
 def pow6(base: float, exp: float) -> float:
-    return base ** exp
+    return cast(float, base ** exp)
 
 
 @clock_dual
 def pow7(base: float, exp: float) -> float:
-    return base ** exp
+    return cast(float, base ** exp)
 
 
 @clock_dual(fmt="{name}: {elapsed}s")
 def pow8(base: float, exp: float) -> float:
-    return base ** exp
+    return cast(float, base ** exp)
 
 
 @ClockDual
 def pow9(base: float, exp: float) -> float:
-    return base ** exp
+    return cast(float, base ** exp)
 
 
 @ClockDual(fmt="{name}: {elapsed}s")
 def pow10(base: float, exp: float) -> float:
-    return base ** exp
+    return cast(float, base ** exp)
 
 
 if __name__ == "__main__":

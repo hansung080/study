@@ -9,8 +9,27 @@ def print_version_info() -> None:
     print(f"The version of this game is {VERSION}.")
 
 
-# Use 2. Importing items in a package in advance
-from .graphic.render import render_test
+# Use 2. Importing items in a package in advance (re-export)
+from .graphic.render import render_test as render_test  # explicit re-export
+
+# === Re-export Patterns ===
+#
+# Implicit Re-export: [attr-defined] error occurs from mypy --strict which enables implicit_reexport = false.
+# ```
+# from .graphic.render import render_test
+# ```
+#
+# Explicit Re-export 1: Alias is recommended primarily for explicit re-export.
+# ```
+# from .graphic.render import render_test as render_test
+# ```
+#
+# Explicit Re-export 2: __all__ is used for public API declaration, wildcard import control, and explicit re-export.
+# ```
+# from .graphic.render import render_test
+#
+# __all__ = ["render_test"]
+# ```
 
 # Use 3. Writing the package initialization code
 print("Initializing game...")
