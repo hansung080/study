@@ -30,12 +30,36 @@ eurT
 >>> monster
 'JABBERWOCKY'
 
+
+``looking_glass`` Function Examples:
+
+>>> with looking_glass() as what:
+...     print("Alice, Kitty and Snowdrop")
+...     print(what)
+pordwonS dna yttiK ,ecilA
+YKCOWREBBAJ
+>>> what
+'JABBERWOCKY'
+>>> print("Back to normal.")
+Back to normal.
+
+
+``looking_glass`` Function as a Decorator Examples:
+
+>>> @looking_glass()
+... def verse() -> None:
+...     print("The time has come")
+>>> verse()
+emoc sah emit ehT
+>>> print("Back to normal.")
+Back to normal.
+
 """
 
 from __future__ import annotations
 
 import sys
-from collections.abc import Callable
+from collections.abc import Callable, Iterator
 from contextlib import contextmanager
 from types import TracebackType
 
@@ -62,9 +86,23 @@ class LookingGlass:
         return None  # None or False: propagate the exception
 
 
-# @contextmanager
-# def looking_glass():
-#     pass
+@contextmanager
+def looking_glass() -> Iterator[str]:
+    original_write: Callable[[str], int] = sys.stdout.write
+
+    def write_reversed(text: str) -> int:
+        return original_write(text[::-1])
+
+    sys.stdout.write = write_reversed  # type: ignore[method-assign]
+    msg = ""
+    try:
+        yield "JABBERWOCKY"
+    except ZeroDivisionError:
+        msg = "Please DO NOT divide by zero!"
+    finally:
+        sys.stdout.write = original_write  # type: ignore[method-assign]
+        if msg:
+            print(msg)
 
 
 if __name__ == "__main__":
