@@ -3,8 +3,8 @@
 S_RESET=$'\033[0m'
 S_BOLD=$'\033[1m'
 
-PROJECT_ROOT="$(dirname "$(readlink -f "$0")")"
-SRC_DIR="$PROJECT_ROOT/py"
+PYTHON_ROOT="$(dirname "$(readlink -f "$0")")"
+SRC_DIR="$PYTHON_ROOT"
 MYPY=(mypy --strict)
 
 if (($# > 0)); then
