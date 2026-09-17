@@ -54,6 +54,7 @@ async fn post_gcd(form: web::Form<GcdParams>) -> Result<HttpResponse, Error> {
     Ok(
         HttpResponse::Ok()
             .content_type("text/html; charset=utf-8")
-            .body(format!("gcd({}, {}) => <b>{}</b>", form.a, form.b, gcd::gcd_iter(form.a, form.b)))
+            .body(format!("The GCD of {} and {} is <b>{}</b>.",
+                          form.a, form.b, gcd::gcd_iter(form.a, form.b)))
     )
 }
