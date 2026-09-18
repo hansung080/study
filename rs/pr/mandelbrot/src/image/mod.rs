@@ -8,7 +8,7 @@ use image::codecs::png::PngEncoder;
 use image::{ExtendedColorType, ImageEncoder, ImageFormat};
 use num::Complex;
 use crate::complex::ComplexArea;
-use crate::escape_times;
+use crate::escape_time;
 use crate::image::band::Bands;
 use crate::utils;
 use crate::utils::progress::Progresser;
@@ -96,10 +96,10 @@ pub fn render(pixels: &mut [u8], (width, height): (usize, usize), area: &Complex
             }
 
             let complex = pixel_to_complex((width, height), (x, y), area);
-            pixels[y * width + x] = match escape_times(complex, 255) {
+            pixels[y * width + x] = match escape_time(complex, 255) {
                 // If `complex` is not a member of Mandelbrot set,
                 // a pixel will be, the farther the distance from Mandelbrot set, the closer to white.
-                Some(times) => PIXEL_WHITE - times as u8,
+                Some(time) => PIXEL_WHITE - time as u8,
                 // If `complex` is a member of Mandelbrot set, a pixel will be black.
                 None => PIXEL_BLACK,
             }
