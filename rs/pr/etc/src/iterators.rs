@@ -106,7 +106,14 @@ mod tests {
 
     #[test]
     fn escape_time() {
-
+        let cases = [
+            (-1.2, 0.35, 255, Some(9)),
+            (-1.0, 0.2, 255, None),
+        ];
+        for (re, im, limit, expected) in cases {
+            assert_eq!(escape_time1(Complex { re, im }, limit), expected);
+            assert_eq!(escape_time2(Complex { re, im }, limit), expected);
+        }
     }
 
     #[test]
