@@ -36,6 +36,16 @@ pub fn line_segment_lengths(n: usize) -> Vec<f64> {
         .collect()
 }
 
+pub fn fibonacci() -> impl Iterator<Item=usize> {
+    let mut state = (0, 1);
+    iter::from_fn(move || {
+        let term = state.0;
+        state = (state.1, state.0 + state.1);
+        Some(term)
+    })
+}
+
+// Return the escape time of the Mandelbrot set.
 pub fn escape_time1(c: Complex<f64>, limit: usize) -> Option<usize> {
     let mut z = Complex { re: 0.0, im: 0.0 };
     for i in 0..limit {
@@ -89,7 +99,21 @@ mod tests {
     }
 
     #[test]
+    fn fibonacci() {
+        assert_eq!(super::fibonacci().take(9).collect::<Vec<_>>(),
+                   vec![0, 1, 1, 2, 3, 5, 8, 13, 21]);
+    }
+
+    #[test]
     fn escape_time() {
 
+    }
+
+    #[test]
+    fn drain() {
+        let mut outer = "Earth".to_string();
+        let inner = String::from_iter(outer.drain(1..4));
+        assert_eq!(outer, "Eh");
+        assert_eq!(inner, "art");
     }
 }
