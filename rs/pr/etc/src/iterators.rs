@@ -1,4 +1,5 @@
 use std::iter;
+use std::iter::Peekable;
 use num::Complex;
 
 // Return the nth triangular number.
@@ -66,6 +67,41 @@ pub fn escape_time2(c: Complex<f64>, limit: usize) -> Option<usize> {
         .map(|(i, _z)| i)
 }
 
+pub fn extract_some_values<T>(options: Vec<Option<T>>) -> Vec<T> {
+    options.into_iter()
+        .flatten()
+        .collect()
+}
+
+pub fn to_uppercase1(s: &str) -> String {
+    s.chars()
+        .map(char::to_uppercase)
+        .flatten()
+        .collect()
+}
+
+pub fn to_uppercase2(s: &str) -> String {
+    s.chars()
+        .flat_map(char::to_uppercase)
+        .collect()
+}
+
+pub fn parse_number<I>(tokens: &mut Peekable<I>) -> u32
+where
+    I: Iterator<Item=char>,
+{
+    let mut num = 0;
+    loop {
+        match tokens.peek() {
+            Some(token) if token.is_digit(10) => {
+                num = num * 10 + token.to_digit(10).unwrap();
+            },
+            _ => return num,
+        }
+        tokens.next();
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -122,5 +158,35 @@ mod tests {
         let inner = String::from_iter(outer.drain(1..4));
         assert_eq!(outer, "Eh");
         assert_eq!(inner, "art");
+    }
+
+    #[test]
+    fn extract_some_values() {
+        let values = super::extract_some_values(
+            vec![None, Some("day"), None, Some("one")]
+        );
+        assert_eq!(values, vec!["day", "one"]);
+    }
+
+    #[test]
+    fn to_uppercase() {
+        let cases = [
+            ("Hello, Rust v1.85.0 ~!!", "HELLO, RUST V1.85.0 ~!!"),
+            ("große", "GROSSE"),
+        ];
+
+        for (s, expected) in cases {
+            assert_eq!(to_uppercase1(s), expected);
+            assert_eq!(to_uppercase2(s), expected);
+        }
+    }
+
+    #[test]
+    fn parse_number() {
+        let mut chars = "226153980,1766319049".chars().peekable();
+        assert_eq!(super::parse_number(&mut chars), 226153980);
+        assert_eq!(chars.next(), Some(','));
+        assert_eq!(super::parse_number(&mut chars), 1766319049);
+        assert_eq!(chars.next(), None);
     }
 }
