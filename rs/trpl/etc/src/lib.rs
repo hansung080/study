@@ -1,2 +1,2 @@
-pub mod int_generator;
+pub mod generators;
 pub mod counter;
