@@ -38,6 +38,7 @@ Studying programming in multiple languages
   - etc - generics, binary_tree, routers, iterators  
 - The Rust Programming Language (trpl)
   - guessing-game, restaurant (module example), minigrep, add (workspace example), derive-macro-example, web-server
+  - etc - int_generator, counter
 
 ## TypeScript
 - LUVIT My First TypeScript Project (mftp)
