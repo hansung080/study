@@ -24,9 +24,17 @@ pub fn triangle3(n: u32) -> u32 {
     (1..=n).fold(0, |sum, item| sum + item)
 }
 
-// Σ<k=1..n>k = n * (n + 1) / 2
 pub fn triangle4(n: u32) -> u32 {
+    (1..=n).sum()
+}
+
+// Σ<k=1..n>k = n * (n + 1) / 2
+pub fn triangle5(n: u32) -> u32 {
     n * (n + 1) / 2
+}
+
+pub fn factorial(n: u32) -> u32 {
+    (1..=n).product()
 }
 
 // Return the lengths of `n` line segments whose endpoints are uniformly distributed
@@ -122,6 +130,23 @@ mod tests {
             assert_eq!(triangle2(n), expected);
             assert_eq!(triangle3(n), expected);
             assert_eq!(triangle4(n), expected);
+            assert_eq!(triangle5(n), expected);
+        }
+    }
+
+    #[test]
+    fn factorial() {
+        let cases = [
+            (0, 1),
+            (1, 1),
+            (2, 2),
+            (3, 6),
+            (4, 24),
+            (5, 120),
+        ];
+
+        for (n, expected) in cases {
+            assert_eq!(super::factorial(n), expected);
         }
     }
 
