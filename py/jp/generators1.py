@@ -16,9 +16,9 @@ class SquareIter(Iterator[int]):
     def __next__(self) -> int:
         if self._current >= self._stop:
             raise StopIteration
-        current = self._current
+        result = self._current * self._current
         self._current += 1
-        return current * current
+        return result
 
 
 # Pattern 2. Generator Function
@@ -33,9 +33,9 @@ def square_closure(start: int, stop: int) -> Callable[[], int]:
         nonlocal start
         if start >= stop:
             raise StopIteration
-        current = start
+        result = start * start
         start += 1
-        return current * current
+        return result
     return wrapper
 
 
