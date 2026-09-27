@@ -120,7 +120,7 @@ mod tests {
     use super::*;
     use super::Method::*;
 
-    fn make_request(method: Method, path: &str) -> Request {
+    fn new_request(method: Method, path: &str) -> Request {
         Request {
             method,
             path: path.to_string(),
@@ -137,9 +137,9 @@ mod tests {
         router.add_route("/", get_index);
         router.add_route("/gcd", post_gcd);
 
-        assert_eq!(router.handle_request(&make_request(Get, "/")).status_code, 200);
-        assert_eq!(router.handle_request(&make_request(Post, "/gcd")).status_code, 201);
-        assert_eq!(router.handle_request(&make_request(Get, "/unknown")).status_code, 404);
+        assert_eq!(router.handle_request(&new_request(Get, "/")).status_code, 200);
+        assert_eq!(router.handle_request(&new_request(Post, "/gcd")).status_code, 201);
+        assert_eq!(router.handle_request(&new_request(Get, "/unknown")).status_code, 404);
     }
 
     #[test]
@@ -148,8 +148,8 @@ mod tests {
         router.add_route("/", get_index);
         router.add_route("/gcd", post_gcd);
 
-        assert_eq!(router.handle_request(&make_request(Get, "/")).status_code, 200);
-        assert_eq!(router.handle_request(&make_request(Post, "/gcd")).status_code, 201);
-        assert_eq!(router.handle_request(&make_request(Get, "/unknown")).status_code, 404);
+        assert_eq!(router.handle_request(&new_request(Get, "/")).status_code, 200);
+        assert_eq!(router.handle_request(&new_request(Post, "/gcd")).status_code, 201);
+        assert_eq!(router.handle_request(&new_request(Get, "/unknown")).status_code, 404);
     }
 }

@@ -21,7 +21,7 @@ pub fn triangle2(n: u32) -> u32 {
 
 // Rust inlines `fold` and the closure, then optimizes it into `n * (n + 1) / 2`.
 pub fn triangle3(n: u32) -> u32 {
-    (1..=n).fold(0, |sum, item| sum + item)
+    (1..=n).fold(0, |sum, i| sum + i)
 }
 
 pub fn triangle4(n: u32) -> u32 {
