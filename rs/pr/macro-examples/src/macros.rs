@@ -1,5 +1,5 @@
-// The `macro_export` attribute exports the macro in order to be used by other crates outside.
-// And other crates can access the macro with paths.
+// The `macro_export` attribute exports the macro in order to be used by other crates outside,
+// and other crates can access the macro with paths.
 #[macro_export]
 macro_rules! my_assert_eq {
     ($left:expr, $right:expr $(,)?) => {

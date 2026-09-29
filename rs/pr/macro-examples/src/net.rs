@@ -1,33 +1,33 @@
 #![allow(unused)]
 
-struct Session;
+pub struct Session;
 
-struct ServerSocket {
+pub struct ServerSocket {
     session: Session,
 }
 
 impl ServerSocket {
-    fn new() -> Self {
+    pub fn new() -> Self {
         ServerSocket {
             session: Session,
         }
     }
 
-    fn session(&self) -> &Session {
+    pub fn session(&self) -> &Session {
         &self.session
     }
 }
 
-struct ServerRequest<'a> {
+pub struct ServerRequest<'a> {
     session: &'a Session,
 }
 
 impl<'a> ServerRequest<'a> {
-    fn new(session: &'a Session) -> Self {
+    pub fn new(session: &'a Session) -> Self {
         ServerRequest { session }
     }
 
-    fn do_something(&self) {}
+    pub fn do_something(&self) {}
 }
 
 macro_rules! setup_req {
@@ -38,7 +38,7 @@ macro_rules! setup_req {
     };
 }
 
-fn handle_http_request(server_socket: &ServerSocket) {
+pub fn handle_http_request(server_socket: &ServerSocket) {
     setup_req!(req, server_socket);
     req.do_something();
 }
