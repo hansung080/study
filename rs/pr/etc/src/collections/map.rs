@@ -17,12 +17,9 @@ pub fn char_counts1(s: &str) -> HashMap<char, u32> {
 pub fn char_counts2(s: &str) -> HashMap<char, u32> {
     let mut counts = HashMap::new();
     for c in s.chars() {
-        let count = counts.get_mut(&c);
-        match count {
+        match counts.get_mut(&c) {
             Some(count) => *count += 1,
-            None => {
-                counts.insert(c, 1);
-            },
+            None => _ = counts.insert(c, 1),
         }
     }
     counts
