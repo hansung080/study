@@ -28,7 +28,7 @@ pub fn triangle4(n: u32) -> u32 {
     (1..=n).sum()
 }
 
-// Σ<k=1..n>k = n * (n + 1) / 2
+// Σ<k=1..n>(k) = n * (n + 1) / 2
 pub fn triangle5(n: u32) -> u32 {
     n * (n + 1) / 2
 }
