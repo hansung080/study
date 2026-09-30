@@ -35,7 +35,7 @@ Studying programming in multiple languages
   - chat, hello-actix-web, bmi-actix-web, hello-tide, greeter-tide 
 - Programming Rust (2nd Edition) (pr)
   - gcd, actix-gcd, mandelbrot, quick-replace, macro-examples
-  - etc - generics, binary_tree, routers, iterators, collections
+  - etc - generics, binary_tree, routers, iterators, range, collections
 - The Rust Programming Language (trpl)
   - guessing-game, restaurant (module example), minigrep, add (workspace example), derive-macro-example, web-server
   - etc - generators, counter, cons_list
