@@ -52,7 +52,13 @@ pub struct TreeNode<T> {
     right: BinaryTree<T>,
 }
 
-// `TreeIter` performs an in-order traversal of a `BinaryTree`.
+// Binary Tree Traversal
+//
+//   pre-order:  root -> left -> right
+//   in-order:   left -> root -> right
+//   post-order: left -> right -> root
+//
+// `TreeIter` performs an in-order traversal, which yields items in ascending order.
 pub struct TreeIter<'a, T> {
     // The node to be visited next is at the top of the stack, and its unvisited ancestors
     // are below it. The iteration ends when the stack becomes empty.
@@ -96,8 +102,10 @@ mod tests {
     // Planet Tree
     //
     //                Saturn
-    //         Mars            Uranus
-    //   Jupiter  Mercury           Venus
+    //               /      \
+    //           Mars        Uranus
+    //          /    \             \
+    //   Jupiter      Mercury       Venus
     //
     fn create_planet_tree1() -> BinaryTree<&'static str> {
         use super::BinaryTree::*;
@@ -149,18 +157,37 @@ mod tests {
 
     #[test]
     fn binary_tree() {
-        let bst1 = create_planet_tree1();
-        let bst2 = create_planet_tree2();
-        assert_eq!(bst1, bst2)
+        let tree1 = create_planet_tree1();
+        let tree2 = create_planet_tree2();
+        assert_eq!(tree1, tree2);
     }
 
-    #[test]
-    fn tree_iter() {
+    // Robot Tree
+    //
+    //         jaeger
+    //        /      \
+    //   droid        robot
+    //               /
+    //          mecha
+    //
+    // Robot Tree Traversal
+    //
+    //   pre-order:  jaeger -> droid -> robot -> mecha
+    //   in-order:   droid -> jaeger -> mecha -> robot
+    //   post-order: droid -> mecha -> robot -> jaeger
+    //
+    fn create_robot_tree() -> BinaryTree<&'static str> {
         let mut tree = BinaryTree::Empty;
         let robots = ["jaeger", "robot", "droid", "mecha"];
         for robot in robots {
             tree.add(robot);
         }
+        tree
+    }
+
+    #[test]
+    fn tree_iter() {
+        let tree = create_robot_tree();
 
         let mut v = Vec::new();
         for &robot in &tree {
