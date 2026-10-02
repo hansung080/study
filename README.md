@@ -1,7 +1,9 @@
 # Study
+
 Studying programming in multiple languages
 
 ## C
+
 - Algorithm with C 1 (ac1)
   - util - util, math, string, array, term
   - testing - test, assert
@@ -12,15 +14,18 @@ Studying programming in multiple languages
   - etc - search, fact
 
 ## HTML
+
 - basic, hello
 
 ## JavaScript
+
 - JavaScript and jQuery for Modern Web (jjmw)
   - pyramid, constructor, inheritance, revolution, moving_letters
 - Modern JavaScript Deep Dive (mjdd)
   - counter 
 
 ## Python
+
 - ETC (etc)
   - mathx, type_checking
 - Fluent Python (2nd Edition) (fp)
@@ -31,6 +36,7 @@ Studying programming in multiple languages
     decorators1, decorators2, iterators, generators1, generators2
 
 ## Rust
+
 - Hands-On Rust Programming (horp)
   - chat, hello-actix-web, bmi-actix-web, hello-tide, greeter-tide 
 - Programming Rust (2nd Edition) (pr)
@@ -41,4 +47,5 @@ Studying programming in multiple languages
   - etc - generators, counter, cons_list
 
 ## TypeScript
+
 - LUVIT My First TypeScript Project (mftp)
