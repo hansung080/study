@@ -74,4 +74,5 @@ Studying programming in multiple languages
 ### Dependabot Alerts
 We dismissed alerts on path `legacy/node/**` because vulnerable code is not actually used.
 To check it out, visit:
+
 https://github.com/hansung080/study/security/dependabot
