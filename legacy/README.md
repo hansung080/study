@@ -60,4 +60,3 @@ Legacy code of study on languages, data structures, and algorithms
 * socket_io - web_chat
 * apps - movie_reservation, realtime_purchase, realtime_tracker, realtime_canvas
 * net - tcp2echo, tcp2http, tcp2ws
-
