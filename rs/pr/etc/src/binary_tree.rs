@@ -58,7 +58,7 @@ pub struct TreeNode<T> {
 //   in-order:   left -> root -> right
 //   post-order: left -> right -> root
 //
-// `TreeIter` performs an in-order traversal, which yields items in ascending order.
+// `TreeIter` implements an in-order traversal, which yields items in ascending order.
 pub struct TreeIter<'a, T> {
     // The node to be visited next is at the top of the stack, and its unvisited ancestors
     // are below it. The iteration ends when the stack becomes empty.
@@ -198,6 +198,6 @@ mod tests {
         let mapped: Vec<_> = tree.iter()
             .map(|robot| format!("mega-{}", robot))
             .collect();
-        assert_eq!(mapped, vec!["mega-droid", "mega-jaeger", "mega-mecha", "mega-robot"])
+        assert_eq!(mapped, ["mega-droid", "mega-jaeger", "mega-mecha", "mega-robot"])
     }
 }
