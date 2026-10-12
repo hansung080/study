@@ -1,2 +1,2 @@
-pub mod vec;
-pub mod map;
+pub mod vecs;
+pub mod maps;
