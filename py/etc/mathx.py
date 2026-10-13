@@ -2,10 +2,18 @@ from __future__ import annotations
 
 import math
 
-# === Integer Division Semantics ===
-# Truncating Division: C, C++, Java, Kotlin, Go, Rust (truncation toward zero)
-# Floor Division:      Python, Ruby (rounding toward negative infinity (i.e. flooring))
-# No Dedicated Integer Division Operator: JavaScript, TypeScript
+# Integer Division Semantics
+#
+#   Truncating division:
+#     - Computes the quotient by truncating the result toward zero.
+#     - Used in C, C++, Java, Kotlin, Go, and Rust.
+#
+#   Floor division:
+#     - Computes the quotient by rounding the result down toward negative infinity.
+#     - Used in Python and Ruby.
+#
+#   No Dedicated Integer Division Operator:
+#     - In JavaScript and TypeScript.
 
 
 def floor_div(m: int, n: int) -> int:
@@ -13,8 +21,8 @@ def floor_div(m: int, n: int) -> int:
     return m // n
 
 
-# Under floor division semantics, correct for all m, n != 0.
-# Under truncating division semantics, correct only if m * n >= 0 and n != 0.
+# Under floor division, correct for all m, n != 0.
+# Under truncating division, correct only if m * n >= 0 and n != 0.
 def ceil_div1(m: int, n: int) -> int:
     """Return ceil(m / n) for n != 0."""
     if n > 0:
@@ -23,8 +31,8 @@ def ceil_div1(m: int, n: int) -> int:
         return (m + n + 1) // n
 
 
-# Under floor division semantics, correct for all m, n != 0.
-# Under truncating division semantics, correct only if m * n <= 0 and n != 0.
+# Under floor division, correct for all m, n != 0.
+# Under truncating division, correct only if m * n <= 0 and n != 0.
 def ceil_div2(m: int, n: int) -> int:
     """Return ceil(m / n) for n != 0."""
     return -(-m // n)  # recommended for a function when n != 0
