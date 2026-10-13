@@ -3,9 +3,9 @@ from __future__ import annotations
 import math
 
 # === Integer Division Semantics ===
-# Truncation Division Semantics: C, C++, Java, Kotlin, Go, Rust (truncation toward zero)
-# Floor Division Semantics:      Python, Ruby
-# No Integer Division:           JavaScript, TypeScript
+# Truncating Division: C, C++, Java, Kotlin, Go, Rust (truncation toward zero)
+# Floor Division:      Python, Ruby (rounding toward negative infinity (i.e. flooring))
+# No Dedicated Integer Division Operator: JavaScript, TypeScript
 
 
 def floor_div(m: int, n: int) -> int:
@@ -14,7 +14,7 @@ def floor_div(m: int, n: int) -> int:
 
 
 # Under floor division semantics, correct for all m, n != 0.
-# Under truncation division semantics, correct only if m * n >= 0 and n != 0.
+# Under truncating division semantics, correct only if m * n >= 0 and n != 0.
 def ceil_div1(m: int, n: int) -> int:
     """Return ceil(m / n) for n != 0."""
     if n > 0:
@@ -24,7 +24,7 @@ def ceil_div1(m: int, n: int) -> int:
 
 
 # Under floor division semantics, correct for all m, n != 0.
-# Under truncation division semantics, correct only if m * n <= 0 and n != 0.
+# Under truncating division semantics, correct only if m * n <= 0 and n != 0.
 def ceil_div2(m: int, n: int) -> int:
     """Return ceil(m / n) for n != 0."""
     return -(-m // n)  # recommended for a function when n != 0
@@ -40,21 +40,21 @@ if __name__ == "__main__":
         cases = [
             (-10,  10, -1, -1, -1, -1),
             (-9,   10, -1, -1,  0,  0),
-            (-5,   10,  0, -1,  0,  0),  # round(-0.5) == 0 (round half to even)
+            (-5,   10,  0, -1,  0,  0),  # round(-0.5) = 0 (round half to even)
             (-1,   10,  0, -1,  0,  0),
             (0,    10,  0,  0,  0,  0),
             (1,    10,  0,  0,  1,  0),
-            (5,    10,  0,  0,  1,  0),  # round(0.5) == 0 (round half to even)
+            (5,    10,  0,  0,  1,  0),  # round(0.5) = 0 (round half to even)
             (9,    10,  1,  0,  1,  0),
             (10,   10,  1,  1,  1,  1),
 
             (10,  -10, -1, -1, -1, -1),
             (9,   -10, -1, -1,  0,  0),
-            (5,   -10,  0, -1,  0,  0),
+            (5,   -10,  0, -1,  0,  0),  # round(-0.5) = 0 (round half to even)
             (1,   -10,  0, -1,  0,  0),
             (0,   -10,  0,  0,  0,  0),
             (-1,  -10,  0,  0,  1,  0),
-            (-5,  -10,  0,  0,  1,  0),
+            (-5,  -10,  0,  0,  1,  0),  # round(0.5) = 0 (round half to even)
             (-9,  -10,  1,  0,  1,  0),
             (-10, -10,  1,  1,  1,  1),
         ]
