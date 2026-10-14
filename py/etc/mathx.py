@@ -12,7 +12,7 @@ import math
 #     - Computes the quotient by rounding the result down toward negative infinity.
 #     - Used in Python and Ruby.
 #
-#   No Dedicated Integer Division Operator:
+#   No dedicated integer division operator:
 #     - In JavaScript and TypeScript.
 
 

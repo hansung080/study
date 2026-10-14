@@ -26,13 +26,15 @@ class LazySentence(BaseSentence):
     pass
 
 
-# === ABC Inheritance Principle ===
+# ABC Inheritance Principle
 #
-# Inheritance Recommended (for nominal typing): ABCs that define the identity
-#   e.g. Iterator, Sequence, MutableSequence, Mapping, MutableMapping
+#   Inheritance recommended (for nominal typing):
+#     - ABCs that define the identity
+#     - e.g. Iterator, Sequence, MutableSequence, Mapping, and MutableMapping
 #
-# Inheritance Not Recommended (for structural typing): ABCs that provide a capability
-#   e.g. Iterable, Reversible, Sized, Container
+#   Inheritance not recommended (for structural typing)
+#     - ABCs that provide a capability
+#     - e.g. Iterable, Reversible, Sized, and Container
 
 # --- Iterable Implementation Patterns ---
 # Pattern 1. EagerSentence as Sequence

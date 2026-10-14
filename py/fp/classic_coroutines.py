@@ -4,18 +4,18 @@ from collections.abc import Generator
 from enum import Enum, auto
 from typing import NamedTuple
 
-# === Two Roles of a Generator ===
+# Two Roles of a Generator
 #
-# Generator-based Iterator:
-#   - The generator behaves as a producer (data flow: generator -> caller).
-#   - Type annotation: Iterator[_YieldT_co] or Generator[_YieldT_co, None, None]
+#   Generator-based iterator:
+#     - The generator behaves as a producer (data flow: generator -> caller).
+#     - Type annotation: Iterator[_YieldT_co] or Generator[_YieldT_co, None, None]
 #
-# Generator-based Coroutine (aka Classic Coroutine):
-#   - The generator behaves as a consumer (data flow: caller -> generator).
-#   - Type annotation: Generator[_YieldT_co, _SendT_contra, _ReturnT_co]
+#   Generator-based coroutine (aka classic coroutine):
+#     - The generator behaves as a consumer (data flow: caller -> generator).
+#     - Type annotation: Generator[_YieldT_co, _SendT_contra, _ReturnT_co]
 #
-# Notes:
-#   - `yield` is a continuation suspension point or bidirectional rendezvous point.
+#   Notes:
+#     - `yield` is a continuation suspension point or bidirectional rendezvous point.
 
 
 class Result(NamedTuple):
