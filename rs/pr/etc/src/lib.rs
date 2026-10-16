@@ -4,3 +4,4 @@ pub mod routers;
 pub mod iterators;
 pub mod range;
 pub mod collections;
+pub mod strings;

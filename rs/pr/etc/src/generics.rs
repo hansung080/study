@@ -1,5 +1,7 @@
 #![allow(unused)]
 
+use std::mem;
+
 // Generic Type Parameter
 pub struct Queue<T> {
     older: Vec<T>,
@@ -23,8 +25,7 @@ impl<T> Queue<T> {
             if self.younger.is_empty() {
                 return None;
             }
-            use std::mem::swap;
-            swap(&mut self.older, &mut  self.younger);
+            mem::swap(&mut self.older, &mut  self.younger);
             self.older.reverse();
         }
         self.older.pop()
