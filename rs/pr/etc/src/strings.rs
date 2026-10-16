@@ -69,7 +69,7 @@ mod tests {
 
             write!(name, ", {title}").unwrap(); // required to import std::fmt::Write
         }
-        println!("# CASE 1: Greetings, {name}!");
+        println!("# CASE 4: Greetings, {name}!");
 
         let mut name = get_name2();
         if let Some(title) = get_title('E') {
@@ -81,7 +81,7 @@ mod tests {
 
             write!(name.to_mut(), ", {title}").unwrap();
         }
-        println!("# CASE 2: Greetings, {name}!");
+        println!("# CASE 5: Greetings, {name}!");
 
         let mut name = get_name3();
         if let Some(title) = get_title('E') {
@@ -93,6 +93,6 @@ mod tests {
 
             write!(name.to_mut(), ", {title}").unwrap();
         }
-        println!("# CASE 3: Greetings, {name}!");
+        println!("# CASE 6: Greetings, {name}!");
     }
 }
