@@ -25,7 +25,7 @@ macro_rules! my_assert_eq {
 }
 
 #[macro_export]
-macro_rules! my_vec {
+macro_rules! my_vec1 {
     () => {
         ::std::vec::Vec::new()
     };
@@ -61,10 +61,10 @@ macro_rules! json {
         $crate::json::Json::Null
     };
     ([$($elem:tt),*]) => {
-        $crate::json::Json::Array($crate::my_vec![$($crate::json!($elem)),*])
+        $crate::json::Json::Array($crate::my_vec1![$($crate::json!($elem)),*])
     };
     ({ $($key:tt: $value:tt),* }) => {
-        // $crate::json::Json::Object(::std::boxed::Box::new($crate::my_vec![
+        // $crate::json::Json::Object(::std::boxed::Box::new($crate::my_vec1![
         //     $(($key.to_string(), $crate::json!($value))),*
         // ].into_iter().collect()))
 
@@ -86,9 +86,9 @@ mod tests {
         my_assert_eq!(1, 1);
         my_assert_eq!(1, 1, );
 
-        let mut v = my_vec![1, 2, 3];
+        let mut v = my_vec1![1, 2, 3];
         my_assert_eq!(v.pop(), Some(3));
-        my_assert_eq!(v, my_vec![1, 2]);
+        my_assert_eq!(v, my_vec1![1, 2]);
     }
 
     #[test]
@@ -104,14 +104,14 @@ mod tests {
     }
 
     #[test]
-    fn my_vec() {
-        let v: Vec<()> = my_vec![];
+    fn my_vec1() {
+        let v: Vec<()> = my_vec1![];
         my_assert_eq!(v, vec![]);
-        my_assert_eq!(my_vec![1; 3], vec![1, 1, 1]);
-        my_assert_eq!(my_vec![1], vec![1]);
-        my_assert_eq!(my_vec![1, 2], vec![1, 2]);
-        my_assert_eq!(my_vec![1, 2, 3], vec![1, 2, 3]);
-        my_assert_eq!(my_vec![1, 2, 3, ], vec![1, 2, 3]);
+        my_assert_eq!(my_vec1![1; 3], vec![1, 1, 1]);
+        my_assert_eq!(my_vec1![1], vec![1]);
+        my_assert_eq!(my_vec1![1, 2], vec![1, 2]);
+        my_assert_eq!(my_vec1![1, 2, 3], vec![1, 2, 3]);
+        my_assert_eq!(my_vec1![1, 2, 3, ], vec![1, 2, 3]);
     }
 
     #[test]

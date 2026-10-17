@@ -64,8 +64,8 @@ mod tests {
             }
         ]);
 
-        let expected = Json::Array(my_vec![
-            Json::Object(Box::new(my_vec![
+        let expected = Json::Array(my_vec1![
+            Json::Object(Box::new(my_vec1![
                 ("name".to_string(), Json::String("Jim Blandy".to_string())),
                 ("classOf".to_string(), Json::Number(1926.0)),
                 ("major".to_string(), Json::String("Tibetan throat singing".to_string())),
@@ -91,7 +91,7 @@ mod tests {
             "height": (width * 9.0 / 4.0)
         });
 
-        let expected = Json::Object(Box::new(my_vec![
+        let expected = Json::Object(Box::new(my_vec1![
             ("width".to_string(), Json::Number(width)),
             ("height".to_string(), Json::Number(width * 9.0 / 4.0)),
         ].into_iter().collect()));
