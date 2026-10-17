@@ -5,4 +5,4 @@ pub mod iterators;
 pub mod range;
 pub mod collections;
 pub mod strings;
-pub mod formatting;
+pub mod formattings;

@@ -27,10 +27,10 @@ pub fn write_log_entry(entry: Arguments) {
 #[macro_export]
 macro_rules! log1 {
     ($format:tt, $($arg:expr),*) => {
-        $crate::formatting::write_log_entry(::std::format_args!($format, $($arg),*))
+        $crate::formattings::write_log_entry(::std::format_args!($format, $($arg),*))
     };
     ($format:tt) => {
-        $crate::formatting::write_log_entry(::std::format_args!($format))
+        $crate::formattings::write_log_entry(::std::format_args!($format))
     };
 }
 
@@ -39,7 +39,7 @@ macro_rules! log1 {
 #[macro_export]
 macro_rules! log2 {
     ($($arg:tt)*) => {
-        $crate::formatting::write_log_entry(::std::format_args!($($arg)*))
+        $crate::formattings::write_log_entry(::std::format_args!($($arg)*))
     };
 }
 
