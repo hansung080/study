@@ -6,4 +6,4 @@ pub mod range;
 pub mod collections;
 pub mod strings;
 pub mod formattings;
-pub mod regexs;
+pub mod regexes;
