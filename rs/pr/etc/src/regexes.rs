@@ -99,6 +99,7 @@ mod tests {
         assert_eq!(captures.get(3).unwrap().as_str(), "5");
 
         // Line continuation: `\` removes the newline and leading whitespace on the following line.
+        // Thus, the following string literal is a single-line string.
         let haystack = "In the beginning, there was 1.0.0. \
                              For a while, we used 1.0.1-beta, \
                              but in the end, we settled on 1.2.4.";
@@ -113,7 +114,8 @@ mod tests {
     #[test]
     fn find_versions_per_line() -> Result<(), Box<dyn Error>> {
         // No line continuation: Without `\` at the end of a line,
-        //   the newline and leading whitespace on the following line are preserved.
+        // the newline and leading whitespace on the following line are preserved.
+        // Thus, the following string literal is a multi-line string (3 lines).
         let haystack = "\
 In the beginning, there was 1.0.0.
 For a while, we used 1.0.1-alpha, then 1.0.1-beta, then 1.0.1,
