@@ -7,3 +7,4 @@ pub mod collections;
 pub mod strings;
 pub mod formattings;
 pub mod regexes;
+pub mod unicodes;

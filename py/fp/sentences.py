@@ -32,7 +32,7 @@ class LazySentence(BaseSentence):
 #     - ABCs that define the identity
 #     - e.g. Iterator, Sequence, MutableSequence, Mapping, and MutableMapping
 #
-#   Inheritance not recommended (for structural typing)
+#   Inheritance not recommended (for structural typing):
 #     - ABCs that provide a capability
 #     - e.g. Iterable, Reversible, Sized, and Container
 
